@@ -53,6 +53,8 @@ app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'views/status/404/404.html'))
 });
 
-server.listen(process.env.PORTA, () => {
-    console.log('servidor ligado');
-})
+const PORT = process.env.PORT || process.env.PORTA || 3000;
+
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor ligado na porta ${PORT}`);
+});
