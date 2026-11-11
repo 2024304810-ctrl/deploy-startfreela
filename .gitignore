@@ -1,0 +1,10 @@
+node_modules/
+package-lock.json
+.env
+.env.*
+!.env.example
+composer.json
+composer.lock
+.wwebjs_auth
+.wwebjs_cache
+.vercel

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StartFreela - Projetos</title>
+  <link rel="stylesheet" href="/css/tela-projetos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer>
+</script>
+</head>
+
+<body data-role="{{usuario.role}}">
+  <header class="topbar">
+    <a href="/home" class="logo"><img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela"></a>
+    <div class="search-wrap">
+      <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+    </div>
+    <div class="top-actions">
+      <div class="icon-btn"><i class="fa-solid fa-bell"></i><span class="badge">1</span></div>
+      <a class="icon-btn" href="/messages"><i class="fa-solid fa-comment-dots"></i><span class="badge">1</span></a>
+      <span class="role-pill">{{usuario.role}}</span>
+      <div class="avatar-wrap" id="avatar-menu-button" tabindex="0" role="button" aria-label="Abrir menu da conta">
+        <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div><i
+          class="fa-solid fa-chevron-down chev"></i>
+        <div class="avatar-dropdown" id="avatar-dropdown">
+          <div class="dropdown-header">
+            <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div><span>{{usuario.completeName}}</span>
+          </div>
+          <a href="/profile"><i class="fa-regular fa-user"></i> Ver perfil</a>
+          <a href="/settings"><i class="fa-solid fa-gear"></i> Configurações</a>
+          <a href="#" id="sair" class="dropdown-sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav class="subnav"><a href="/home">Tela Inicial</a><a href="/freelancers">Freelancers</a><a href="/projects"
+      class="active">Projetos</a><a href="/support">Suporte</a></nav>
+  <main class="page-shell">
+    {{#if isCliente}}
+    <section class="welcome-row">
+      <div>
+        <h1>Meus projetos</h1>
+        <p class="page-subtitle">Publique oportunidades, analise propostas e acompanhe cada etapa do trabalho.</p>
+      </div><button class="btn btn-primary" id="open-publish"><i class="fa-solid fa-plus"></i> Publicar projeto</button>
+    </section>
+    <section class="stats-grid client-stats">
+      <article class="stat-card"><span class="stat-icon blue"><i class="fa-solid fa-bullhorn"></i></span>
+        <div>
+          <p>Recebendo propostas</p><strong>3</strong><small>Projetos publicados</small>
+        </div>
+      </article>
+      <article class="stat-card"><span class="stat-icon amber"><i class="fa-regular fa-clock"></i></span>
+        <div>
+          <p>Em andamento</p><strong>2</strong><small>Com freelancer contratado</small>
+        </div>
+      </article>
+      <article class="stat-card"><span class="stat-icon purple"><i class="fa-solid fa-inbox"></i></span>
+        <div>
+          <p>Aguardando aprovação</p><strong>1</strong><small>Entrega para revisar</small>
+        </div>
+      </article>
+      <article class="stat-card"><span class="stat-icon green"><i class="fa-solid fa-circle-check"></i></span>
+        <div>
+          <p>Concluídos</p><strong>5</strong><small>Projetos finalizados</small>
+        </div>
+      </article>
+    </section>
+    <section class="toolbar-panel">
+      <div class="tabs" role="tablist"><button class="tab active" data-client-filter="todos">Todos
+          <span>11</span></button><button class="tab" data-client-filter="publicado">Recebendo propostas
+          <span>3</span></button><button class="tab" data-client-filter="andamento">Em andamento
+          <span>1</span></button><button class="tab" data-client-filter="aprovacao">Aguardando aprovação
+          <span>1</span></button><button class="tab" data-client-filter="concluido">Concluídos <span>5</span></button>
+      </div>
+      <div class="toolbar-controls"><label class="search-field"><i class="fa-solid fa-magnifying-glass"></i><input
+            id="client-search" placeholder="Buscar nos meus projetos..."></label><select id="client-sort"
+          aria-label="Ordenar projetos">
+          <option value="recentes">Mais recentes</option>
+          <option value="antigos">Mais antigos</option>
+          <option value="titulo">Nome do projeto</option>
+        </select></div>
+    </section>
+    <section class="project-list" id="client-project-list">
+      
+      <div class="empty-state hidden" id="client-empty"><i class="fa-regular fa-folder-open"></i>
+        <h3>Nenhum projeto encontrado</h3>
+        <p>Tente mudar o filtro ou publicar uma nova oportunidade.</p><button class="btn btn-primary"
+          id="empty-publish">Publicar projeto</button>
+      </div>
+    </section>
+    {{else}}
+    <section class="welcome-row">
+      <div>
+        <h1>Projetos</h1>
+        <p class="page-subtitle">Encontre oportunidades, envie propostas e acompanhe seus trabalhos em um só lugar.</p>
+      </div><a href="/profile" class="btn btn-outline"><i class="fa-regular fa-user"></i> Meu perfil profissional</a>
+    </section>
+    <section class="stats-grid freelancer-stats">
+      <article class="stat-card"><span class="stat-icon blue"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <div>
+          <p>Oportunidades abertas</p><strong>0</strong><small>Projetos para explorar</small>
+        </div>
+      </article>
+      <article class="stat-card"><span class="stat-icon amber"><i class="fa-regular fa-paper-plane"></i></span>
+        <div>
+          <p>Minhas candidaturas</p><strong>0</strong><small>Enviadas para análise</small>
+        </div>
+      </article>
+      <article class="stat-card"><span class="stat-icon purple"><i class="fa-solid fa-list-check"></i></span>
+        <div>
+          <p>Em andamento</p><strong>0</strong><small>Trabalhos ativos</small>
+        </div>
+      </article>
+      <article class="stat-card"><span class="stat-icon green"><i class="fa-solid fa-circle-check"></i></span>
+        <div>
+          <p>Concluídos</p><strong>0</strong><small>Trabalhos finalizados</small>
+        </div>
+      </article>
+    </section>
+    <section class="toolbar-panel">
+      <div class="tabs" role="tablist"><button class="tab active" data-freelancer-filter="disponiveis">Projetos
+          disponíveis <span>0</span></button><button class="tab" data-freelancer-filter="candidaturas">Minhas
+          candidaturas <span>0</span></button><button class="tab" data-freelancer-filter="andamento">Em andamento
+          <span>0</span></button><button class="tab" data-freelancer-filter="concluidos">Concluídos
+          <span>0</span></button></div>
+      <div class="toolbar-controls"><label class="search-field"><i class="fa-solid fa-magnifying-glass"></i><input
+            id="freelancer-search" placeholder="Buscar projetos por título ou habilidade..."></label><select
+          id="freelancer-sort" aria-label="Ordenar projetos">
+          <option value="recentes">Mais recentes</option>
+          <option value="orcamento">Maior orçamento</option>
+          <option value="prazo">Prazo mais próximo</option>
+        </select></div>
+    </section>
+    <div class="freelancer-layout">
+      <aside class="filter-panel">
+        <div class="filter-title">
+          <h2><i class="fa-solid fa-sliders"></i> Filtrar projetos</h2><button id="clear-filters"
+            class="text-button">Limpar</button>
+        </div><label class="filter-label" for="category-filter">Categoria</label><select id="category-filter"
+          class="input-control">
+          <option value="">Todas as categorias</option>
+          <option>Desenvolvimento Web</option>
+          <option>Design</option>
+          <option>Dados</option>
+          <option>Aplicativos</option>
+          <option>Redação</option>
+        </select><label class="filter-label" for="budget-filter">Orçamento mínimo</label>
+        <div class="budget-field"><span>R$</span><input id="budget-filter" type="number" min="0" placeholder="Ex.: 500">
+        </div><label class="filter-label" for="skills-filter">Habilidade</label><input id="skills-filter"
+          class="input-control" placeholder="Ex.: JavaScript">
+        <div class="filter-note"><i class="fa-solid fa-circle-info"></i><span>Os filtros ajudam a encontrar
+            oportunidades compatíveis com seu perfil.</span></div>
+      </aside>
+      <section class="opportunity-list" id="freelancer-project-list">
+        
+      </section>
+    </div>
+    {{/if}}
+  </main>
+  <div class="modal-backdrop hidden" id="project-modal" aria-hidden="true">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">STARTFREELA</p>
+          <h2 id="modal-title">Publicar projeto</h2>
+        </div><button class="icon-only" id="close-modal" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="modal-content"></div>
+    </section>
+  </div>
+  <div class="toast hidden" id="toast" role="status"></div>
+  <script src="/js.components/header-dropdown.js" defer></script>
+  {{#if isCliente}}
+    <script type="module" src="/js/projects.js" defer></script>
+  {{else}}
+    <script type="module" src="/js/projectsFreelancer.js" defer></script>
+  {{/if}}
+</body>
+
+</html>

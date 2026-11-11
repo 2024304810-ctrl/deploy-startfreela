@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TelaLogin</title>
+        <link rel="stylesheet" href="/css/login.css">
+        <script src="https://kit.fontawesome.com/4b71b43226.js" crossorigin="anonymous"></script>
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/sharp-solid.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/sharp-regular.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/sharp-light.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/duotone.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/solid.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/regular.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/light.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/brands.css"
+        />
+
+        <!-- Additional Fontawesome Pro+ Icons for v7.2.0 -->
+
+        <!-- Sharp Duotone -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/sharp-duotone-solid.css"
+        />
+        <!-- Chisel -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/chisel-regular.css"
+        />
+        <!-- Etch -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/etch-solid.css"
+        />
+        <!-- Graphite -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/graphite-thin.css"
+        />
+        <!-- Jelly -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/jelly-regular.css"
+        />
+        <!-- Notdog -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/notdog-solid.css"
+        />
+        <!-- Slab -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/slab-regular.css"
+        />
+        <!-- Thumb Print -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/thumbprint-light.css"
+        />
+        <!-- Utility -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/utility-semibold.css"
+        />
+        <!-- Whiteboard -->
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/rizmyabdulla/fontawesome-pro@main/releases/v7.2.0/css/whiteboard-semibold.css"
+        />  
+    </head>
+
+    <body>
+    <div id="header" class="header">
+        <a href="/"><img class="img-logo" src="/img/logo-deitada.png" alt=""></a>
+    </div>
+    <div id="heroPrincipal" class="heroPrincipal">
+        <h1>Login</h1>    
+        <form style="width: 100%;" id="formulario">
+            <input class="caixasDeInformacoes" type="email" name="" id="email" placeholder="email">
+            <div class="div-pass">
+                <input class="caixasDeInformacoes" type="password" placeholder="senha" id="password">
+                <button type="button" class="button-eye" onclick="toggleEye()">
+                    <img src="/img/openeye.png" id="image-eye">
+                </button>
+            </div>
+        
+            <button class="botao_logar" type="submit">Entrar</button>
+        </form>
+
+        <div class="esquecer-cadastrar">
+            <p><a id="link-esquecer" href="/reset.password">Esqueceu sua senha?</a></p>
+            <p><a id="link-cadastrar" href="/register">Não possui conta?  Clique aqui para se cadastrar</a></p>
+        </div>
+        <div class="alternativasLogin">
+            <button id="google"><img id="logo-google" src="/img/pesquisa.png" alt=""><p>Fazer login com Google</p></button>
+        </div>
+
+
+    </div>
+        <button id="change-theme" onclick="toggleColor()"><i id="lua-sol" class="fa-solid fa-moon"></i></button>
+        <script src="/js.auth/login/login.js" defer></script>
+    </body>
+</html>

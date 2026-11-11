@@ -1,0 +1,21 @@
+npm init -y
+npm install
+npm install express
+npm install nodemailer
+npm install dotenv
+npm install handlebars
+npm install bcrypt
+npm install moongose
+npm install express-handlebars
+npm install qrcode-terminal
+npm install validator
+npm install whatsapp-web.js@latest
+npm install jsonwebtoken
+npm install cookie-parser
+
+#Vercel command install
+'npm init -y'
+,'npm install'
+,'npm install express nodemailer ws dotenv handlebars bcrypt moongose express-handlebars qrcode-terminal validator whatsapp-web.js@latest jsonwebtoken cookie-parser' 
+
+export PUPPETEER_SKIP_DOWNLOAD=true

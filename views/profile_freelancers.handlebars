@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StartFreela - Meu Perfil</title>
+<link rel="stylesheet" href="/css/tela-de-perfil-freelancer.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script defer>
+  window.dadosPagina = {
+    usuario: {{{json usuario}}},
+  }
+</script>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a href="/home" class="logo">
+      <img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela">
+  </a>
+
+  <div class="search-wrap">
+    <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+  </div>
+
+  <div class="top-actions">
+    <a class="icon-btn" href="/notifications"><i class="fa-solid fa-bell"></i><span class="badge">1</span></a>
+    <a class="icon-btn" href="/messages"><i class="fa-solid fa-comment-dots"></i><span class="badge">1</span></a>
+    <span class="role-pill">{{usuario.role}}</span>
+    <div class="avatar-wrap">
+      <div class="avatar"><img id="foto-de-perfil" src="/img/foto-do-perfil.png" alt=""></div>
+      <i class="fa-solid fa-chevron-down chev"></i>
+
+      <div class="avatar-dropdown">
+        <div class="dropdown-header">
+          <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div>
+          <span>{{usuario.completeName}}</span>
+        </div>
+        <a href="#"><i class="fa-solid fa-user"></i> Ver perfil</a>
+        <a href="#"><i class="fa-solid fa-briefcase"></i> Meu Portfólio</a>
+        <a href="#"><i class="fa-solid fa-file-lines"></i> Serviços e Propostas</a>
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Configurações da Conta</a>
+        <a href="#" class="dropdown-sair" id="sair" ><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <a href="/home">Tela Inicial</a>
+  <a href="/freelancers">Freelancers</a>
+  <a href="/projects">Projetos</a>
+  <a href="/support">Suporte</a>
+</nav>
+
+<main>
+  <h1 class="page-title">Meu Perfil</h1>
+
+  <div class="layout">
+
+    <!-- COLUNA PRINCIPAL -->
+    <div class="col-main">
+
+      <!-- Dados do perfil -->
+      <section class="panel">
+        <h2>Meu Perfil</h2>
+
+        <div class="perfil-topo">
+          <div class="avatar-grande">
+            <img src="/img/icone-user.png" alt="Foto de perfil">
+          </div>
+          <div class="perfil-dados">
+            <div class="perfil-nome-row">
+              <h3>{{usuario.completeName}}</h3>
+              <span class="selo-verificado-mini" title="Identidade verificada"><i class="fa-solid fa-shield-halved"></i> Verificado</span>
+            </div>
+            <p class="nome-usuario">@{{usuario.username}}</p>
+
+            {{#if usuario.profissao}}
+                <p class="profissao">{{usuario.profissao}}</p>
+            {{else}}
+                <p class="profissao">--------//--------</p>
+            {{/if}}
+
+            <div class="perfil-meta">
+              {{#if usuario.localizacao}}
+                  <span class="meta-item"><i class="fa-solid fa-location-dot"></i>{{usuario.localizacao.cidade}}, {{usuario.localizacao.estado}}</span>
+              {{else}}
+                  <span class="meta-item"><i class="fa-solid fa-location-dot"></i>----//----</span>
+              {{/if}}
+
+              {{#if usuario.ativo}}
+                <span class="meta-item status-disponivel"><i class="fa-solid fa-circle"></i>Ativo</span>
+              {{else}}
+                <span class="meta-item status-indisponivel"><i class="fa-solid fa-circle"></i>Inativo</span>
+              {{/if}}
+            </div>
+
+            <div class="perfil-links">
+            </div>
+          </div>
+          {{#if usuario.informacoesAdicionais}}
+            <button class="btn-primary btn-editar" id="btn-editProfile" href="/edit.profile"><i class="fa-solid fa-pen"></i> Editar Perfil</button>
+          {{else}}
+            <a class="btn-primary btn-editar" id="btn-addInfo" href="/additional.information"><i class="fa-solid fa-pen"></i> Informações Adicionais</a>
+          {{/if}}
+        </div>
+
+        <div class="divisor"></div>
+
+        <div class="bloco">
+          <h3 class="titulo-bloco">Sobre Mim</h3>
+          {{#if usuario.sobreMim}}
+           <p class="texto-sobre">{{usuario.sobreMim}}</p> 
+          {{/if}} 
+        </div>
+
+        <div class="bloco">
+          <h3 class="titulo-bloco">Habilidades Técnicas</h3>
+          <div class="chips"></div>
+        </div>
+      </section>
+
+      <!-- Portfólio externo -->
+      <section class="panel" id="projetos">
+        <div class="header-secao">
+          <div class="header-secao-titulo">
+            <h2>Meu Portfólio</h2>
+            <span class="selo-info">Externo · não verificado</span>
+          </div>
+          <p>Apresente os seus melhores projetos, adicionando-os manualmente abaixo (imagens ou links).</p>
+        </div>
+
+  
+        <div class="grid-portfolio">
+          <div class="card-add-projeto">
+            <i class="fa-solid fa-plus"></i>
+            <p>Adicionar Novo Projeto</p>
+          </div>
+
+          
+          <div class="card-projeto">
+            <img src="../assets/img/code.jpg" alt="Portal E-commerce">
+            <div class="info-projeto">
+              <h4>Portal E-commerce</h4>
+              <div class="tags">
+                <span class="tag">Node.js</span>
+                <span class="tag">React</span>
+              </div>
+              <a href="#" class="link-projeto"><i class="fa-solid fa-link"></i> Ver link</a>
+            </div>
+          </div> 
+
+          <!--
+          <div class="card-projeto">
+            <img src="../assets/img/code.jpg" alt="Portal E-commerce">
+            <div class="info-projeto">
+              <h4>Portal E-commerce</h4>
+              <div class="tags">
+                <span class="tag">Node.js</span>
+                <span class="tag">React</span>
+              </div>
+              <a href="#" class="link-projeto"><i class="fa-solid fa-link"></i> Ver link</a>
+            </div>
+          </div> 
+
+           <div class="card-projeto">
+            <img src="../assets/img/code.jpg" alt="API de Pagamentos">
+            <div class="info-projeto">
+              <h4>API de Pagamentos</h4>
+              <div class="tags">
+                <span class="tag">PHP</span>
+                <span class="tag">MongoDB</span>
+              </div>
+              <a href="#" class="link-projeto"><i class="fa-solid fa-link"></i> Ver link</a>
+            </div>
+          </div>
+        </div>-->
+      </section>
+
+      <!-- Trabalhos no StartFreela -->
+      <section class="panel">
+        <div class="header-secao">
+          <div class="header-secao-titulo">
+            <h2>Trabalhos Realizados no StartFreela</h2>
+            <span class="selo-info selo-info-verde"><i class="fa-solid fa-check"></i> Auditado pelo sistema</span>
+          </div>
+          <p>Estes são os projetos que você concluiu na plataforma. O histórico é gerado automaticamente e não editável, garantindo a credibilidade das avaliações.</p>
+        </div>
+
+        <div class="grid-historico">
+          <!-- <article class="card-historico">
+            <img class="img-historico" src="../assets/img/code.jpg" alt="">
+            <div class="info-h
+istorico">
+              <h4>Site Institucional Petshop</h4>
+              <div class="tags">
+                <span class="tag">PHP</span>
+                <span class="tag">HTML5</span>
+              </div>
+              <p class="linha-meta">Realizado para: <b>Clínicas Diversas</b></p>
+              <p class="linha-meta">Entregue em: Junho/2026</p>
+            </div>
+            <div class="avaliacao-historico">
+              <p class="nota-historico"><i class="fa-solid fa-star"></i> 5.0</p>
+              <p class="comentario-historico">"Excelente profissional! Código limpo e super rápido."</p>
+              <p class="selo-verificado"><i class="fa-solid fa-check"></i> Contrato Verificado</p>
+            </div>
+          </article> -->
+
+          <!-- <article class="card-historico">
+            <img class="img-historico" src="../assets/img/code.jpg" alt="">
+            <div class="info-historico">
+              <h4>Landing Page para Evento</h4>
+              <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">React</span>
+              </div>
+              <p class="linha-meta">Realizado para: <b>InnovateHub</b></p>
+              <p class="linha-meta">Entregue em: Maio/2026</p>
+            </div>
+            <div class="avaliacao-historico">
+              <p class="nota-historico"><i class="fa-solid fa-star"></i> 4.8</p>
+              <p class="comentario-historico">"Layout impecável, atendeu todas as expectativas."</p>
+              <p class="selo-verificado"><i class="fa-solid fa-check"></i> Contrato Verificado</p>
+            </div>
+          </article> -->
+        </div>
+      </section>
+
+      <!-- Avaliações dos clientes -->
+      <section class="panel">
+        <div class="header-secao">
+          <h2>Avaliações dos Clientes</h2>
+          <p>Todas as avaliações abaixo vêm de contratos concluídos e verificados na plataforma.</p>
+        </div>
+
+        <div class="resumo-avaliacoes">
+          <div class="nota-geral">
+            <span class="nota-numero">0</span>
+            <span class="nota-estrelas"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></span>
+            <span class="nota-total">0 avaliações</span>
+          </div>
+
+          <div class="barras-avaliacao">
+            <div class="linha-barra">
+              <span>5★</span>
+              <div class="barra"><div class="barra-preenchida" style="width:0%;"></div></div>
+              <span class="barra-qtd">0</span>
+            </div>
+            <div class="linha-barra">
+              <span>4★</span>
+              <div class="barra"><div class="barra-preenchida" style="width: 0%;"></div></div>
+              <span class="barra-qtd">0</span>
+            </div>
+            <div class="linha-barra">
+              <span>3★</span>
+              <div class="barra"><div class="barra-preenchida" style="width: 0%;"></div></div>
+              <span class="barra-qtd">0</span>
+            </div>
+            <div class="linha-barra">
+              <span>2★</span>
+              <div class="barra"><div class="barra-preenchida" style="width: 0%;"></div></div>
+              <span class="barra-qtd">0</span>
+            </div>
+            <div class="linha-barra">
+              <span>1★</span>
+              <div class="barra"><div class="barra-preenchida" style="width: 0%;"></div></div>
+              <span class="barra-qtd">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lista-avaliacoes">
+          <!-- <div class="avaliacao-item">
+            <div class="avaliacao-item-topo">
+              <div class="avaliador">
+                <div class="avatar-round">C</div>
+                <div>
+                  <p class="avaliador-nome">Clínicas Diversas</p>
+                  <p class="avaliador-projeto">Site Institucional Petshop</p>
+                </div>
+              </div>
+              <span class="nota-item"><i class="fa-solid fa-star"></i> 5.0</span>
+            </div>
+            <p class="avaliacao-texto">"Excelente profissional! Código limpo e super rápido, entregou antes do prazo combinado."</p>
+          </div> -->
+
+          <!-- <div class="avaliacao-item">
+            <div class="avaliacao-item-topo">
+              <div class="avaliador">
+                <div class="avatar-round">I</div>
+                <div>
+                  <p class="avaliador-nome">InnovateHub</p>
+                  <p class="avaliador-projeto">Landing Page para Evento</p>
+                </div>
+              </div>
+              <span class="nota-item"><i class="fa-solid fa-star"></i> 4.8</span>
+            </div>
+            <p class="avaliacao-texto">"Layout impecável, atendeu todas as expectativas do briefing."</p>
+          </div> -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- COLUNA LATERAL -->
+    <aside class="col-side">
+
+      <section class="panel">
+        <h2>Estatísticas</h2>
+        <p class="linha-stat">Projetos Concluídos <span class="stat-valor stat-verde">0 <i class="fa-solid fa-check"></i></span></p>
+        <p class="linha-stat">Avaliação Média <span class="stat-valor stat-dourado">0 <i class="fa-solid fa-star"></i></span></p>
+        <p class="linha-stat">Taxa de Resposta <span class="stat-valor">0%</span></p>
+        <p class="linha-stat sem-borda">Membro desde <b>{{usuario.createdIn}}</b></p>
+      </section>
+
+      <section class="panel">
+        <h2>Ranking</h2>
+        <p class="nivel-label">Nível 0</p>
+        <img class="img-nivel" src="/img/level-1.png" alt="Nível 5">
+        <div class="barra-xp">
+          <div class="barra-xp-preenchida" style="width: 0%;"></div>
+        </div>
+        <p class="pontos-label">Você possui 0 pontos</p>
+        <p class="pontos-restam">Restam 100 pontos para o próximo nível</p>
+      </section>
+
+      <section class="panel">
+        <h2>Selos Conquistados</h2>
+        <div class="lista-selos">
+          <!-- <div class="selo-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <p class="selo-titulo">Identidade Verificada</p>
+              <p class="selo-desc">Documento validado pela equipe StartFreela</p>
+            </div>
+          </div> -->
+
+          <!-- <div class="selo-item">
+            <i class="fa-solid fa-bolt"></i>
+            <div>
+              <p class="selo-titulo">Resposta Rápida</p>
+              <p class="selo-desc">Responde propostas em menos de 2h</p>
+            </div>
+          </div> -->
+
+          <!-- <div class="selo-item">
+            <i class="fa-solid fa-star"></i>
+            <div>
+              <p class="selo-titulo">Top Avaliado</p>
+              <p class="selo-desc">Nota acima de 4.5 em 10+ contratos</p>
+            </div>
+          </div> -->
+        </div>
+      </section>
+
+    </aside>
+  </div>
+</main>
+
+<script src="/js.components/header-dropdown.js"></script>
+<script type="module" src="/js/profile.js" defer></script>
+</body>
+</html>

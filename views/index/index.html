@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartFreela - Conectando Talentos e Projetos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+
+    <header class="navbar navbar-expand-lg fixed-top px-4">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a class="navbar-brand m-0 d-flex align-items-center" href="#">
+                <img class="img-logo" src="/img/StartFreela (1).png" alt="StartFreela Logo">
+            </a>
+
+            <div id="barra-pesquisa" class="pesquisa-topo d-none d-md-flex align-items-center">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar serviços ou freelancers...">
+                    <button class="btn btn-warning fw-bold" type="button"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <a class="btn btn-outline-light rounded-pill px-4 py-2" href="/register">Cadastrar-se</a>
+                <a id="btn-login" class="btn btn-light rounded-pill px-4 py-2 fw-bold text-dark text-decoration-none d-flex align-items-center justify-content-center" href="/login">Fazer Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="explain d-flex align-items-center justify-content-center">
+            <div class="div-explain text-center px-3">
+                <h1 id="titulo" class="display-3 fw-bold mb-3">StartFreela</h1>
+                <p id="desc" class="fs-4 mb-4">Encontre oportunidades ou contrate talentos</p>
+
+                <div class="search-box mx-auto mb-4">
+                    <div class="input-group bg-white rounded-pill p-1 shadow-sm">
+                        <input class="form-control border-0 bg-transparent ps-4 py-2 fs-6" type="search" placeholder="Qual serviço você procura hoje?">
+                        <button class="btn btn-warning px-4 py-2 rounded-pill fw-bold text-dark" type="button">Pesquisar</button>
+                    </div>
+                </div>
+
+                <div class="div-botoes d-flex justify-content-center gap-3">
+                    <button class="btn btn-primary-custom rounded-pill">Começar agora</button>
+                    <button class="btn btn-outline-custom rounded-pill">Explorar projetos</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="servicos-populares container my-5">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div class="text-start">
+                    <h2 class="fw-bold display-6 mb-1">Serviços em Destaque</h2>
+                    <p class="text-muted mb-0">Explore as áreas mais requisitadas na plataforma</p>
+                </div>
+                <a href="#" class="btn btn-link text-decoration-none fw-bold text-primary d-none d-md-inline-block">Ver todas as categorias <i class="bi bi-arrow-right"></i></a>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <div class="col">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card card-servico border-0 rounded-4 p-4 text-start h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="icon-categoria icone-tech mb-3 d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-code-slash fs-3"></i>
+                                </div>
+                                <span class="badge tag-categoria mb-2">Programação</span>
+                                <h5 class="fw-bold text-dark fs-5 mb-0">Desenvolvimento Web</h5>
+                            </div>
+                            <div class="mt-4 d-flex align-items-center justify-content-between text-muted fs-7">
+                                <span>+150 Projetos</span>
+                                <i class="bi bi-chevron-right seta-card"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card card-servico border-0 rounded-4 p-4 text-start h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="icon-categoria icone-media mb-3 d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-film fs-3"></i>
+                                </div>
+                                <span class="badge tag-categoria mb-2">Vídeo & Áudio</span>
+                                <h5 class="fw-bold text-dark fs-5 mb-0">Edição de Vídeo</h5>
+                            </div>
+                            <div class="mt-4 d-flex align-items-center justify-content-between text-muted fs-7">
+                                <span>+90 Projetos</span>
+                                <i class="bi bi-chevron-right seta-card"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card card-servico border-0 rounded-4 p-4 text-start h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="icon-categoria icone-soft mb-3 d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-cpu-fill fs-3"></i>
+                                </div>
+                                <span class="badge tag-categoria mb-2">Sistemas</span>
+                                <h5 class="fw-bold text-dark fs-5 mb-0">Criação de Software</h5>
+                            </div>
+                            <div class="mt-4 d-flex align-items-center justify-content-between text-muted fs-7">
+                                <span>+110 Projetos</span>
+                                <i class="bi bi-chevron-right seta-card"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card card-servico border-0 rounded-4 p-4 text-start h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="icon-categoria icone-design mb-3 d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-palette-fill fs-3"></i>
+                                </div>
+                                <span class="badge tag-categoria mb-2">Arte & Visual</span>
+                                <h5 class="fw-bold text-dark fs-5 mb-0">Design & Ilustração</h5>
+                            </div>
+                            <div class="mt-4 d-flex align-items-center justify-content-between text-muted fs-7">
+                                <span>+200 Projetos</span>
+                                <i class="bi bi-chevron-right seta-card"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card card-servico border-0 rounded-4 p-4 text-start h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="icon-categoria icone-ui mb-3 d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-layout-wpt-sidebar-wide fs-3"></i>
+                                </div>
+                                <span class="badge tag-categoria mb-2">Experiência</span>
+                                <h5 class="fw-bold text-dark fs-5 mb-0">UI/UX & Interfaces</h5>
+                            </div>
+                            <div class="mt-4 d-flex align-items-center justify-content-between text-muted fs-7">
+                                <span>+80 Projetos</span>
+                                <i class="bi bi-chevron-right seta-card"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="como-funciona py-5">
+            <div class="container py-4">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold display-6 text-white">Como funciona o StartFreela?</h2>
+                    <p class="text-white-50 fs-5 mx-auto" style="max-width: 650px;">
+                        Conectamos quem precisa tirar projetos do papel com talentos prontos para colocar a mão na massa.
+                    </p>
+                </div>
+
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="bloco-atuacao p-4 p-md-5 rounded-4 h-100 position-relative overflow-hidden">
+                            <div class="tag-atuacao mb-3">Para Quem Contrata</div>
+                            <h3 class="fw-bold text-white mb-3">Encontre o talento ideal sem complicações</h3>
+                            <p class="text-white-50 mb-4">
+                                Acesse uma comunidade de freelancers e estudantes prontos para atender demandas de tecnologia, design e conteúdo com orçamentos acessíveis.
+                            </p>
+                            <ul class="list-unstyled text-white-50 d-flex flex-column gap-3 mb-0">
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-warning fs-5"></i>
+                                    <span>Publique demandas e receba propostas em poucas horas</span>
+                                </li>
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-warning fs-5"></i>
+                                    <span>Analise portfólios reais e avaliações de trabalhos anteriores</span>
+                                </li>
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-warning fs-5"></i>
+                                    <span>Pagamento retido com segurança até a entrega do projeto</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="bloco-atuacao p-4 p-md-5 rounded-4 h-100 position-relative overflow-hidden">
+                            <div class="tag-atuacao tag-freela mb-3">Para Freelancers</div>
+                            <h3 class="fw-bold text-white mb-3">Construa sua carreira e ganhe experiência</h3>
+                            <p class="text-white-50 mb-4">
+                                Crie seu portfólio prático, conquiste seus primeiros clientes e garanta sua remuneração de forma justa e transparente.
+                            </p>
+                            <ul class="list-unstyled text-white-50 d-flex flex-column gap-3 mb-0">
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-warning fs-5"></i>
+                                    <span>Envie propostas para projetos alinhados com suas habilidades</span>
+                                </li>
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-warning fs-5"></i>
+                                    <span>Ambiente acolhedor focado em iniciantes e estudantes</span>
+                                </li>
+                                <li class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-check-circle-fill text-warning fs-5"></i>
+                                    <span>Receba o valor combinado assim que o cliente aprovar o serviço</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao-video py-5">
+            <div class="container my-3">
+                <div class="mb-4 text-start">
+                    <h2 class="fw-bold display-6">Como o StartFreela impulsiona carreiras</h2>
+                    <p class="text-muted fs-5 mb-0">Veja como pequenos negócios e iniciantes transformam projetos em realidade.</p>
+                </div>
+
+                <div class="video-wrapper overflow-hidden rounded-4 shadow-lg">
+                    <video controls poster="/img/estudante.jpeg">
+                        <source src="/videos/semespacopeloamordedeus.mp4" type="video/mp4">
+                        Seu navegador não suporta a exibição deste vídeo.
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <section class="diferenciais container my-5">
+            <div class="text-start mb-4">
+                <h2 id="titulo-diferenciais" class="fw-bold display-6">Diferenciais da plataforma</h2>
+                <p class="text-muted fs-5 mb-0">Por que o StartFreela é a melhor escolha para dar o pontapé inicial?</p>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card-diferencial p-4 rounded-4 h-100 text-start">
+                        <div class="icone-diferencial mb-3 d-flex align-items-center justify-content-center rounded-3">
+                            <i class="bi bi-rocket-takeoff-fill fs-3 text-warning"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2 fs-5">Foco em Iniciantes</h4>
+                        <p class="text-muted mb-0 fs-6">Plataforma voltada para estudantes e novos profissionais, facilitando o acesso às primeiras oportunidades do mercado.</p>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card-diferencial p-4 rounded-4 h-100 text-start">
+                        <div class="icone-diferencial mb-3 d-flex align-items-center justify-content-center rounded-3">
+                            <i class="bi bi-briefcase-fill fs-3 text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2 fs-5">Oportunidades Reais</h4>
+                        <p class="text-muted mb-0 fs-6">Conecte-se com clientes reais e empresas prontas para contratar novos talentos com orçamentos e prazos justos.</p>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card-diferencial p-4 rounded-4 h-100 text-start">
+                        <div class="icone-diferencial mb-3 d-flex align-items-center justify-content-center rounded-3">
+                            <i class="bi bi-graph-up-arrow fs-3 text-warning"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2 fs-5">Evolução Contínua</h4>
+                        <p class="text-muted mb-0 fs-6">Construa um portfólio prático realizando trabalhos reais e acumule avaliações positivas para alavancar sua carreira.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container my-5">
+            <div class="cta-hub rounded-5 p-4 p-md-5 text-white position-relative overflow-hidden">
+                <div class="text-center mb-5 position-relative z-1">
+                    <h2 class="display-5 fw-bold mb-3">Tudo pronto para dar o <span class="texto-destaque">próximo passo?</span></h2>
+                    <p class="fs-5 text-white-50 mx-auto mb-0" style="max-width: 650px;">
+                        Junte-se ao StartFreela. Escolha o seu perfil abaixo e faça parte da comunidade.
+                    </p>
+                </div>
+
+                <div class="row g-4 position-relative z-1">
+                    <div class="col-md-6">
+                        <div class="cta-opcao-card p-4 rounded-4 h-100 d-flex flex-column justify-content-between text-start">
+                            <div>
+                                <div class="icone-box mb-3">
+                                    <i class="bi bi-briefcase-fill text-warning fs-2"></i>
+                                </div>
+                                <h3 class="fw-bold text-white mb-2 fs-4">Quero Contratar</h3>
+                                <p class="text-white-50 mb-4">
+                                    Publique seus projetos, encontre talentos qualificados e receba entregas rápidas.
+                                </p>
+                            </div>
+                            <a href="/login" class="btn btn-warning rounded-pill fw-bold py-3 w-100">
+                                Publicar um Projeto <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="cta-opcao-card p-4 rounded-4 h-100 d-flex flex-column justify-content-between text-start">
+                            <div>
+                                <div class="icone-box mb-3">
+                                    <i class="bi bi-person-badge-fill text-info fs-2"></i>
+                                </div>
+                                <h3 class="fw-bold text-white mb-2 fs-4">Quero Trabalhar</h3>
+                                <p class="text-white-50 mb-4">
+                                    Encontre demandas alinhadas com suas habilidades e monte um portfólio de sucesso.
+                                </p>
+                            </div>
+                            <a href="/login" class="btn btn-outline-light rounded-pill fw-bold py-3 w-100">
+                                Criar Perfil de Freelancer <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-site bg-white text-dark pt-5 pb-4 border-top">
+        <div class="container text-start">
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <h6 class="fw-bold mb-3 text-dark">Categorias</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small text-secondary">
+                        <li><a href="#" class="text-decoration-none text-secondary">Programação & Tech</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Design & Gráficos</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Marketing Digital</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Escrita & Tradução</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Vídeo & Animação</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h6 class="fw-bold mb-3 text-dark">Para Clientes</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small text-secondary">
+                        <li><a href="#" class="text-decoration-none text-secondary">Como Funciona</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Anunciar um Projeto</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Garantia de Pagamento</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Suporte ao Cliente</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h6 class="fw-bold mb-3 text-dark">Para Freelancers</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small text-secondary">
+                        <li><a href="#" class="text-decoration-none text-secondary">Criar Perfil</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Buscar Trabalhos</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Dicas de Portfólio</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Comunidade</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h6 class="fw-bold mb-3 text-dark">StartFreela</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2 small text-secondary">
+                        <li><a href="#" class="text-decoration-none text-secondary">Sobre Nós</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Termos de Uso</a></li>
+                        <li><a href="#" class="text-decoration-none text-secondary">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="my-4 text-muted">
+
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small text-secondary">
+                <p class="m-0">&copy; 2026 StartFreela. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const barraPesquisa = document.getElementById('barra-pesquisa');
+
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 350) {
+                barraPesquisa.classList.add('ativa');
+            } else {
+                barraPesquisa.classList.remove('ativa');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StartFreela - Complete seu perfil</title>
+<link rel="stylesheet" href="/css/informacoes-adicionais.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<!--
+  data-role vem do backend (usuario.role: "freelancer" ou "cliente").
+  Na integração real: <body data-role="{{usuario.role}}">
+  Deixei um seletor de prévia visível só pra você testar os dois casos aqui no navegador.
+-->
+<body data-role="freelancer">
+
+<div class="preview-toggle">
+  <span>Prévia (só neste protótipo):</span>
+  <button class="preview-btn active" data-preview-role="freelancer">Freelancer</button>
+  <button class="preview-btn" data-preview-role="cliente">Cliente</button>
+</div>
+
+<header class="topbar">
+  <div class="logo">
+    <img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela">
+  </div>
+  <div class="search-wrap">
+    <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+  </div>
+  <div class="top-actions">
+    <a class="icon-btn" href="/notifications"><i class="fa-solid fa-bell"></i><span class="badge">1</span></a>
+    <div class="icon-btn"><i class="fa-solid fa-comment-dots"></i><span class="badge">1</span></div>
+    <span class="role-pill">{{usuario.role}}</span>
+    <div class="avatar-wrap">
+      <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div>
+      <i class="fa-solid fa-chevron-down chev"></i>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <a href="/home">Tela Inicial</a>
+  <a href="/freelancers">Freelancers</a>
+  <a href="/projects">Projetos</a>
+  <a href="/support">Suporte</a>
+</nav>
+
+<main>
+  <div class="onboarding-fundo">
+    <div class="onboarding-card">
+
+      <div class="onboarding-topo">
+        <h2>Complete seu perfil</h2>
+        <button class="onboarding-fechar" title="Pular por agora">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <p class="onboarding-subtitulo">Isso leva menos de 2 minutos e ajuda a gerar mais confiança na plataforma. Você pode pular qualquer etapa e completar depois em "Editar Perfil".</p>
+
+      <div class="onboarding-progresso">
+        <div class="progresso-barra"><div class="progresso-preenchida"></div></div>
+        <span class="progresso-texto">Passo 1 de 8</span>
+      </div>
+
+      <div class="onboarding-etapas">
+
+        <!-- 1. Foto de perfil (ambos) 
+        <div class="etapa" data-etapa-comum>
+          <div class="etapa-icone"><i class="fa-solid fa-camera"></i></div>
+          <h3>Adicione uma foto de perfil</h3>
+          <p class="etapa-desc">Perfis com foto recebem muito mais confiança de clientes e freelancers.</p>
+          <div class="upload-foto">
+            <div class="upload-preview"><img id="imagem" src="/img/foto-do-perfil.png" alt=""></div>
+            <label class="btn-secundario">
+              <i  class="fa-solid fa-upload"></i> Escolher Imagem
+              <input id="inputImagem" type="file" accept="image/*" hidden>
+            </label>
+          </div>
+        </div>-->
+        
+
+        <!-- 2. Localidade (ambos) -->
+        <div class="etapa" data-etapa-comum hidden>
+          <div class="etapa-icone"><i class="fa-solid fa-location-dot"></i></div>
+          <h3>Onde você está localizado?</h3>
+          <p class="etapa-desc">Ajuda outros usuários a entenderem sua região e fuso horário.</p>
+          <div class="etapa-campos">
+            <label for="inputCEP" class="digite-cep">Digite seu CEP:</label>
+            <input maxlength="9" id="inputCEP" type="text" class="field" placeholder="00000-000">
+            <div class="campos-lado-a-lado">
+              <select class="field" id="pais" disabled>
+                <option>País</option>
+                <!--
+                <option>Amazonas</option>
+                <option>São Paulo</option>
+                <option>Rio de Janeiro</option>
+                -->
+              </select>
+              <select class="field" id="estado" disabled>
+                <option>Estado</option>
+                <!--
+                <option>Amazonas</option>
+                <option>São Paulo</option>
+                <option>Rio de Janeiro</option>
+                -->
+              </select>
+              <select class="field" id="cidade" disabled>
+                <option>Cidade</option>
+                <!--
+                <option>Brasil</option>
+                -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Profissão (freelancer) -->
+        <div class="etapa" data-etapa-freelancer hidden>
+          <div class="etapa-icone"><i class="fa-solid fa-briefcase"></i></div>
+          <h3>Qual sua profissão?</h3>
+          <p class="etapa-desc">Isso aparece logo abaixo do seu nome no perfil.</p>
+          <div class="etapa-campos">
+            <input type="text" class="field" id="profissao" placeholder="Ex: Desenvolvedor FullStack, Designer UI/UX...">
+          </div>
+        </div>
+
+        <!-- 4. Habilidades (freelancer) -->
+        <div class="etapa" data-etapa-freelancer hidden>
+          <div class="etapa-icone"><i class="fa-solid fa-code"></i></div>
+          <h3>Quais suas habilidades e experiências?</h3>
+          <p class="etapa-desc">Adicione as tecnologias e competências que você domina.</p>
+          <div class="etapa-campos">
+            <form id="form-chips" class="chips-input">
+              <input type="text" id="inputChips" placeholder="Digite e pressione Enter...">
+            </form>
+            <div id="div-chips" style="display: flex; gap: 10px; flex-wrap: wrap;">
+              
+              
+              
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- 5. Preço a cobrar (freelancer) -->
+        <div class="etapa" data-etapa-freelancer hidden>
+          <div class="etapa-icone"><i class="fa-solid fa-sack-dollar"></i></div>
+          <h3>Quanto você cobra?</h3>
+          <p class="etapa-desc">Você pode ajustar isso depois, projeto por projeto.</p>
+          <div class="etapa-campos">
+            <div class="campos-lado-a-lado2">
+              <div class="div-quantia">
+                <input type="text" class="inputQuantia" placeholder="0,00">
+                <select class="selectQuantia">
+                  <option>Por hora</option>
+                  <option>Por dia</option>
+                </select>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Redes sociais (ambos) -->
+        <div class="etapa" data-etapa-comum hidden>
+          <div class="etapa-icone"><i class="fa-solid fa-link"></i></div>
+          <h3>Vincule suas redes sociais</h3>
+          <p class="etapa-desc">Opcional, mas ajuda outros usuários a te conhecerem melhor.</p>
+          <div class="etapa-campos">
+            <div class="input-com-icone etapa-so-freelancer-inline"><i class="fa-brands fa-instagram"></i><input type="text" class="field" placeholder="Link do Instagram" id="input-redesocial" name="instagram"></div>
+            <div class="input-com-icone etapa-so-freelancer-inline"><i class="fa-brands fa-facebook"></i><input type="text" class="field" placeholder="Link do Facebook" id="input-redesocial" name="facebook"></div>
+            <div class="input-com-icone etapa-so-freelancer-inline"><i class="fa-brands fa-github"></i><input type="text" class="field" placeholder="Link do GitHub" id="input-redesocial" name="github"></div>
+            <div class="input-com-icone etapa-so-freelancer-inline"><i class="fa-brands fa-linkedin"></i><input type="text" class="field" placeholder="Link do Linkedin" id="input-redesocial" name="linkedin"></div>
+            <div class="input-com-icone etapa-so-freelancer-inline"><i class="fa-brands fa-youtube"></i><input type="text" class="field" placeholder="Link do Youtube" id="input-redesocial" name="youtube"></div>
+          </div>
+        </div>
+
+        <!-- 7. Sobre mim (ambos, texto adaptado por role via JS) -->
+        <div class="etapa" data-etapa-comum hidden>
+          <div class="etapa-icone"><i class="fa-solid fa-pen-nib"></i></div>
+          <h3 class="titulo-sobre">Fale um pouco sobre você</h3>
+          <p class="etapa-desc descricao-sobre">Uma breve bio ajuda clientes a te conhecerem antes de contratar.</p>
+          <div class="etapa-campos">
+            <textarea class="field" rows="4" id="sobre-mim" placeholder="Escreva aqui..."></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="onboarding-rodape">
+        <button class="btn-voltar-etapa" disabled><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+        <button class="btn-pular-etapa">Pular esta etapa</button>
+        <button class="btn-continuar">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script type="module" src="/js/informacoesAdicionais.js" defer></script>
+</body>
+</html>
