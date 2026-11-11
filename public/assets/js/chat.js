@@ -29,7 +29,7 @@ usuarioRole.innerHTML = usuarioRole.textContent.toUpperCase();
 document.getElementById('message-text').focus();
 
 ////////////////////////WEBSOCKET///////////////////////////////
-const socket = new WebSocket("ws://localhost:3000");
+const socket = new WebSocket("wss://deploy-startfreela.onrender.com");
 
 socket.onopen = () => {
     console.log('conectando com o protocolo');
