@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartFreela - Configurações</title>
+    <link rel="stylesheet" href="/css/configuracoes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script defer>
+        window.dadosPagina = {
+            usuario: {{{json usuario}}},
+        }
+    </script>
+</head>
+
+<body>
+    <header class="topbar">
+  <a href="/home" class="logo">
+      <img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela">
+  </a>
+
+  <div class="search-wrap">
+    <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+  </div>
+
+  <div class="top-actions">
+    <a class="icon-btn" href="/notifications"><i class="fa-solid fa-bell"></i><span class="badge">1</span></a>
+    <a class="icon-btn" href="/messages"><i class="fa-solid fa-comment-dots"></i><span class="badge">1</span></a>
+    <span class="role-pill">{{usuario.role}}</span>
+    <div class="avatar-wrap">
+      <div class="avatar"><img id="foto-de-perfil" src="/img/foto-do-perfil.png" alt=""></div>
+      <i class="fa-solid fa-chevron-down chev"></i>
+
+      <div class="avatar-dropdown">
+        <div class="dropdown-header">
+          <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div>
+          <span>{{usuario.completeName}}</span>
+        </div>
+        <a href="/profile"><i class="fa-solid fa-user"></i> Ver perfil</a>
+        <a href="#"><i class="fa-solid fa-briefcase"></i> Meu Portfólio</a>
+        <a href="#"><i class="fa-solid fa-file-lines"></i> Serviços e Propostas</a>
+        <a href="#"><i class="fa-solid fa-gear"></i> Configurações da Conta</a>
+        <a href="#" class="dropdown-sair" id="sair" ><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <a href="/home">Tela Inicial</a>
+  <a href="/freelancers">Freelancers</a>
+  <a href="/projects">Projetos</a>
+  <a href="/support">Suporte</a>
+</nav>
+
+    <main class="main">
+        <div class="page-header">
+            <div class="settings-icon">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+
+            <div>
+                <h1>Configurações da Conta</h1>
+                <p>Gerencie suas informações, preferências e segurança.</p>
+            </div>
+        </div>
+
+        <div class="settings-container">
+            <aside class="settings-menu">
+                <button class="settings-option active" data-section="account"><i class="fa-solid fa-user"></i>Informações da Conta</button>
+                <button class="settings-option" data-section="security"><i class="fa-solid fa-lock"></i> Segurança</button>
+                <button class="settings-option" data-section="notifications"><i class="fa-solid fa-bell"></i> Notificações</button>
+                <button class="settings-option" data-section="appearance"><i class="fa-solid fa-palette"></i> Aparência</button>
+                <button class="settings-option" data-section="payments"><i class="fa-solid fa-credit-card"></i> Pagamentos</button>
+                <button class="settings-option delete-option" data-section="delete"><i class="fa-solid fa-trash"></i> Excluir Conta</button>
+            </aside>
+
+            <section class="settings-content">
+                <div class="settings-section active" id="account">
+                    <div class="section-title">
+                        <div class="title-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+                            <h2>Informações da Conta</h2>
+                            <p>Atualize seus dados pessoais e de contato.</p>
+                        </div>
+
+                        <button class="outline-button" id="editAccount"><i class="fa-solid fa-pen"></i> Editar</button>
+                    </div>
+
+                    <div class="account-grid">
+                        <div class="info">
+                            <label>Nome completo</label>
+                            <strong>{{usuario.completeName}}</strong>
+                        </div>
+
+                        <div class="info">
+                            <label>Data de nascimento</label>
+                            <strong>15/04/2005</strong>
+                        </div>
+
+                        <div class="info">
+                            <label>Nome de usuário</label>
+                            <strong>{{usuario.username}}</strong>
+                        </div>
+
+                        <div class="info">
+                            <label>Telefone</label>
+                            <strong id="telefone">{{usuario.contato.phone}}</strong>
+                        </div>
+
+                        <div class="info">
+                            <label>E-mail</label>
+                            <strong>{{usuario.contato.email}}</strong>
+                        </div>
+
+                        <div class="info">
+                            <label>Cidade</label>
+                            <strong>{{usuario.localizacao.cidade}}, {{usuario.localizacao.estado}}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section" id="security">
+                    <div class="section-title">
+                        <div class="title-icon">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+
+                        <div>
+                            <h2>Segurança</h2>
+                            <p>Mantenha sua conta sempre protegida.</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <strong>Senha</strong>
+                            <span class="password">••••••••••</span>
+                        </div>
+
+                        <button class="outline-button" id="changePassword"><i class="fa-solid fa-key"></i> Alterar senha</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <strong>Verificação em duas etapas</strong>
+                            <span class="description">Adicione uma camada extra de segurança.</span>
+                            <span class="recommended">Recomendado</span>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row clickable" id="div-activeSessions">
+                        <div>
+                            <strong>Sessões ativas</strong>
+                            <span class="description">Gerencie onde você está conectado.</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="settings-section" id="notifications">
+                    <div class="section-title">
+                        <div class="title-icon">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+
+                        <div>
+                            <h2>Notificações</h2>
+                            <p>Escolha quais notificações deseja receber.</p>
+                        </div>
+                    </div>
+
+                    <div class="notification-row">
+                        <div class="notification-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+
+                        <div class="notification-text">
+                            <strong>Novos projetos</strong>
+                            <span>Receba notificações sobre projetos que combinam com seu perfil.</span>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-row">
+                        <div class="notification-icon">
+                            <i class="fa-solid fa-comment"></i>
+                        </div>
+
+                        <div class="notification-text">
+                            <strong>Mensagens</strong>
+                            <span>Seja avisado quando receber novas mensagens.</span>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-row">
+                        <div class="notification-icon">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+
+                        <div class="notification-text">
+                            <strong>Atualizações da plataforma</strong>
+                            <span>Fique por dentro das novidades e melhorias.</span>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section" id="appearance">
+                    <div class="section-title">
+                        <div class="title-icon">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+
+                        <div>
+                            <h2>Aparência</h2>
+                            <p>Personalize a aparência da plataforma.</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <strong>Modo escuro</strong>
+                            <span class="description">Alterne entre o tema claro e escuro.</span>
+                        </div>
+
+                        <label class="switch">
+                            <input type="checkbox" id="darkMode">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section" id="payments">
+                    <div class="section-title">
+                        <div class="title-icon">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+
+                        <div>
+                            <h2>Pagamentos</h2>
+                            <p>Gerencie seus métodos de pagamento.</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-row clickable">
+                        <div>
+                            <strong>Métodos de pagamento</strong>
+                            <span class="description">Cartões, PIX e outros métodos.</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <strong>Dados para recebimento</strong>
+                            <span class="description">Configure como deseja receber seus pagamentos.</span>
+                        </div>
+
+                        <button class="outline-button">Gerenciar</button>
+                    </div>
+                </div>
+
+                <div class="settings-section delete-section" id="delete">
+                    <div class="section-title">
+                        <div class="title-icon danger">
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+
+                        <div>
+                            <h2>Excluir Conta</h2>
+                            <p>Esta ação não poderá ser desfeita.</p>
+                        </div>
+                    </div>
+
+                    <div class="delete-warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <div>
+                            <strong>Atenção!</strong>
+                            <p>Ao excluir sua conta, todos os seus dados, projetos e informações serão permanentemente removidos.</p>
+                        </div>
+                    </div>
+
+                    <button class="delete-button" id="deleteAccount"><i class="fa-solid fa-trash"></i> Excluir minha conta</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closePasswordModal">×</button>
+            <h2>Alterar senha</h2>
+            <p>Digite sua senha atual e escolha uma nova senha.</p>
+            <label>Senha atual</label>
+            <input type="password" placeholder="Digite sua senha atual">
+            <label>Nova senha</label>
+            <input type="password" placeholder="Digite a nova senha">
+            <label>Confirmar nova senha</label>
+            <input type="password" placeholder="Confirme sua nova senha">
+            <p id="message-error" style="font-size: 12px; color: rgb(252, 86, 86);"></p>
+            <button class="save-button" id="savePassword">Alterar senha</button>
+        </div>
+    </div>
+
+    <div class="modal" id="activeSessionsModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeActiveSessionsModal">×</button>
+            
+        </div>
+    </div>
+    <script type="module" src="/js/configuracoes.js"></script>
+    <script src="/js.components/header-dropdown.js"></script>
+</body> 
+</html>

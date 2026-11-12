@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StartFreela - Enviar proposta</title>
+  <link rel="stylesheet" href="/css/enviar-proposta.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <script defer>
+        window.dadosPagina = {
+            projeto: {{{json projeto}}},
+        }
+    </script>
+</head>
+<body data-role="{{usuario.role}}">
+  <header class="topbar">
+    <a href="/home" class="logo">
+        <img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela">
+    </a>
+
+    <div class="search-wrap">
+      <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+    </div>
+
+    <div class="top-actions">
+      <div class="icon-btn"><i class="fa-solid fa-bell"></i><span class="badge">1</span></div>
+      <a class="icon-btn" href="/messages"><i class="fa-solid fa-comment-dots"></i><span class="badge">1</span></a>
+      <span class="role-pill">{{usuario.role}}</span>
+      <div class="avatar-wrap">
+        <div class="avatar"><img id="foto-de-perfil" src="/img/foto-do-perfil.png" alt=""></div>
+        <i class="fa-solid fa-chevron-down chev"></i>
+
+        <div class="avatar-dropdown">
+          <div class="dropdown-header">
+            <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div>
+            <span>{{usuario.completeName}}</span>
+          </div>
+          <a href="/profile"><i class="fa-solid fa-user"></i> Ver perfil</a>
+          <a href="#"><i class="fa-solid fa-briefcase"></i> Meu Portfólio</a>
+          <a href="#"><i class="fa-solid fa-file-lines"></i> Serviços e Propostas</a>
+          <a href="/settings"><i class="fa-solid fa-gear"></i> Configurações da Conta</a>
+          <a class="dropdown-sair" id="sair" ><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="subnav">
+    <a href="/home">Tela Inicial</a>
+    <a href="/freelancers">Freelancers</a>
+    <a href="/projects">Projetos</a>
+    <a href="/support">Suporte</a>
+  </nav>
+  <main class="page-shell">
+    <a class="back-link" href="/projects"><i class="fa-solid fa-arrow-left"></i> Voltar para projetos</a>
+
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">PROPOSTA</p>
+        <h1>Enviar proposta</h1>
+        <p>Preencha os detalhes da sua proposta para se candidatar a este projeto.</p>
+      </div>
+      <div class="secure-note"><i class="fa-solid fa-shield-halved"></i><span>Suas informações serão enviadas ao cliente junto com a proposta.</span></div>
+    </section>
+
+    <div class="proposal-layout">
+      <section class="form-card">
+        <div class="card-heading"><div><h2>Sua proposta</h2><p>Informe o valor, o prazo e explique como pretende realizar o trabalho.</p></div></div>
+
+        <form id="proposal-form" novalidate>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="proposal-value">Valor da proposta <span>*</span></label>
+              <div class="money-input"><span>R$</span><input id="proposal-value" name="value" type="number" min="1" step="0.01" placeholder="Ex.: 950,00" required></div>
+              <small>Informe o valor total que você pretende cobrar.</small>
+            </div>
+            <div class="form-field">
+              <label for="proposal-deadline">Prazo estimado <span>*</span></label>
+              <div class="deadline-input"><input id="proposal-deadline" name="deadline" type="number" min="1" max="365" placeholder="Ex.: 15" required><span>dias</span></div>
+              <small>Informe uma estimativa realista para a conclusão.</small>
+            </div>
+            <div class="form-field full">
+              <div class="label-row"><label for="proposal-message">Mensagem de apresentação <span>*</span></label><span id="message-count">0/1000</span></div>
+              <textarea id="proposal-message" name="message" maxlength="1000" placeholder="Apresente sua experiência, explique como pretende realizar o projeto e destaque por que você é uma boa opção para esta oportunidade." required></textarea>
+              <small>Uma boa apresentação ajuda o cliente a entender sua proposta.</small>
+            </div>
+          </div>
+
+          <div class="proposal-tips">
+            <div class="tips-icon"><i class="fa-solid fa-lightbulb"></i></div>
+            <div><strong>Dica para uma boa proposta</strong><p>Seja claro sobre o que você vai entregar, apresente sua experiência relacionada ao projeto e evite mensagens muito genéricas.</p></div>
+          </div>
+
+          <div class="form-actions">
+            <a href="/projects" class="btn btn-outline">Cancelar</a>
+            <button type="submit" class="btn btn-primary" id="submit-proposal">Enviar proposta <i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="project-summary" aria-label="Resumo do projeto">
+        <div class="summary-top">
+          <span class="summary-icon" id="project-icon"><i class="fa-solid fa-code"></i></span>
+          <div><p class="eyebrow">RESUMO DO PROJETO</p><h2 id="project-title">{{projeto.titulo}}</h2></div>
+        </div>
+        <p class="client-line" id="project-client"></p>
+        <p class="summary-description" id="project-description">{{projeto.descricao}}</p>
+        <div class="summary-section"><h3>Habilidades necessárias</h3><div class="tag-row" id="project-skills"></div></div>
+        <div class="summary-facts">
+          <div><span><i class="fa-solid fa-wallet"></i> Orçamento</span><strong id="project-budget">R$ {{projeto.orcamentoMinimo}}-{{projeto.orcamentoMaximo}}</strong></div>
+          <div><span><i class="fa-regular fa-calendar"></i> Prazo estimado</span><strong id="project-deadline">{{projeto.prazoDesejado}}</strong></div>
+          <div><span><i class="fa-solid fa-users"></i> Candidaturas</span><strong id="project-applications">0 Candidaturas</strong></div>
+        </div>
+        <div class="summary-note"><i class="fa-solid fa-circle-info"></i><p>Confira as informações antes de enviar. Depois do envio, sua proposta ficará disponível para análise do cliente.</p></div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="toast hidden" id="toast" role="status"></div>
+  <script src="/js.components/header-dropdown.js" defer></script>
+  <script type="module" src="/js/enviar-proposta.js" defer></script>
+</body>
+</html>

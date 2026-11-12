@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StartFreela - Adicionar Projeto ao Portfólio</title>
+<link rel="stylesheet" href="/css/tela-adicionar-portfolio.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">
+    <img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela">
+  </div>
+  <div class="search-wrap">
+    <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+  </div>
+  <div class="top-actions">
+    <a class="icon-btn" href="/notifications"><i class="fa-solid fa-bell"></i><span class="badge">1</span></a>
+    <a class="icon-btn" href="#"><i class="fa-solid fa-comment-dots"></i><span class="badge">1</span></a>
+    <span class="role-pill">{{usuario.role}}</span>
+    <div class="avatar-wrap">
+      <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div>
+      <i class="fa-solid fa-chevron-down chev"></i>
+
+      <div class="avatar-dropdown">
+        <div class="dropdown-header">
+          <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div>
+          <span>{{usuario.completeName}}</span>
+        </div>
+        <a href="/profile"><i class="fa-solid fa-user"></i> Ver perfil público</a>
+        <a href="#"><i class="fa-solid fa-briefcase"></i> Meu Portfólio</a>
+        <a href="#"><i class="fa-solid fa-file-lines"></i> Serviços e Propostas</a>
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Configurações da Conta</a>
+        <a href="#" class="dropdown-sair" id="sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <a href="/home">Tela Inicial</a>
+  <a href="/freelancers">Freelancers</a>
+  <a href="/projects">Projetos</a>
+  <a href="/support">Suporte</a>
+</nav>
+
+<main>
+  <div class="modal-fundo">
+    <div class="modal-card">
+
+      <div class="modal-topo">
+        <h2>Adicionar Projeto ao Portfólio</h2>
+        <a href="/profile" class="modal-fechar" title="Cancelar">
+          <i class="fa-solid fa-xmark"></i>
+        </a>
+      </div>
+      <p class="modal-subtitulo">Mostre um trabalho que você já realizou, mesmo que fora da plataforma. Esse item ficará marcado como <b>externo · não verificado</b> no seu perfil.</p>
+
+      <div class="modal-corpo">
+
+        <!-- Imagem de capa -->
+        <div class="campo-bloco">
+          <label class="campo-label">Imagem de Capa</label>
+          <label class="capa-upload" id="capaUpload">
+            <input type="file" accept="image/*" name="imagemCapa" id="capaInput" hidden>
+            <div class="capa-placeholder">
+              <i class="fa-solid fa-image"></i>
+              <span>Adicionar Imagem de Capa</span>
+            </div>
+            <img class="capa-preview" hidden alt="Capa do projeto">
+            <span class="capa-trocar" hidden><i class="fa-solid fa-pen"></i> Trocar imagem</span>
+          </label>
+          <p class="campo-ajuda">É essa imagem que aparece em destaque nos cards do seu portfólio.</p>
+        </div>
+
+        <!-- Imagens adicionais (carrossel) -->
+        <div class="campo-bloco">
+          <label class="campo-label">Imagens Adicionais <span class="campo-opcional">(opcional)</span></label>
+          <div class="carrossel-imagens" id="carrosselImagens">
+            <div class="carrossel-item">
+              <label class="carrossel-slot">
+                <input type="file" accept="image/*" class="carrossel-input" hidden>
+                <i class="fa-solid fa-plus"></i>
+                <img class="carrossel-preview" hidden alt="">
+                <button type="button" class="carrossel-remover"><i class="fa-solid fa-xmark"></i></button>
+              </label>
+              <input type="text" class="field campo-legenda" placeholder="Descreva esta imagem...">
+            </div>
+            <div class="carrossel-item">
+              <label class="carrossel-slot">
+                <input type="file" accept="image/*" class="carrossel-input" hidden>
+                <i class="fa-solid fa-plus"></i>
+                <img class="carrossel-preview" hidden alt="">
+                <button type="button" class="carrossel-remover"><i class="fa-solid fa-xmark"></i></button>
+              </label>
+              <input type="text" class="field campo-legenda" placeholder="Descreva esta imagem...">
+            </div>
+            <div class="carrossel-item">
+              <label class="carrossel-slot">
+                <input type="file" accept="image/*" class="carrossel-input" hidden>
+                <i class="fa-solid fa-plus"></i>
+                <img class="carrossel-preview" hidden alt="">
+                <button type="button" class="carrossel-remover"><i class="fa-solid fa-xmark"></i></button>
+              </label>
+              <input type="text" class="field campo-legenda" placeholder="Descreva esta imagem...">
+            </div>
+            <button type="button" class="carrossel-item carrossel-add" id="btnAdicionarImagem" title="Adicionar mais uma imagem">
+              <i class="fa-solid fa-plus"></i>
+              <span>Adicionar</span>
+            </button>
+          </div>
+          <p class="campo-ajuda">Arraste para o lado para ver mais. Cada imagem pode ter uma legenda própria.</p>
+        </div>
+
+        <!-- Título -->
+        <div class="campo-bloco">
+          <label class="campo-label">Título do Projeto</label>
+          <input type="text" class="field" placeholder="Ex: Portal E-commerce para Loja de Roupas" id="tituloInput">
+        </div>
+
+        <!-- Categoria + Data de conclusão -->
+        <div class="campos-lado-a-lado">
+          <div class="campo-bloco">
+            <label class="campo-label">Categoria</label>
+            <select class="field" id="categoriaSelect">
+              <option>Front-End</option>
+              <option>Back-End</option>
+              <option>Full-Stack</option>
+              <option>Mobile</option>
+              <option>UI/UX Design</option>
+              <option>Design Gráfico</option>
+              <option>Redação e Conteúdo</option>
+              <option>Marketing Digital</option>
+              <option>Data Science / BI</option>
+              <option>DevOps / Infraestrutura</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="campo-bloco">
+            <label class="campo-label">Data de Conclusão</label>
+            <input type="text" class="field" id="dataConclusao" placeholder="Ex: Julho/2026">
+          </div>
+        </div>
+
+        <!-- Descrição -->
+        <div class="campo-bloco">
+          <label class="campo-label">Descrição</label>
+          <textarea class="field" rows="4" id="descricao" placeholder="Conte o que foi feito, quais problemas o projeto resolveu e qual foi o seu papel nele."></textarea>
+        </div>
+
+        <!-- Habilidades técnicas -->
+        <div class="campo-bloco">
+          <label class="campo-label">Habilidades Técnicas</label>
+          <div class="chips-input">
+          
+            <input id="inputHabTec" type="text" placeholder="Digite e pressione Enter...">
+            
+          </div>
+          <div id="div-chips" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+        </div>
+
+        <!-- Links -->
+        <div class="campo-bloco">
+          <label class="campo-label">Links</label>
+          <div class="campos-empilhados">
+            <div class="input-com-icone"><i class="fa-solid fa-globe"></i><input type="text" class="field link" placeholder="Link do projeto (site publicado, protótipo, etc.)"></div>
+            <div class="input-com-icone"><i class="fa-brands fa-github"></i><input type="text" class="field link" placeholder="Link do repositório (GitHub)" id="linkGithub"></div>
+          </div>
+        </div>
+
+        <!-- Anexos -->
+        <div class="campo-bloco">
+          <label class="campo-label">Anexos <span class="campo-opcional">(opcional)</span></label>
+          <label class="upload-box" id="anexoUpload">
+            <input type="file" multiple id="anexoInput" hidden>
+            <i class="fa-solid fa-paperclip"></i>
+            <span>Clique para anexar um case study, PDF ou outro documento</span>
+          </label>
+          <div class="lista-anexos" id="listaAnexos"></div>
+        </div>
+
+      </div>
+
+      <div class="modal-rodape">
+        <a href="/profile" class="btn-cancelar">Cancelar</a>
+        <button type="button" class="btn-primary" id="salvar-projeto"><i class="fa-solid fa-check"></i> Salvar no Portfólio</button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script src="/js.components/header-dropdown.js" defer></script>
+<script type="module" src="/js/adicionar-portfolio.js"></script>
+</body>
+</html>
