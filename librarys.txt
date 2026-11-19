@@ -18,4 +18,7 @@ npm install cookie-parser
 ,'npm install'
 ,'npm install express nodemailer ws dotenv handlebars bcrypt mongoose express-handlebars qrcode-terminal validator whatsapp-web.js@latest jsonwebtoken cookie-parser' 
 
+cloudinary
+streamifier
+
 export PUPPETEER_SKIP_DOWNLOAD=true

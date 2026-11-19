@@ -1,18 +1,10 @@
+
 const Projeto = require('../models/ProjetoSchema');
 
-async function daoAddProject(projeto) {
+async function daoAddProjeto(projeto) {
+    const projetoSalvo = await Projeto.create(projeto);
 
-    try{
-
-        await Projeto.create(projeto);
-
-        console.log('deu certo');
-        
-    }catch(erro){
-        
-        console.log(erro);
-
-    }
+    return projetoSalvo;
 }
 
-module.exports=daoAddProject;
+module.exports = daoAddProjeto;

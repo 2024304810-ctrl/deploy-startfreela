@@ -115,33 +115,105 @@ router.put('/api/updatePassword', async (req, res) => {
     res.json(resposta);
 });
 
-router.post('/api/add.project', upload.single('imagemCapa'), async (req, res) => {
-    console.log('adicionando projeto');
 
-    const imagemCapa = req.file;
-    const { idUser, titulo, categoria, dataConclusao, descricao } = req.body;
+router.post(
+    '/api/add.project',
+    autenticar,
+    upload.fields([
+        { name: 'imagemCapa', maxCount: 1 },
+        { name: 'imagensAdicionais', maxCount: 20 },
+        { name: 'anexos', maxCount: 20 }
+    ]),
+    async (req, res) => {
+        try {
+            if (
+                String(req.usuario.role).toLowerCase() !== 'freelancer'
+            ) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Apenas freelancers podem adicionar projetos ao portfólio.'
+                });
+            }
 
-    console.log('imagem:', req.file);
+            const idUser = String(req.usuario.id);
 
-    console.log('dados:', req.body);
+            const imagemCapa = req.files?.imagemCapa?.[0];
 
-    let habilidades = (req.body.habilidades).split(',');
+            const habilidades = JSON.parse(
+                req.body.habilidades || '[]'
+            );
 
-    console.log('habilidades:', habilidades);
+            const legendas = JSON.parse(
+                req.body.legendasImagens || '[]'
+            );
 
-    const setIdProject = require('../auth/services/setIdProject');
+            if (!Array.isArray(habilidades)) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Habilidades inválidas.'
+                });
+            }
 
-    const Projeto = require('../controllers/add-project/models/Projeto');
-    const projeto = new Projeto(idUser, setIdProject(), imagemCapa, titulo, categoria, dataConclusao, descricao, habilidades);
+            const imagensAdicionais = (
+                req.files?.imagensAdicionais || []
+            ).map((arquivo, indice) => ({
+                arquivo,
+                legenda: legendas[indice] || ''
+            }));
 
-    console.log('objeto:', projeto);
+            const setIdProject = require(
+                '../auth/services/setIdProject'
+            );
 
-    const controllerAddProjeto = require('../controllers/add-project/controller/controllerAddProjeto');
+            const Projeto = require(
+                '../controllers/add-project/models/Projeto'
+            );
 
-    const resposta = await controllerAddProjeto(projeto, req.file.buffer);
+            const projeto = new Projeto(
+                idUser,
+                setIdProject(),
+                null,
+                req.body.titulo,
+                req.body.categoria,
+                req.body.dataConclusao,
+                req.body.descricao,
+                habilidades,
+                imagensAdicionais,
+                {
+                    projeto: req.body.linkProjeto || '',
+                    github: req.body.linkGithub || ''
+                },
+                req.files?.anexos || []
+            );
 
-    res.json(resposta);
-});
+            const controllerAddProjeto = require(
+                '../controllers/add-project/controller/controllerAddProjeto'
+            );
+
+            const resposta = await controllerAddProjeto(
+                projeto,
+                {
+                    imagemCapa,
+                    imagensAdicionais: imagensAdicionais.map(
+                        imagem => imagem.arquivo
+                    ),
+                    anexos: req.files?.anexos || []
+                }
+            );
+
+            return res.status(resposta.status || 500).json(resposta);
+
+        } catch (erro) {
+            console.error('Erro ao adicionar projeto:', erro);
+
+            return res.status(500).json({
+                success: false,
+                message: 'Erro interno ao adicionar projeto.'
+            });
+        }
+    }
+);
+
 
 router.get('/api/buscarFreelancers', async (req, res) => {
     console.log('buscando os usuários...');
@@ -155,15 +227,77 @@ router.get('/api/buscarFreelancers', async (req, res) => {
     res.json(retorno);
 });
 
+
 router.get('/api/buscarProjetos', autenticar, async (req, res) => {
-    console.log('buscando projetos...');
+    try {
+        if (
+            String(req.usuario.role).toLowerCase() !== 'freelancer'
+        ) {
+            return res.status(403).json({
+                message: 'Apenas freelancers podem acessar este portfólio.'
+            });
+        }
 
-    const daoBuscarProjetos = require('../render/projects/profile-view/db/daoBuscarProjetos');
+        const daoBuscarProjetos = require(
+            '../render/projects/profile-view/db/daoBuscarProjetos'
+        );
 
-    const resposta = await daoBuscarProjetos(req.usuario.id);
+        const projetos = await daoBuscarProjetos(
+            String(req.usuario.id)
+        );
 
-    res.json(resposta);
+        return res.json(projetos);
+
+    } catch (erro) {
+        console.error('Erro ao buscar portfólio:', erro);
+
+        return res.status(500).json({
+            message: 'Não foi possível buscar os projetos.'
+        });
+    }
 });
+
+
+// Página de detalhes de um projeto do portfólio
+router.get('/portfolio/projeto', autenticar, async (req, res) => {
+    try {
+        const { p } = req.query;
+
+        if (!p) {
+            return res.redirect('/profile');
+        }
+
+        const Projeto = require(
+            '../controllers/add-project/models/ProjetoSchema'
+        );
+
+        const projeto = await Projeto.findOne({
+            idProjeto: String(p)
+        }).lean();
+
+        if (!projeto) {
+            return res.status(404).send('Projeto não encontrado.');
+        }
+
+        const mesmoUsuario =
+            String(projeto.idUser) === String(req.usuario.id);
+
+        return res.render('portfolio-projeto', {
+            layout: false,
+            projeto,
+            mesmoUsuario
+        });
+
+    } catch (erro) {
+        console.error('Erro ao abrir projeto do portfólio:', erro);
+
+        return res.status(500).send(
+            'Não foi possível carregar os detalhes do projeto.'
+        );
+    }
+});
+
+
 
 router.post('/api/publish_project', autenticar, async (req, res) => {
     try {

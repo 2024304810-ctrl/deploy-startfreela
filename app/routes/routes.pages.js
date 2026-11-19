@@ -184,6 +184,7 @@ router.get('/testerender', autenticar, async(req, res) => {
 });
 
 
+
 router.get('/technical.profile', autenticar, async (req, res) => {
     try {
         const { i } = req.query;
@@ -193,6 +194,7 @@ router.get('/technical.profile', autenticar, async (req, res) => {
         }
 
         const daoPerfilTecnico = require('../render/profile/db/daoProfile');
+        const daoBuscarProjetos = require('../render/projects/profile-view/db/daoBuscarProjetos');
 
         const { perfil, usuario, mesmoUsuario } =
             await daoPerfilTecnico(i, req);
@@ -201,11 +203,15 @@ router.get('/technical.profile', autenticar, async (req, res) => {
             return res.status(404).send('Perfil não encontrado.');
         }
 
+        // Buscar os projetos do freelancer visitado
+        const projetos = await daoBuscarProjetos(perfil.idUser);
+
         return res.render('perfil-tecnico', {
             layout: false,
             perfil,
             usuario,
-            mesmoUsuario
+            mesmoUsuario,
+            projetos: projetos || []
         });
 
     } catch (erro) {
@@ -213,6 +219,7 @@ router.get('/technical.profile', autenticar, async (req, res) => {
         return res.status(500).send('Não foi possível carregar o perfil.');
     }
 });
+
 
 
 router.get('/messages', autenticar, async(req, res) => {

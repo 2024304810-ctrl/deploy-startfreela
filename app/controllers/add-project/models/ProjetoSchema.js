@@ -1,7 +1,7 @@
-const moongose = require('mongoose');
 
-const ProjetoSchema = new moongose.Schema({
+const mongoose = require('mongoose');
 
+const ProjetoSchema = new mongoose.Schema({
     idUser: {
         type: String,
         required: true
@@ -24,7 +24,7 @@ const ProjetoSchema = new moongose.Schema({
 
     categoria: {
         type: String,
-        required: true,
+        required: true
     },
 
     dataConclusao: {
@@ -37,15 +37,56 @@ const ProjetoSchema = new moongose.Schema({
         required: true
     },
 
-    habilidades: [
-        {
+    habilidades: [{
+        type: String
+    }],
+
+    imagensAdicionais: [{
+        url: {
             type: String,
             required: true
+        },
+        legenda: {
+            type: String,
+            default: ''
         }
-    ]
+    }],
+
+    links: {
+        projeto: {
+            type: String,
+            default: ''
+        },
+        github: {
+            type: String,
+            default: ''
+        }
+    },
+
+    anexos: [{
+        nome: {
+            type: String,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        },
+        tipo: {
+            type: String,
+            default: ''
+        },
+        tamanho: {
+            type: Number,
+            default: 0
+        }
+    }]
 
 }, {
-    collection: process.env.COLLECTION_FOR_PROJECTS
+    collection: process.env.COLLECTION_FOR_PROJECTS,
+    timestamps: true
 });
 
-module.exports = moongose.models.ProjetoSchema || moongose.model("Projeto", ProjetoSchema);
+module.exports =
+    mongoose.models.Projeto ||
+    mongoose.model('Projeto', ProjetoSchema);

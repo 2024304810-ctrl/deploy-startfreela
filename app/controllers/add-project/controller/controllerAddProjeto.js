@@ -1,50 +1,87 @@
+
 const salvarImagem = require('../services/salvarImagem');
+const salvarArquivo = require('../services/salvarArquivo');
 const daoAddProjeto = require('../db/daoAddProjeto');
 
-async function controllerAddProjeto(projeto, buffer) {
-    console.log('no controller!');
-
-    let camposVazios = 0;
-
-    for(let atributo in projeto){
-        if(!projeto[atributo]){
-            camposVazios++;
+async function controllerAddProjeto(projeto, arquivos) {
+    try {
+        if (
+            !projeto.idUser ||
+            !projeto.idProjeto ||
+            !projeto.titulo?.trim() ||
+            !projeto.categoria ||
+            !projeto.dataConclusao?.trim() ||
+            !projeto.descricao?.trim() ||
+            !arquivos?.imagemCapa?.buffer
+        ) {
+            return {
+                success: false,
+                status: 400,
+                message: 'Preencha os campos obrigatórios e adicione uma imagem de capa.'
+            };
         }
-    }
 
-    console.log('vendo se tem campos vazios');
+        // Imagem de capa
+        projeto.imagemCapa = await salvarImagem(
+            arquivos.imagemCapa.buffer
+        );
 
-    //Verificando se há algum campo vazio. Se tiver --> status 400
-    if(camposVazios > 0){
+        // Imagens adicionais
+        const imagensOriginais = projeto.imagensAdicionais || [];
+
+        projeto.imagensAdicionais = await Promise.all(
+            (arquivos.imagensAdicionais || []).map(
+                async (arquivo, indice) => {
+                    const legenda =
+                        imagensOriginais[indice]?.legenda || '';
+
+                    const url = await salvarImagem(arquivo.buffer);
+
+                    return {
+                        url,
+                        legenda
+                    };
+                }
+            )
+        );
+
+        // Anexos: documentos enviados como arquivos RAW
+        projeto.anexos = await Promise.all(
+            (arquivos.anexos || []).map(
+                async arquivo => {
+                    const url = await salvarArquivo(
+                        arquivo.buffer,
+                        arquivo.originalname
+                    );
+
+                    return {
+                        nome: arquivo.originalname,
+                        url,
+                        tipo: arquivo.mimetype,
+                        tamanho: arquivo.size
+                    };
+                }
+            )
+        );
+
+        const projetoSalvo = await daoAddProjeto(projeto);
+
         return {
-            status: 400,
-            erro: "Os campos não foram preenchidos corretamente!"
-        }
-    }
-
-    //Salvar imagem e retornar URL
-
-    console.log('indo salvar a imagem');
-
-    const urlImagem = await salvarImagem(buffer);
-
-    projeto.imagemCapa = urlImagem;
-
-    console.log('projeto no controller:', projeto);
-
-    try{
-
-        await daoAddProjeto(projeto);
-
-        return {
-            success: true
+            success: true,
+            status: 201,
+            message: 'Projeto adicionado ao portfólio!',
+            idProjeto: projetoSalvo.idProjeto
         };
 
-    }catch(erro){
-        console.log(erro);
-        return;
-    }
+    } catch (erro) {
+        console.error('Erro no controller de portfólio:', erro);
 
+        return {
+            success: false,
+            status: 500,
+            message: 'Não foi possível salvar o projeto.'
+        };
+    }
 }
 
-module.exports=controllerAddProjeto;
+module.exports = controllerAddProjeto;

@@ -1,20 +1,16 @@
-const ProjetoSchema = require('../../../../controllers/add-project/models/ProjetoSchema');
+
+const ProjetoSchema = require(
+    '../../../../controllers/add-project/models/ProjetoSchema'
+);
 
 async function daoBuscarProjetos(idUser) {
-    console.log('no dao');
+    const projetos = await ProjetoSchema.find({
+        idUser: String(idUser)
+    })
+    .sort({ createdAt: -1 })
+    .lean();
 
-    try{
-        const projetos = await ProjetoSchema.find({
-            idUser: idUser
-        }).lean();
-
-        console.log('retornando');
-
-        return projetos;
-
-    }catch(erro){
-        console.log(erro);
-    }
+    return projetos;
 }
 
-module.exports=daoBuscarProjetos;
+module.exports = daoBuscarProjetos;

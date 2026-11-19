@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{projeto.titulo}} | StartFreela</title>
+
+    <link rel="stylesheet" href="/css/portfolio-projeto.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <main>
+        <div class="pagina-detalhes">
+
+            <div class="cabecalho-detalhes">
+                <a href="/technical.profile?i={{projeto.idUser}}" class="btn-voltar">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Voltar ao perfil do freelancer
+                </a>
+
+                {{#if mesmoUsuario}}
+                    <span class="selo-info selo-info-verde">
+                        <i class="fa-solid fa-user-check"></i>
+                        Seu projeto
+                    </span>
+                {{/if}}
+            </div>
+
+            <div class="detalhes-layout">
+
+                <div class="detalhes-principal">
+
+                    <section class="panel">
+
+                        <img
+                            src="{{projeto.imagemCapa}}"
+                            alt="Imagem de capa do projeto"
+                            class="imagem-capa-detalhes"
+                        >
+
+                        <h1 class="titulo-detalhes">
+                            {{projeto.titulo}}
+                        </h1>
+
+                        <span class="categoria-detalhes">
+                            {{projeto.categoria}}
+                        </span>
+
+                        <div class="data-detalhes">
+                            <i class="fa-regular fa-calendar"></i>
+                            Conclusão: {{projeto.dataConclusao}}
+                        </div>
+
+                        <div class="divisor"></div>
+
+                        <div class="bloco">
+                            <h2 class="titulo-bloco">Sobre o projeto</h2>
+
+                            <p class="texto-detalhes">{{projeto.descricao}}</p>
+                        </div>
+
+                    </section>
+
+                    <section class="panel">
+
+                        <div class="header-secao">
+                            <div class="header-secao-titulo">
+                                <h2>Galeria do projeto</h2>
+                                <span class="selo-info">Imagens adicionais</span>
+                            </div>
+                        </div>
+
+                        <div class="galeria-detalhes">
+
+                            {{#each projeto.imagensAdicionais}}
+                                <div class="galeria-item">
+                                    <img
+                                        src="{{this.url}}"
+                                        alt="{{this.legenda}}"
+                                    >
+
+                                    {{#if this.legenda}}
+                                        <p>{{this.legenda}}</p>
+                                    {{/if}}
+                                </div>
+                            {{else}}
+                                <p class="aviso-vazio">
+                                    Nenhuma imagem adicional foi adicionada.
+                                </p>
+                            {{/each}}
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+                <aside class="detalhes-lateral">
+
+                    <section class="panel">
+
+                        <h2>Habilidades utilizadas</h2>
+
+                        <div class="chips">
+                            {{#each projeto.habilidades}}
+                                <span class="chip">{{this}}</span>
+                            {{else}}
+                                <p class="aviso-vazio">
+                                    Nenhuma habilidade informada.
+                                </p>
+                            {{/each}}
+                        </div>
+
+                    </section>
+
+                    <section class="panel">
+
+                        <h2>Links do projeto</h2>
+
+                        <div class="lista-arquivos">
+
+                            {{#if projeto.links.projeto}}
+                                <a
+                                    href="{{projeto.links.projeto}}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="link-externo-detalhes"
+                                >
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    Acessar projeto
+                                </a>
+                            {{/if}}
+
+                            {{#if projeto.links.github}}
+                                <a
+                                    href="{{projeto.links.github}}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="link-externo-detalhes"
+                                >
+                                    <i class="fa-brands fa-github"></i>
+                                    Repositório GitHub
+                                </a>
+                            {{/if}}
+
+                            {{#unless projeto.links.projeto}}
+                                {{#unless projeto.links.github}}
+                                    <p class="aviso-vazio">
+                                        Nenhum link foi adicionado.
+                                    </p>
+                                {{/unless}}
+                            {{/unless}}
+
+                        </div>
+
+                    </section>
+
+                    <section class="panel">
+
+                        <h2>Arquivos anexados</h2>
+
+                        <div class="lista-arquivos">
+
+                            {{#each projeto.anexos}}
+                                <a
+                                    href="{{this.url}}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="arquivo-item"
+                                >
+                                    <div class="arquivo-icone">
+                                        <i class="fa-solid fa-file-arrow-down"></i>
+                                    </div>
+
+                                    <div class="arquivo-info">
+                                        <strong>{{this.nome}}</strong>
+                                        <span>{{this.tipo}}</span>
+                                    </div>
+
+                                    <i class="fa-solid fa-download arquivo-baixar"></i>
+                                </a>
+                            {{else}}
+                                <p class="aviso-vazio">
+                                    Nenhum arquivo foi anexado.
+                                </p>
+                            {{/each}}
+
+                        </div>
+
+                    </section>
+
+                    {{#if mesmoUsuario}}
+                        <div class="proprietario-aviso">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Este projeto faz parte do seu portfólio.
+                        </div>
+                    {{/if}}
+
+                </aside>
+
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

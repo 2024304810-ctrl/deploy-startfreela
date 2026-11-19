@@ -1,0 +1,253 @@
+
+@import url('/css/tela-de-perfil-freelancer.css');
+
+.pagina-detalhes {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cabecalho-detalhes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.btn-voltar:hover {
+    color: var(--yellow-dark);
+}
+
+.detalhes-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 22px;
+    align-items: start;
+}
+
+.detalhes-principal,
+.detalhes-lateral {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+}
+
+.imagem-capa-detalhes {
+    width: 100%;
+    height: 390px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--gray-border);
+    background: var(--gray-bg);
+}
+
+.titulo-detalhes {
+    color: var(--navy);
+    font-size: 27px;
+    font-weight: 800;
+    margin: 18px 0 8px;
+    overflow-wrap: anywhere;
+}
+
+.categoria-detalhes {
+    display: inline-flex;
+    background: var(--chip-bg);
+    color: var(--text-mid);
+    border-radius: 20px;
+    padding: 6px 13px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.data-detalhes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-mid);
+    font-size: 13px;
+    margin-top: 16px;
+}
+
+.data-detalhes i {
+    color: var(--yellow-dark);
+}
+
+.texto-detalhes {
+    color: var(--text-mid);
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.galeria-detalhes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.galeria-item {
+    overflow: hidden;
+    border: 1px solid var(--gray-border);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.galeria-item img {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+    display: block;
+}
+
+.galeria-item p {
+    padding: 11px;
+    margin: 0;
+    color: var(--text-mid);
+    font-size: 12px;
+}
+
+.lista-arquivos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.arquivo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border: 1px solid var(--gray-border);
+    border-radius: 10px;
+    background: #fff;
+    text-decoration: none;
+    transition: .15s ease;
+    min-width: 0;
+}
+
+.arquivo-item:hover {
+    border-color: var(--yellow-dark);
+    background: #fffdf0;
+}
+
+.arquivo-icone {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--gray-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy);
+    font-size: 17px;
+}
+
+.arquivo-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.arquivo-info strong {
+    display: block;
+    color: var(--text-dark);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.arquivo-info span {
+    display: block;
+    color: var(--text-mid);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.arquivo-baixar {
+    color: var(--navy);
+    font-size: 16px;
+}
+
+.link-externo-detalhes {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--gray-border);
+    border-radius: 10px;
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.link-externo-detalhes:hover {
+    background: #fffdf0;
+    border-color: var(--yellow-dark);
+}
+
+.aviso-vazio {
+    color: var(--text-mid);
+    font-size: 13px;
+    padding: 15px;
+    background: var(--gray-bg);
+    border-radius: 10px;
+}
+
+.proprietario-aviso {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #e6f4ee;
+    color: var(--green);
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .detalhes-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .detalhes-lateral {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 20px 15px 35px;
+    }
+
+    .imagem-capa-detalhes {
+        height: 230px;
+    }
+
+    .titulo-detalhes {
+        font-size: 22px;
+    }
+
+    .galeria-detalhes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .galeria-item img {
+        height: 120px;
+    }
+}

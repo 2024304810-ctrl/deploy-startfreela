@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -89,52 +88,52 @@
               <p class="nome-usuario">@{{perfil.username}}</p>
 
               {{#if perfil.profissao}}
-                <p class="profissao">{{perfil.profissao}}</p>
+              <p class="profissao">{{perfil.profissao}}</p>
               {{else}}
-                <p class="profissao">--------//--------</p>
+              <p class="profissao">--------//--------</p>
               {{/if}}
 
               <div class="perfil-meta">
 
                 {{#if perfil.localizacaoTexto}}
-                  <span class="meta-item">
-                    <i class="fa-solid fa-location-dot"></i>
-                    {{perfil.localizacaoTexto}}
-                  </span>
+                <span class="meta-item">
+                  <i class="fa-solid fa-location-dot"></i>
+                  {{perfil.localizacaoTexto}}
+                </span>
                 {{else}}
-                  <span class="meta-item">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Localização não informada
-                  </span>
+                <span class="meta-item">
+                  <i class="fa-solid fa-location-dot"></i>
+                  Localização não informada
+                </span>
                 {{/if}}
 
                 {{#if perfil.ativo}}
-                  <span class="meta-item status-disponivel">
-                    <i class="fa-solid fa-circle"></i>Ativo
-                  </span>
+                <span class="meta-item status-disponivel">
+                  <i class="fa-solid fa-circle"></i>Ativo
+                </span>
                 {{else}}
-                  <span class="meta-item status-indisponivel">
-                    <i class="fa-solid fa-circle"></i>Inativo
-                  </span>
+                <span class="meta-item status-indisponivel">
+                  <i class="fa-solid fa-circle"></i>Inativo
+                </span>
                 {{/if}}
 
               </div>
 
               <div class="perfil-links">
                 {{#each perfil.redesSociais}}
-                  <a href="{{this.link}}" class="link-externo" target="_blank" rel="noopener noreferrer">
-                    <i class="fa-solid fa-link"></i>
-                    {{this.site}}
-                  </a>
+                <a href="{{this.link}}" class="link-externo" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-solid fa-link"></i>
+                  {{this.site}}
+                </a>
                 {{/each}}
               </div>
 
             </div>
 
             {{#unless mesmoUsuario}}
-              <a class="btn-primary btn-editar" id="{{perfil.idUser}}">
-                <i class="fa-solid fa-comment-dots"></i> Conversar
-              </a>
+            <a class="btn-primary btn-editar" id="{{perfil.idUser}}">
+              <i class="fa-solid fa-comment-dots"></i> Conversar
+            </a>
             {{/unless}}
 
           </div>
@@ -146,9 +145,9 @@
             <h3 class="titulo-bloco">Sobre Mim</h3>
 
             {{#if perfil.sobreMim}}
-              <p class="texto-sobre">{{perfil.sobreMim}}</p>
+            <p class="texto-sobre">{{perfil.sobreMim}}</p>
             {{else}}
-              <p class="texto-sobre">Este usuário ainda não adicionou uma descrição.</p>
+            <p class="texto-sobre">Este usuário ainda não adicionou uma descrição.</p>
             {{/if}}
           </div>
 
@@ -158,11 +157,11 @@
 
             <div class="chips">
               {{#if perfil.possuiHabilidades}}
-                {{#each perfil.habilidades}}
-                  <span class="chip">{{this}}</span>
-                {{/each}}
+              {{#each perfil.habilidades}}
+              <span class="chip">{{this}}</span>
+              {{/each}}
               {{else}}
-                <p>Nenhuma habilidade cadastrada.</p>
+              <p>Nenhuma habilidade cadastrada.</p>
               {{/if}}
             </div>
           </div>
@@ -178,33 +177,40 @@
             </div>
           </div>
 
+
           <div class="grid-portfolio">
 
-            <!-- <div class="card-projeto">
-              <img src="../assets/img/code.jpg" alt="Portal E-commerce">
-              <div class="info-projeto">
-                <h4>Portal E-commerce</h4>
-                <div class="tags">
-                  <span class="tag">Node.js</span>
-                  <span class="tag">React</span>
-                </div>
-                <a href="#" class="link-projeto"><i class="fa-solid fa-link"></i> Ver link</a>
-              </div>
-            </div> -->
+            {{#if projetos.length}}
 
-            <!-- <div class="card-projeto">
-              <img src="../assets/img/code.jpg" alt="API de Pagamentos">
+            {{#each projetos}}
+            <article class="card-projeto" data-projeto="{{this.idProjeto}}">
+
+              <img src="{{this.imagemCapa}}" alt="{{this.titulo}}">
+
               <div class="info-projeto">
-                <h4>API de Pagamentos</h4>
+                <h4>{{this.titulo}}</h4>
+
                 <div class="tags">
-                  <span class="tag">PHP</span>
-                  <span class="tag">MongoDB</span>
+                  {{#each this.habilidades}}
+                  <span class="tag">{{this}}</span>
+                  {{/each}}
                 </div>
-                <a href="#" class="link-projeto"><i class="fa-solid fa-link"></i> Ver link</a>
+
+                <a href="/portfolio/projeto?p={{this.idProjeto}}" class="link-projeto">
+                  <i class="fa-solid fa-eye"></i>
+                  Ver projeto
+                </a>
               </div>
-            </div> -->
+
+            </article>
+            {{/each}}
+
+            {{else}}
+            <p>Este freelancer ainda não adicionou projetos ao portfólio.</p>
+            {{/if}}
 
           </div>
+
         </section>
 
         <!-- TRABALHOS NO STARTFREELA -->
@@ -441,4 +447,5 @@
   <script type="module" src="/js/technical_profile.js"></script>
 
 </body>
+
 </html>
