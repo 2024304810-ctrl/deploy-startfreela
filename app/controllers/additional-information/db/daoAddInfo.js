@@ -9,9 +9,11 @@ async function daoAddInfo(informacoesAdicionais) {
 
         const campos = {
             localizacao: informacoesAdicionais.localidade,
+            profissao: informacoesAdicionais.profissao,
             redesSociais: informacoesAdicionais.redesSociais || [],
             sobreMim: informacoesAdicionais.sobreMim || '',
-            informacoesAdicionais: true
+            informacoesAdicionais: true,
+            
         };
 
        

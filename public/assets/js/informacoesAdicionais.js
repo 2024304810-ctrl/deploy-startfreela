@@ -287,10 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function adicionarInformacoes() {
 
         const localidade = {
-            pais: document.getElementById('pais').value,
-            estado: document.getElementById('estado').value,
-            cidade: document.getElementById('cidade').value
-        };
+    pais: document.getElementById('pais').value,
+    estado: document.getElementById('estado').value,
+    cidade: document.getElementById('cidade').value,
+    cep: document.getElementById('inputCEP').value.trim()
+};
 
         const redesSociais = [];
 
@@ -313,13 +314,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const dadosParaEnviar = {
             idUser: usuario.idUser ?? usuario.id,
             localidade,
+            profissao: document.querySelector('#profissao').value,
             redesSociais,
             sobreMim
         };
 
         if (roleAtual === 'freelancer') {
 
-            
+
 
             dadosParaEnviar.habilidades = habilidades;
 

@@ -59,6 +59,21 @@ const UsuarioSchema = new mongoose.Schema({
         required: true
     },
 
+    localizacao: {
+    pais: {
+        type: String
+    },
+    estado: {
+        type: String
+    },
+    cidade: {
+        type: String
+    },
+    cep: {
+        type: String
+    }
+},
+
     informacoesAdicionais: {
         type: Boolean,
         required: true

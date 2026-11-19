@@ -5,11 +5,12 @@ async function controllerAdditionalInformation(informacoesAdicionais) {
         console.log('Preparando informações adicionais...');
 
         const dados = {
-            idUser: informacoesAdicionais.idUser,
-            localidade: informacoesAdicionais.localidade,
-            redesSociais: informacoesAdicionais.redesSociais || [],
-            sobreMim: informacoesAdicionais.sobreMim || ''
-        };
+    idUser: informacoesAdicionais.idUser,
+    localidade: informacoesAdicionais.localidade,
+    profissao: informacoesAdicionais.profissao,
+    redesSociais: informacoesAdicionais.redesSociais || [],
+    sobreMim: informacoesAdicionais.sobreMim || ''
+};
 
         // Informações específicas do freelancer
        
