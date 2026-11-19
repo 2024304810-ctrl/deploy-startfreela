@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,16 +17,38 @@
         <div class="pagina-detalhes">
 
             <div class="cabecalho-detalhes">
-                <a href="/technical.profile?i={{projeto.idUser}}" class="btn-voltar">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Voltar ao perfil do freelancer
-                </a>
+                {{#if mesmoUsuario}}
+<a href="/profile" class="btn-voltar">
+    <i class="fa-solid fa-arrow-left"></i>
+    Voltar ao meu perfil
+</a>
+{{else}}
+<a href="/technical.profile?i={{projeto.idUser}}" class="btn-voltar">
+    <i class="fa-solid fa-arrow-left"></i>
+    Voltar ao perfil do freelancer
+</a>
+{{/if}}
 
                 {{#if mesmoUsuario}}
-                    <span class="selo-info selo-info-verde">
-                        <i class="fa-solid fa-user-check"></i>
-                        Seu projeto
-                    </span>
+                <span class="selo-info selo-info-verde">
+                    <i class="fa-solid fa-user-check"></i>
+                    Seu projeto
+                </span>
+                {{/if}}
+
+                {{#if mesmoUsuario}}
+                <div class="acoes-proprietario">
+                    <a href="/portfolio/editar?p={{projeto.idProjeto}}" class="btn-editar-portfolio">
+                        <i class="fa-solid fa-pen"></i>
+                        Editar projeto
+                    </a>
+
+                    <button type="button" class="btn-excluir-portfolio" id="btnExcluirPortfolio"
+                        data-id="{{projeto.idProjeto}}">
+                        <i class="fa-solid fa-trash"></i>
+                        Excluir projeto
+                    </button>
+                </div>
                 {{/if}}
             </div>
 
@@ -36,11 +58,7 @@
 
                     <section class="panel">
 
-                        <img
-                            src="{{projeto.imagemCapa}}"
-                            alt="Imagem de capa do projeto"
-                            class="imagem-capa-detalhes"
-                        >
+                        <img src="{{projeto.imagemCapa}}" alt="Imagem de capa do projeto" class="imagem-capa-detalhes">
 
                         <h1 class="titulo-detalhes">
                             {{projeto.titulo}}
@@ -77,20 +95,17 @@
                         <div class="galeria-detalhes">
 
                             {{#each projeto.imagensAdicionais}}
-                                <div class="galeria-item">
-                                    <img
-                                        src="{{this.url}}"
-                                        alt="{{this.legenda}}"
-                                    >
+                            <div class="galeria-item">
+                                <img src="{{this.url}}" alt="{{this.legenda}}">
 
-                                    {{#if this.legenda}}
-                                        <p>{{this.legenda}}</p>
-                                    {{/if}}
-                                </div>
+                                {{#if this.legenda}}
+                                <p>{{this.legenda}}</p>
+                                {{/if}}
+                            </div>
                             {{else}}
-                                <p class="aviso-vazio">
-                                    Nenhuma imagem adicional foi adicionada.
-                                </p>
+                            <p class="aviso-vazio">
+                                Nenhuma imagem adicional foi adicionada.
+                            </p>
                             {{/each}}
 
                         </div>
@@ -107,11 +122,11 @@
 
                         <div class="chips">
                             {{#each projeto.habilidades}}
-                                <span class="chip">{{this}}</span>
+                            <span class="chip">{{this}}</span>
                             {{else}}
-                                <p class="aviso-vazio">
-                                    Nenhuma habilidade informada.
-                                </p>
+                            <p class="aviso-vazio">
+                                Nenhuma habilidade informada.
+                            </p>
                             {{/each}}
                         </div>
 
@@ -124,35 +139,27 @@
                         <div class="lista-arquivos">
 
                             {{#if projeto.links.projeto}}
-                                <a
-                                    href="{{projeto.links.projeto}}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="link-externo-detalhes"
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    Acessar projeto
-                                </a>
+                            <a href="{{projeto.links.projeto}}" target="_blank" rel="noopener noreferrer"
+                                class="link-externo-detalhes">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                Acessar projeto
+                            </a>
                             {{/if}}
 
                             {{#if projeto.links.github}}
-                                <a
-                                    href="{{projeto.links.github}}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="link-externo-detalhes"
-                                >
-                                    <i class="fa-brands fa-github"></i>
-                                    Repositório GitHub
-                                </a>
+                            <a href="{{projeto.links.github}}" target="_blank" rel="noopener noreferrer"
+                                class="link-externo-detalhes">
+                                <i class="fa-brands fa-github"></i>
+                                Repositório GitHub
+                            </a>
                             {{/if}}
 
                             {{#unless projeto.links.projeto}}
-                                {{#unless projeto.links.github}}
-                                    <p class="aviso-vazio">
-                                        Nenhum link foi adicionado.
-                                    </p>
-                                {{/unless}}
+                            {{#unless projeto.links.github}}
+                            <p class="aviso-vazio">
+                                Nenhum link foi adicionado.
+                            </p>
+                            {{/unless}}
                             {{/unless}}
 
                         </div>
@@ -166,27 +173,22 @@
                         <div class="lista-arquivos">
 
                             {{#each projeto.anexos}}
-                                <a
-                                    href="{{this.url}}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="arquivo-item"
-                                >
-                                    <div class="arquivo-icone">
-                                        <i class="fa-solid fa-file-arrow-down"></i>
-                                    </div>
+                            <a href="{{this.url}}" target="_blank" rel="noopener noreferrer" class="arquivo-item">
+                                <div class="arquivo-icone">
+                                    <i class="fa-solid fa-file-arrow-down"></i>
+                                </div>
 
-                                    <div class="arquivo-info">
-                                        <strong>{{this.nome}}</strong>
-                                        <span>{{this.tipo}}</span>
-                                    </div>
+                                <div class="arquivo-info">
+                                    <strong>{{this.nome}}</strong>
+                                    <span>{{this.tipo}}</span>
+                                </div>
 
-                                    <i class="fa-solid fa-download arquivo-baixar"></i>
-                                </a>
+                                <i class="fa-solid fa-download arquivo-baixar"></i>
+                            </a>
                             {{else}}
-                                <p class="aviso-vazio">
-                                    Nenhum arquivo foi anexado.
-                                </p>
+                            <p class="aviso-vazio">
+                                Nenhum arquivo foi anexado.
+                            </p>
                             {{/each}}
 
                         </div>
@@ -194,10 +196,10 @@
                     </section>
 
                     {{#if mesmoUsuario}}
-                        <div class="proprietario-aviso">
-                            <i class="fa-solid fa-circle-check"></i>
-                            Este projeto faz parte do seu portfólio.
-                        </div>
+                    <div class="proprietario-aviso">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Este projeto faz parte do seu portfólio.
+                    </div>
                     {{/if}}
 
                 </aside>
@@ -206,6 +208,47 @@
 
         </div>
     </main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const botao = document.getElementById('btnExcluirPortfolio');
+
+    if (!botao) return;
+
+    botao.addEventListener('click', async () => {
+        const confirmar = confirm(
+            'Tem certeza de que deseja excluir este projeto do seu portfólio? Essa ação não poderá ser desfeita.'
+        );
+
+        if (!confirmar) return;
+
+        botao.disabled = true;
+
+        try {
+            const resposta = await fetch(
+                `/api/portfolio/${encodeURIComponent(botao.dataset.id)}`,
+                {
+                    method: 'DELETE',
+                    credentials: 'same-origin'
+                }
+            );
+
+            const resultado = await resposta.json();
+
+            if (!resposta.ok || !resultado.success) {
+                throw new Error(resultado.message || 'Não foi possível excluir o projeto.');
+            }
+
+            alert(resultado.message);
+            window.location.href = '/profile';
+
+        } catch (erro) {
+            alert(erro.message);
+            botao.disabled = false;
+        }
+    });
+});
+</script>
 
 </body>
+
 </html>

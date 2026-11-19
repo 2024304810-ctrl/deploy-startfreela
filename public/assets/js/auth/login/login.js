@@ -55,7 +55,7 @@ formLogin.addEventListener("submit", async(e) => {
         console.log(data);
         if(data.success){
             localStorage.setItem("token", data.token);
-            window.location.href = '/profile'; 
+            window.location.href = '/home'; 
         }else{
             const mailInput = document.getElementById("email");
             const passInput = document.getElementById("password");

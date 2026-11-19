@@ -120,10 +120,12 @@ function validarLink(url) {
     }
 }
 
+
 function criarCardProjeto(projeto) {
     const card = document.createElement('div');
 
     card.className = 'card-projeto';
+    card.style.cursor = 'pointer';
 
     const imagem = document.createElement('img');
 
@@ -185,11 +187,30 @@ function criarCardProjeto(projeto) {
         }
     }
 
+    // Abrir detalhes do projeto ao clicar no card
+    card.addEventListener('click', () => {
+        if (!projeto.idProjeto) {
+            console.error('Projeto sem idProjeto:', projeto);
+            return;
+        }
+
+        window.location.href =
+            `/portfolio/projeto?p=${encodeURIComponent(projeto.idProjeto)}`;
+    });
+
+    // Evita que clicar em um link externo abra também os detalhes
+    informacoes.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', evento => {
+            evento.stopPropagation();
+        });
+    });
+
     card.appendChild(imagem);
     card.appendChild(informacoes);
 
     return card;
 }
+
 
 async function buscarProjetos() {
     const divProjetos = document.querySelector('.grid-portfolio');

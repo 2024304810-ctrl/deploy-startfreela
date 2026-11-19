@@ -1,0 +1,140 @@
+/* Ajustes exclusivos da tela de edição */
+
+#formEditarPortfolio {
+    width: 100%;
+}
+
+#formEditarPortfolio .modal-corpo {
+    width: 100%;
+}
+
+/* Capa */
+
+#capaUpload {
+    cursor: pointer;
+}
+
+#capaUpload .capa-preview {
+    display: block;
+}
+
+#capaUpload .capa-preview[hidden] {
+    display: none;
+}
+
+#capaUpload .capa-placeholder[hidden] {
+    display: none;
+}
+
+/* Imagens existentes e novas */
+
+#imagensExistentes {
+    align-items: flex-start;
+}
+
+.imagem-existente,
+.nova-imagem-item {
+    flex-shrink: 0;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.imagem-existente .carrossel-slot,
+.nova-imagem-item .carrossel-slot {
+    width: 150px;
+    height: 150px;
+}
+
+.imagem-existente .carrossel-preview,
+.nova-imagem-item .carrossel-preview {
+    display: block;
+}
+
+.imagem-existente .carrossel-preview[hidden],
+.nova-imagem-item .carrossel-preview[hidden] {
+    display: none;
+}
+
+.imagem-existente .campo-legenda,
+.nova-imagem-item .campo-legenda {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nova-imagem-item .carrossel-slot {
+    cursor: pointer;
+}
+
+/* Habilidades */
+
+.editar-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.editar-chips .chip {
+    color: var(--text-dark);
+}
+
+.editar-chips .chip i {
+    cursor: pointer;
+}
+
+.editar-chips .chip i:hover {
+    color: var(--red);
+}
+
+/* Anexos */
+
+#anexosExistentes,
+#novosAnexos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#anexosExistentes a {
+    text-decoration: none;
+    color: var(--navy);
+}
+
+#anexosExistentes a:hover {
+    text-decoration: underline;
+}
+
+#novosAnexos .anexo-item {
+    margin-top: 0;
+}
+
+.anexo-remover {
+    font-size: 15px;
+}
+
+#salvarEdicao:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+/* Responsividade */
+
+@media (max-width: 650px) {
+    .campos-lado-a-lado {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-card {
+        padding: 22px 18px;
+    }
+
+    .modal-rodape {
+        flex-wrap: wrap;
+    }
+
+    .modal-rodape > * {
+        justify-content: center;
+    }
+}

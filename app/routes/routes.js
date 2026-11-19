@@ -215,6 +215,144 @@ router.post(
 );
 
 
+// EDITAR PROJETO DO PORTFÓLIO
+router.put(
+    '/api/portfolio/:idProjeto',
+    autenticar,
+    upload.fields([
+        { name: 'imagemCapa', maxCount: 1 },
+        { name: 'imagensAdicionais', maxCount: 20 },
+        { name: 'anexos', maxCount: 20 }
+    ]),
+    async (req, res) => {
+        try {
+            if (String(req.usuario.role).toLowerCase() !== 'freelancer') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Apenas freelancers podem editar o portfólio.'
+                });
+            }
+
+            const controllerEditarProjeto = require(
+                '../controllers/add-project/controller/controllerEditarProjeto'
+            );
+
+            const resposta = await controllerEditarProjeto(
+                req.params.idProjeto,
+                req.usuario.id,
+                req.body,
+                req.files || {}
+            );
+
+            return res.status(resposta.status).json(resposta);
+
+        } catch (erro) {
+            console.error('Erro na edição do portfólio:', erro);
+
+            return res.status(500).json({
+                success: false,
+                message: 'Erro interno ao editar projeto.'
+            });
+        }
+    }
+);
+
+// EXCLUIR PROJETO DO PORTFÓLIO
+router.delete(
+    '/api/portfolio/:idProjeto',
+    autenticar,
+    async (req, res) => {
+        try {
+            if (String(req.usuario.role).toLowerCase() !== 'freelancer') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Apenas freelancers podem excluir projetos.'
+                });
+            }
+
+            const Projeto = require(
+                '../controllers/add-project/models/ProjetoSchema'
+            );
+
+            const excluirArquivoCloudinary = require(
+                '../controllers/add-project/services/excluirArquivoCloudnary.js'
+            );
+
+            const projeto = await Projeto.findOne({
+                idProjeto: String(req.params.idProjeto),
+                idUser: String(req.usuario.id)
+            });
+
+            if (!projeto) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Projeto não encontrado.'
+                });
+            }
+
+            await Projeto.deleteOne({
+                idProjeto: String(req.params.idProjeto),
+                idUser: String(req.usuario.id)
+            });
+
+            await excluirArquivoCloudinary(projeto.imagemCapa, 'image');
+
+            for (const imagem of projeto.imagensAdicionais || []) {
+                await excluirArquivoCloudinary(imagem.url, 'image');
+            }
+
+            for (const anexo of projeto.anexos || []) {
+                await excluirArquivoCloudinary(anexo.url, 'raw');
+            }
+
+            return res.json({
+                success: true,
+                message: 'Projeto excluído com sucesso!'
+            });
+
+        } catch (erro) {
+            console.error('Erro ao excluir projeto:', erro);
+
+            return res.status(500).json({
+                success: false,
+                message: 'Erro interno ao excluir projeto.'
+            });
+        }
+    }
+);
+
+
+router.get('/portfolio/editar', autenticar, async (req, res) => {
+    try {
+        if (String(req.usuario.role).toLowerCase() !== 'freelancer') {
+            return res.status(403).send('Acesso permitido apenas para freelancers.');
+        }
+
+        const { p } = req.query;
+
+        const Projeto = require('../controllers/add-project/models/ProjetoSchema');
+
+        const projeto = await Projeto.findOne({
+            idProjeto: String(p),
+            idUser: String(req.usuario.id)
+        }).lean();
+
+        if (!projeto) {
+            return res.status(404).send('Projeto não encontrado ou você não tem permissão para editá-lo.');
+        }
+
+        return res.render('editar-portfolio', {
+            layout: false,
+            projeto
+        });
+
+    } catch (erro) {
+        console.error('Erro ao abrir edição do portfólio:', erro);
+        return res.status(500).send('Erro ao abrir a edição do projeto.');
+    }
+});
+
+
 router.get('/api/buscarFreelancers', async (req, res) => {
     console.log('buscando os usuários...');
 

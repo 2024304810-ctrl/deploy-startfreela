@@ -219,6 +219,53 @@
     font-weight: 700;
 }
 
+.acoes-proprietario {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.btn-editar-portfolio,
+.btn-excluir-portfolio {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-editar-portfolio {
+    color: #fff;
+    background: #1c2a4e;
+}
+
+.btn-editar-portfolio:hover {
+    background: #293d6b;
+}
+
+.btn-excluir-portfolio {
+    color: #b42318;
+    background: #fee4e2;
+}
+
+.btn-excluir-portfolio:hover {
+    background: #fecdca;
+}
+
+.btn-excluir-portfolio:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
 @media (max-width: 900px) {
     .detalhes-layout {
         grid-template-columns: 1fr;
@@ -250,4 +297,7 @@
     .galeria-item img {
         height: 120px;
     }
+    
 }
+
+

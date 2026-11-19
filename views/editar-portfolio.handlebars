@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartFreela - Editar Projeto do Portfólio</title>
+
+    <link rel="stylesheet" href="/css/tela-adicionar-portfolio.css">
+    <link rel="stylesheet" href="/css/editar-portfolio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="logo">
+        <img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela">
+    </div>
+
+    <div class="search-wrap">
+        <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+    </div>
+
+    <div class="top-actions">
+        <a class="icon-btn" href="/notifications">
+            <i class="fa-solid fa-bell"></i><span class="badge">1</span>
+        </a>
+
+        <a class="icon-btn" href="#">
+            <i class="fa-solid fa-comment-dots"></i><span class="badge">1</span>
+        </a>
+
+        <span class="role-pill">{{usuario.role}}</span>
+
+        <div class="avatar-wrap">
+            <div class="avatar">
+                <img src="/img/foto-do-perfil.png" alt="">
+            </div>
+
+            <i class="fa-solid fa-chevron-down chev"></i>
+
+            <div class="avatar-dropdown">
+                <div class="dropdown-header">
+                    <div class="avatar">
+                        <img src="/img/foto-do-perfil.png" alt="">
+                    </div>
+                    <span>{{usuario.completeName}}</span>
+                </div>
+
+                <a href="/profile">
+                    <i class="fa-solid fa-user"></i> Ver perfil
+                </a>
+
+                <a href="/settings">
+                    <i class="fa-solid fa-gear"></i> Configurações
+                </a>
+
+                <a href="#" class="dropdown-sair" id="sair">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="subnav">
+    <a href="/home">Tela Inicial</a>
+    <a href="/freelancers">Freelancers</a>
+    <a href="/projects">Projetos</a>
+    <a href="/support">Suporte</a>
+</nav>
+
+<main>
+    <div class="modal-fundo">
+        <div class="modal-card">
+
+            <div class="modal-topo">
+                <h2>Editar Projeto do Portfólio</h2>
+
+                <a href="/portfolio/projeto?p={{projeto.idProjeto}}"
+                   class="modal-fechar"
+                   title="Voltar ao projeto">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+
+            <p class="modal-subtitulo">
+                Atualize as informações, imagens e arquivos do seu projeto.
+                As alterações serão exibidas no seu portfólio.
+            </p>
+
+            <form id="formEditarPortfolio" data-id="{{projeto.idProjeto}}">
+
+                <div class="modal-corpo">
+
+                    <!-- Imagem de capa -->
+                    <div class="campo-bloco">
+                        <label class="campo-label">Imagem de Capa</label>
+
+                        <label class="capa-upload tem-imagem" id="capaUpload">
+                            <input type="file"
+                                   accept="image/*"
+                                   name="imagemCapa"
+                                   id="imagemCapa"
+                                   hidden>
+
+                            <div class="capa-placeholder" hidden>
+                                <i class="fa-solid fa-image"></i>
+                                <span>Adicionar Imagem de Capa</span>
+                            </div>
+
+                            <img class="capa-preview"
+                                 id="previewCapa"
+                                 src="{{projeto.imagemCapa}}"
+                                 alt="Capa atual do projeto">
+
+                            <span class="capa-trocar">
+                                <i class="fa-solid fa-pen"></i> Trocar imagem
+                            </span>
+                        </label>
+
+                        <p class="campo-ajuda">
+                            Se não escolher outra imagem, a capa atual será mantida.
+                        </p>
+                    </div>
+
+                    <!-- Imagens adicionais -->
+                    <div class="campo-bloco">
+                        <label class="campo-label">
+                            Imagens Adicionais
+                            <span class="campo-opcional">(opcional)</span>
+                        </label>
+
+                        <div class="carrossel-imagens" id="imagensExistentes">
+
+                            {{#each projeto.imagensAdicionais}}
+                            <div class="carrossel-item imagem-existente"
+                                 data-url="{{this.url}}">
+
+                                <label class="carrossel-slot tem-imagem">
+                                    <i class="fa-solid fa-plus" hidden></i>
+
+                                    <img class="carrossel-preview"
+                                         src="{{this.url}}"
+                                         alt="Imagem do projeto">
+
+                                    <button type="button"
+                                            class="carrossel-remover remover-arquivo"
+                                            title="Remover imagem">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </label>
+
+                                <input type="text"
+                                       class="field campo-legenda legenda-existente"
+                                       value="{{this.legenda}}"
+                                       placeholder="Descreva esta imagem...">
+                            </div>
+                            {{/each}}
+
+                            <button type="button"
+                                    class="carrossel-item carrossel-add"
+                                    id="adicionarImagem"
+                                    title="Adicionar mais uma imagem">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Adicionar</span>
+                            </button>
+
+                        </div>
+
+                        <p class="campo-ajuda">
+                            Remova imagens antigas, altere suas legendas ou adicione novas imagens.
+                        </p>
+
+                        <div id="novasImagens"></div>
+                    </div>
+
+                    <!-- Título -->
+                    <div class="campo-bloco">
+                        <label class="campo-label" for="titulo">Título do Projeto</label>
+
+                        <input type="text"
+                               class="field"
+                               id="titulo"
+                               name="titulo"
+                               value="{{projeto.titulo}}"
+                               placeholder="Ex: Portal E-commerce para Loja de Roupas"
+                               required>
+                    </div>
+
+                    <!-- Categoria e data -->
+                    <div class="campos-lado-a-lado">
+                        <div class="campo-bloco">
+                            <label class="campo-label" for="categoria">Categoria</label>
+
+                            <select class="field" id="categoria" name="categoria" required>
+                                <option value="{{projeto.categoria}}" selected>
+                                    {{projeto.categoria}}
+                                </option>
+                                <option value="Front-End">Front-End</option>
+                                <option value="Back-End">Back-End</option>
+                                <option value="Full-Stack">Full-Stack</option>
+                                <option value="Mobile">Mobile</option>
+                                <option value="UI/UX Design">UI/UX Design</option>
+                                <option value="Design Gráfico">Design Gráfico</option>
+                                <option value="Redação e Conteúdo">Redação e Conteúdo</option>
+                                <option value="Marketing Digital">Marketing Digital</option>
+                                <option value="Data Science / BI">Data Science / BI</option>
+                                <option value="DevOps / Infraestrutura">DevOps / Infraestrutura</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="campo-bloco">
+                            <label class="campo-label" for="dataConclusao">Data de Conclusão</label>
+
+                            <input type="text"
+                                   class="field"
+                                   id="dataConclusao"
+                                   name="dataConclusao"
+                                   value="{{projeto.dataConclusao}}"
+                                   placeholder="Ex: Julho/2026"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="campo-bloco">
+                        <label class="campo-label" for="descricao">Descrição</label>
+
+                        <textarea class="field"
+                                  id="descricao"
+                                  name="descricao"
+                                  rows="4"
+                                  placeholder="Conte o que foi feito, quais problemas o projeto resolveu e qual foi o seu papel nele."
+                                  required>{{projeto.descricao}}</textarea>
+                    </div>
+
+                    <!-- Habilidades -->
+                    <div class="campo-bloco">
+                        <label class="campo-label">Habilidades Técnicas</label>
+
+                        <div class="chips-input">
+                            <input id="novaHabilidade"
+                                   type="text"
+                                   placeholder="Digite e pressione Enter...">
+                        </div>
+
+                        <div id="habilidadesAtuais"
+                             class="editar-chips">
+                            {{#each projeto.habilidades}}
+                                <span class="chip" data-habilidade="{{this}}">
+                                    {{this}}
+                                    <i class="fa-solid fa-xmark remover-habilidade"
+                                       role="button"
+                                       title="Remover habilidade"></i>
+                                </span>
+                            {{/each}}
+                        </div>
+                    </div>
+
+                    <!-- Links -->
+                    <div class="campo-bloco">
+                        <label class="campo-label">Links</label>
+
+                        <div class="campos-empilhados">
+                            <div class="input-com-icone">
+                                <i class="fa-solid fa-globe"></i>
+
+                                <input type="url"
+                                       class="field"
+                                       id="linkProjeto"
+                                       placeholder="Link do projeto (site publicado, protótipo, etc.)"
+                                       value="{{projeto.links.projeto}}">
+                            </div>
+
+                            <div class="input-com-icone">
+                                <i class="fa-brands fa-github"></i>
+
+                                <input type="url"
+                                       class="field"
+                                       id="linkGithub"
+                                       placeholder="Link do repositório (GitHub)"
+                                       value="{{projeto.links.github}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anexos -->
+                    <div class="campo-bloco">
+                        <label class="campo-label">
+                            Anexos
+                            <span class="campo-opcional">(opcional)</span>
+                        </label>
+
+                        <div class="upload-box" id="adicionarAnexo">
+                            <i class="fa-solid fa-paperclip"></i>
+                            <span>Clique para anexar um case study, PDF ou outro documento</span>
+                        </div>
+
+                        <input type="file" id="anexoInput" multiple hidden>
+
+                        <div class="lista-anexos" id="anexosExistentes">
+                            {{#each projeto.anexos}}
+                            <div class="anexo-item editar-anexo-existente"
+                                 data-url="{{this.url}}">
+
+                                <i class="fa-solid fa-paperclip"></i>
+
+                                <a class="anexo-nome"
+                                   href="{{this.url}}"
+                                   target="_blank"
+                                   rel="noopener">
+                                    {{this.nome}}
+                                </a>
+
+                                <button type="button"
+                                        class="anexo-remover remover-arquivo"
+                                        title="Remover anexo">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            {{/each}}
+                        </div>
+
+                        <div class="lista-anexos" id="novosAnexos"></div>
+                    </div>
+
+                </div>
+
+                <div class="modal-rodape">
+                    <a href="/portfolio/projeto?p={{projeto.idProjeto}}"
+                       class="btn-cancelar">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn-primary" id="salvarEdicao">
+                        <i class="fa-solid fa-check"></i>
+                        Salvar alterações
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+
+<script src="/js.components/header-dropdown.js" defer></script>
+<script type="module" src="/js/editar-portfolio.js"></script>
+
+</body>
+</html>
