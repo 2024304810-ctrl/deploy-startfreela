@@ -441,16 +441,25 @@ router.delete('/api/projetos/:idProjeto', autenticar, async (req, res) => {
 
 
 //Api para buscar as conversas que o usuário tem (contato ou grupo)
+
 router.get('/api/buscarContatos', autenticar, async (req, res) => {
-    const idUser = req.usuario.id;
+    try {
+        const idUser = req.usuario.idUser ?? req.usuario.id;
 
-    const getContatos = require('../render/chat/contacts/db/daoContatos');
+        const getContatos = require('../render/chat/contacts/db/daoContatos');
 
-    const resposta = await getContatos(idUser);
+        const contatos = await getContatos(idUser);
 
-    res.json(resposta);
+        return res.json(contatos);
 
+    } catch (erro) {
+        console.error('Erro ao buscar contatos:', erro);
+        return res.status(500).json({
+            erro: 'Não foi possível buscar as conversas.'
+        });
+    }
 });
+
 
 router.get('/api/getDestinatario', autenticar, async (req, res) => {
     const { d } = req.query;

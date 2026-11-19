@@ -183,25 +183,37 @@ router.get('/testerender', autenticar, async(req, res) => {
     });
 });
 
-router.get('/technical.profile', autenticar, async(req, res) => {
-    const {i} = req.query;
-    const idPerfil = i;
 
-    console.log('laallala olha o usuário ae:', req.usuario);
+router.get('/technical.profile', autenticar, async (req, res) => {
+    try {
+        const { i } = req.query;
 
-    const daoPerfilTecnico = require('../render/profile/db/daoProfile');
+        if (!i) {
+            return res.redirect('/home');
+        }
 
-    const {perfil, usuario} = await daoPerfilTecnico(idPerfil, req);
+        const daoPerfilTecnico = require('../render/profile/db/daoProfile');
 
-    console.log('perfil a ser analisado:', perfil);
-    console.log('dados do usuário atual:', usuario);
+        const { perfil, usuario, mesmoUsuario } =
+            await daoPerfilTecnico(i, req);
 
-    res.render(path.join('perfil-tecnico'), {
-        layout: false,
-        perfil,
-        usuario
-    });
+        if (!perfil) {
+            return res.status(404).send('Perfil não encontrado.');
+        }
+
+        return res.render('perfil-tecnico', {
+            layout: false,
+            perfil,
+            usuario,
+            mesmoUsuario
+        });
+
+    } catch (erro) {
+        console.error('Erro ao carregar perfil público:', erro);
+        return res.status(500).send('Não foi possível carregar o perfil.');
+    }
 });
+
 
 router.get('/messages', autenticar, async(req, res) => {
     console.log('acessando tela de mensagens');

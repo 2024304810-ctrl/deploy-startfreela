@@ -1,14 +1,44 @@
+
 import logout from '/js.utils/logout.js';
 
-console.log(localStorage.getItem('token'));
+document.addEventListener('DOMContentLoaded', () => {
 
-document.getElementById('sair').addEventListener('click', () => { logout() });
+    console.log('Perfil público carregado.');
 
-const usuarioRole = document.querySelector(".role-pill");
-usuarioRole.innerHTML = usuarioRole.textContent.toUpperCase();
+    // Sair da conta
+    const botaoSair = document.getElementById('sair');
 
-const botaoConversa = document.querySelector('.btn-editar');
-botaoConversa.addEventListener('click', () => {
-    console.log('id do botão:', botaoConversa.id);
-    window.location.href=`/chat?di=${botaoConversa.id}`;
-})
+    if (botaoSair) {
+        botaoSair.addEventListener('click', event => {
+            event.preventDefault();
+            logout();
+        });
+    }
+
+    // Converter o tipo de usuário para maiúsculo
+    const usuarioRole = document.querySelector('.role-pill');
+
+    if (usuarioRole) {
+        usuarioRole.textContent =
+            usuarioRole.textContent.trim().toUpperCase();
+    }
+
+    // Abrir conversa
+    const botaoConversa = document.querySelector('.btn-editar');
+
+    if (botaoConversa) {
+        botaoConversa.addEventListener('click', () => {
+
+            const idPerfil = botaoConversa.id;
+
+            if (!idPerfil) {
+                console.error('ID do perfil não encontrado.');
+                return;
+            }
+
+            window.location.href =
+                `/chat?di=${encodeURIComponent(idPerfil)}`;
+        });
+    }
+
+});
