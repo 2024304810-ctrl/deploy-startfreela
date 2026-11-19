@@ -1,0 +1,384 @@
+:root{
+  --navy:#1c2a4e;
+  --navy-dark:#141e3c;
+  --gold-bar:#f7eb46;
+  --yellow:#f7eb46;
+  --yellow-dark:#e0b012;
+  --green:#1c9d6b;
+  --orange:#f2994a;
+  --gray-bg:#eef0f2;
+  --gray-border:#e2e4e8;
+  --text-dark:#1a1d29;
+  --text-mid:#565b6b;
+  --chip-bg:#eef0f3;
+  --red:#e6473f;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background:var(--gray-bg);
+  color:var(--text-dark);
+}
+
+/* Faixa de prévia — só existe neste protótipo, não faz parte da tela real */
+.preview-toggle{
+  background:#fff3cd;
+  border-bottom:1px solid #f0d97a;
+  padding:8px 20px;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#6b5900;
+}
+.preview-btn{
+  border:1px solid #d8c26a;
+  background:#fff;
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  color:#6b5900;
+}
+.preview-btn.active{background:#6b5900;color:#fff;border-color:#6b5900;}
+
+/* Header */
+header.topbar{
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 32px;gap:24px;
+  position:sticky; top:0; z-index:20;
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;white-space:nowrap;}
+#logo-image{height:57px;}
+.search-wrap{flex:1;max-width:520px;position:relative;}
+.search-wrap #icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#8a8f9c;font-size:15px;pointer-events:none;}
+.search-wrap input{width:100%;padding:12px 18px 12px 44px;border-radius:24px;border:none;font-size:14px;outline:none;}
+.top-actions{display:flex;align-items:center;gap:22px;}
+.icon-btn{position:relative;color:#fff;font-size:19px;cursor:pointer;}
+.badge{position:absolute;top:-8px;right:-9px;background:var(--red);color:#fff;font-size:10px;font-weight:700;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
+.role-pill{color:#fff;font-weight:700;font-size:13px;letter-spacing:.3px;}
+.avatar-wrap{display:flex;align-items:center;gap:6px;cursor:pointer;position:relative;}
+.avatar{width:34px;height:34px;border-radius:50%;background:#2f3d63;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.chev{color:#fff;font-size:11px;}
+
+/* Nav */
+nav.subnav{
+  background:var(--gold-bar);display:flex;justify-content:center;align-items:center;gap:40px;
+  padding:5px 20px;font-size:15px;font-weight:600;position:sticky;top:85px;z-index:19;
+}
+nav.subnav a{color:#3a3a3a;text-decoration:none;padding-bottom:2px;cursor:pointer;}
+
+main{padding:0;}
+
+/* Fundo com leve escurecida, o card do wizard flutua no centro */
+.onboarding-fundo{
+  min-height:calc(100vh - 121px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 20px;
+}
+
+.onboarding-card{
+  background:#fff;
+  border-radius:18px;
+  border:1px solid var(--gray-border);
+  box-shadow:0 20px 50px rgba(20,30,60,0.12);
+  width:100%;
+  max-width:520px;
+  padding:30px;
+}
+
+.onboarding-topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.onboarding-topo h2{font-size:21px;font-weight:800;margin:0;}
+.onboarding-fechar{
+  background:none;
+  border:none;
+  color:var(--text-mid);
+  font-size:16px;
+  cursor:pointer;
+  padding:6px;
+  border-radius:8px;
+}
+.onboarding-fechar:hover{background:var(--gray-bg);}
+
+.onboarding-subtitulo{
+  font-size:13px;
+  color:var(--text-mid);
+  line-height:1.5;
+  margin:8px 0 20px;
+}
+
+/* Progresso */
+.onboarding-progresso{margin-bottom:26px;}
+.progresso-barra{
+  width:100%;
+  height:8px;
+  background:var(--gray-bg);
+  border-radius:20px;
+  overflow:hidden;
+  margin-bottom:8px;
+}
+.progresso-preenchida{
+  height:100%;
+  background:var(--yellow-dark);
+  border-radius:20px;
+  transition:width .25s ease;
+  width:0%;
+}
+.progresso-texto{
+  font-size:12px;
+  font-weight:700;
+  color:var(--text-mid);
+}
+
+/* Etapas */
+.onboarding-etapas{min-height:220px;}
+.etapa{text-align:center;}
+.etapa-icone{
+  width:56px;height:56px;
+  border-radius:50%;
+  background:var(--chip-bg);
+  color:var(--navy);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin:0 auto 16px;
+}
+.etapa h3{font-size:18px;font-weight:800;margin:0 0 8px;}
+.etapa-desc{
+  font-size:13px;
+  color:var(--text-mid);
+  margin:0 0 22px;
+  line-height:1.5;
+}
+
+.digite-cep{
+  font-size:16px;
+  color:var(--text-mid);
+  margin-left: 5px;
+  line-height:1.5;
+}
+.etapa-campos{text-align:left;display:flex;flex-direction:column;gap:12px;}
+
+.field{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid var(--gray-border);
+  font-size:14px;
+  font-family:inherit;
+  outline:none;
+  color:var(--text-dark);
+}
+select.field{
+  background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8"><path d="M1 1l5 5 5-5" stroke="%23555" stroke-width="1.5" fill="none"/></svg>') no-repeat right 14px center;
+  appearance:none;
+}
+textarea.field{resize:vertical;}
+
+.campos-lado-a-lado{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.campos-lado-a-lado2{display: inline-flex;}
+
+/* Upload de foto */
+.upload-foto{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.upload-preview{
+  width:125px;height:125px;
+  border-radius:50%;
+  background:var(--gray-bg);
+  border:2px dashed var(--gray-border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  color:var(--text-mid);
+  overflow: hidden; 
+}
+.upload-preview img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.btn-secundario{
+  background:var(--chip-bg);
+  border:1px solid var(--gray-border);
+  border-radius:24px;
+  padding:10px 20px;
+  font-weight:700;
+  font-size:13px;
+  color:var(--text-dark);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.btn-secundario:hover{background:#fff;}
+
+/* Chips de habilidades (input) */
+.chips-input{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--gray-border);
+  border-radius:10px;
+  padding:10px;
+}
+#div-chips{
+  
+  min-width:120px;
+}
+
+.chip{
+  display: flex;
+  background:var(--chip-bg);
+  border-radius:20px;
+  padding:6px 10px;
+  font-size:13px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.chip i{font-size:10px;color:var(--text-mid);cursor:pointer;}
+
+.chips-input input{
+  flex:1;
+  min-width:120px;
+  border:none;
+  outline:none;
+  font-size:13px;
+  padding:6px;
+}
+
+/* preço */
+.div-quantia{
+  display: flex;
+  align-items: center;
+  padding:12px 14px;
+}
+.cifrao{
+  
+  width:min-content;
+  height: min-content;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid var(--gray-border);
+  font-size:14px;
+  outline:none;
+  color:var(--text-dark);
+
+}
+
+.inputQuantia{
+  
+  width:min-content;
+  height: min-content;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid var(--gray-border);
+  font-size:14px;
+  outline:none;
+  color:var(--text-dark);
+
+}
+
+.selectQuantia{
+  
+  width:min-content;
+  height: min-content;
+  padding:12px 20px;
+  border-radius:10px;
+  border:1px solid var(--gray-border);
+  font-size:14px;
+
+  outline:none;
+  color:var(--text-dark);
+
+}
+
+/* Card de adicionar projeto (dentro do onboarding) */
+.card-add-projeto-onb{
+  border:2px dashed var(--gray-border);
+  border-radius:14px;
+  padding:30px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  background:var(--gray-bg);
+  transition:all .2s ease;
+}
+.card-add-projeto-onb:hover{background:#fff;border-color:var(--yellow-dark);}
+.card-add-projeto-onb i{font-size:26px;color:var(--yellow-dark);}
+.card-add-projeto-onb p{font-weight:700;color:var(--navy);font-size:14px;margin:0;}
+
+/* Input com icone (redes sociais) */
+.input-com-icone{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--gray-border);
+  border-radius:10px;
+  padding:0 14px;
+}
+.input-com-icone i{color:var(--text-mid);font-size:15px;}
+.input-com-icone .field{border:none;padding:12px 0;}
+
+/* Rodapé */
+.onboarding-rodape{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:26px;
+  padding-top:20px;
+  border-top:1px solid var(--gray-border);
+}
+.btn-voltar-etapa{
+  background:none;
+  border:none;
+  color:var(--text-mid);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  padding:10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.btn-voltar-etapa:disabled{opacity:.3;cursor:default;}
+.btn-pular-etapa{
+  background:none;
+  border:none;
+  color:var(--text-mid);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:underline;
+  margin-left:auto;
+  padding:10px;
+}
+.btn-continuar{
+  background:var(--yellow);
+  border:none;
+  border-radius:24px;
+  padding:12px 22px;
+  font-weight:800;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  color:var(--text-dark);
+  transition:background .15s ease;
+}
+.btn-continuar:hover{background:var(--yellow-dark);}

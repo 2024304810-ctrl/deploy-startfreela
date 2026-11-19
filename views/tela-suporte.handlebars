@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StartFreela - Suporte</title>
+<link rel="stylesheet" href="/css/tela-suporte.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+<header class="topbar">
+  <a href="/home" class="logo">
+      <img id="logo-image" src="/img/logo-deitada.png" alt="StartFreela">
+  </a>
+
+  <div class="search-wrap">
+    <i id="icon" class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" name="search" id="search" placeholder="Busque em StartFreela...">
+  </div>
+
+  <div class="top-actions">
+    <a class="icon-btn" href="/notifications"><i class="fa-solid fa-bell"></i><span class="badge">1</span></a>
+    <a class="icon-btn" href="/messages"><i class="fa-solid fa-comment-dots"></i><span class="badge">1</span></a>
+    <span class="role-pill">{{usuario.role}}</span>
+    <div class="avatar-wrap">
+      <div class="avatar"><img id="foto-de-perfil" src="/img/foto-do-perfil.png" alt=""></div>
+      <i class="fa-solid fa-chevron-down chev"></i>
+
+      <div class="avatar-dropdown">
+        <div class="dropdown-header">
+          <div class="avatar"><img src="/img/foto-do-perfil.png" alt=""></div>
+          <span>{{usuario.completeName}}</span>
+        </div>
+        <a href="/profile"><i class="fa-solid fa-user"></i> Ver perfil</a>
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Configurações</a>
+        <a href="#" class="dropdown-sair" id="sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <a href="/home">Tela Inicial</a>
+  <a href="/freelancers">Freelancers</a>
+  <a href="/projects">Projetos</a>
+  <a href="/support" class="active">Suporte</a>
+</nav>
+
+<main>
+
+  <div class="busca-ajuda">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="busca-ajuda" placeholder="Como podemos ajudar? Ex: pagamento, contrato, verificação..." autocomplete="off">
+  </div>
+
+  <h2 class="titulo-secao">Categorias de Ajuda</h2>
+  <div class="grid-categorias" id="categorias">
+    <button type="button" class="card-categoria" data-modal="conta"><i class="fa-solid fa-user"></i> Conta e Perfil</button>
+    <button type="button" class="card-categoria" data-modal="pagamentos"><i class="fa-solid fa-wallet"></i> Pagamentos e Recebimentos</button>
+    <button type="button" class="card-categoria" data-modal="contratos"><i class="fa-solid fa-file-contract"></i> Contratos e Prazos</button>
+    <button type="button" class="card-categoria" data-modal="seguranca"><i class="fa-solid fa-shield-halved"></i> Segurança e Verificação</button>
+    <button type="button" class="card-categoria destaque" data-modal="denuncia"><i class="fa-solid fa-triangle-exclamation"></i> Denúncias e Disputas</button>
+    <button type="button" class="card-categoria" data-modal="avaliacoes"><i class="fa-solid fa-star"></i> Avaliações e Reputação</button>
+  </div>
+  <p class="sem-resultado" id="sem-resultado" hidden>Nenhuma categoria encontrada para essa busca. Tente outra palavra ou reporte um problema abaixo.</p>
+
+  <h2 class="titulo-secao">Dicas de Segurança</h2>
+  <div class="grid-dicas">
+    <div class="card-dica">
+      <i class="fa-solid fa-comments"></i>
+      <div>
+        <h3>Negocie dentro da plataforma</h3>
+        <p>Combine prazos, valores e entregas pelo chat do StartFreela para manter tudo registrado e protegido.</p>
+      </div>
+    </div>
+    <div class="card-dica">
+      <i class="fa-solid fa-key"></i>
+      <div>
+        <h3>Nunca compartilhe sua senha</h3>
+        <p>Nossa equipe nunca pede senhas ou códigos de verificação por e-mail, mensagem ou telefone.</p>
+      </div>
+    </div>
+    <div class="card-dica">
+      <i class="fa-solid fa-circle-check"></i>
+      <div>
+        <h3>Confira o selo Verificado</h3>
+        <p>Antes de fechar um contrato, veja se o perfil tem identidade verificada e avaliações de contratos anteriores.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ===== Janela: ajuda por categoria (preenchida pelo JS) ===== -->
+<div class="modal-overlay" id="modal-faq" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="faq-titulo">
+    <div class="modal-topo">
+      <div class="modal-icone" id="faq-icone"><i class="fa-solid fa-circle-question"></i></div>
+      <div class="modal-titulos">
+        <h2 id="faq-titulo"></h2>
+        <p id="faq-intro"></p>
+      </div>
+      <button type="button" class="modal-fechar" data-fechar aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-corpo">
+      <div class="faq-lista" id="faq-lista"></div>
+    </div>
+    <div class="modal-rodape">
+      <span>Não encontrou o que procurava?</span>
+      <button type="button" class="btn-link" data-modal="denuncia"><i class="fa-solid fa-flag"></i> Reportar um problema</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Janela: denúncias e disputas ===== -->
+<div class="modal-overlay" id="modal-denuncia" aria-hidden="true">
+  <div class="modal modal-vermelho" role="dialog" aria-modal="true" aria-labelledby="den-titulo">
+    <div class="modal-topo">
+      <div class="modal-icone vermelho"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div class="modal-titulos">
+        <h2 id="den-titulo">Reportar um Problema</h2>
+        <p>Sua denúncia será analisada pela nossa equipe e o contrato relacionado fica sinalizado até a resolução.</p>
+      </div>
+      <button type="button" class="modal-fechar" data-fechar aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="modal-corpo">
+      <form id="form-denuncia" novalidate>
+        <div class="form-grid">
+          <div class="campo">
+            <label for="tipo-problema">Tipo de problema</label>
+            <select id="tipo-problema">
+              <option value="">Selecione...</option>
+              <option>Cliente não realizou o pagamento</option>
+              <option>Freelancer não entregou o trabalho</option>
+              <option>Comportamento abusivo ou assédio</option>
+              <option>Suspeita de golpe ou fraude</option>
+              <option>Perfil falso ou identidade suspeita</option>
+              <option>Tentativa de negociar fora da plataforma</option>
+              <option>Conteúdo impróprio</option>
+              <option>Outro</option>
+            </select>
+            <span class="msg-erro">Escolha o tipo de problema.</span>
+          </div>
+
+          <div class="campo">
+            <label for="contrato">Contrato ou projeto relacionado <span class="opcional">(opcional)</span></label>
+            <select id="contrato">
+              <option value="">Nenhum</option>
+              <option>Site Institucional Petshop</option>
+              <option>Landing Page para Evento</option>
+            </select>
+          </div>
+
+          <div class="campo full">
+            <label for="denunciado">Usuário denunciado <span class="opcional">(opcional)</span></label>
+            <input type="text" id="denunciado" placeholder="@usuario ou nome do perfil" autocomplete="off">
+          </div>
+
+          <div class="campo full">
+            <label for="descricao">Descreva o que aconteceu</label>
+            <textarea id="descricao" maxlength="1000" placeholder="Conte o que houve, quando aconteceu e o que você já tentou fazer para resolver."></textarea>
+            <span class="contador"><span id="contador">0</span>/1000</span>
+            <span class="msg-erro">Descreva o problema com pelo menos 20 caracteres.</span>
+          </div>
+
+          <div class="campo full">
+            <span class="rotulo">Evidências <span class="opcional">(opcional)</span></span>
+            <label class="area-upload" id="area-upload" for="evidencias">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>
+                <b>Anexar prints, conversas ou comprovantes</b>
+                <small>PNG, JPG ou PDF · até 5 arquivos de 5 MB</small>
+              </span>
+              <input type="file" id="evidencias" multiple accept=".png,.jpg,.jpeg,.pdf">
+            </label>
+            <ul class="lista-arquivos" id="lista-arquivos"></ul>
+            <span class="msg-erro" id="erro-arquivos">Máximo de 5 arquivos, com até 5 MB cada.</span>
+          </div>
+
+          <div class="campo full">
+            <label class="check-anonimo">
+              <input type="checkbox" id="anonimo">
+              <span>Enviar de forma anônima. O usuário denunciado não verá quem fez a denúncia.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-acoes">
+          <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
+          <button type="submit" class="btn-denunciar"><i class="fa-solid fa-paper-plane"></i> Enviar denúncia</button>
+        </div>
+      </form>
+
+      <div class="denuncia-sucesso" id="denuncia-sucesso" hidden>
+        <div class="sucesso-icone"><i class="fa-solid fa-check"></i></div>
+        <h3>Denúncia enviada</h3>
+        <p>Nossa equipe vai analisar o caso e avisar você por notificação. Guarde o número do protocolo para acompanhar.</p>
+        <div class="protocolo" id="protocolo"></div>
+        <div class="form-acoes centro">
+          <button type="button" class="btn-cancelar" id="outra-denuncia">Fazer outra denúncia</button>
+          <button type="button" class="btn-denunciar" data-fechar>Concluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js.components/header-dropdown.js" defer></script>
+<script type="module" src="/js/support.js" defer></script>
+</body>
+</html>

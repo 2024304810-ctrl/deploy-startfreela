@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartFreela - Cadastro</title>
+    <link rel="stylesheet" href="/css/tela-de-cadastro.css">
+</head>
+<body class="body-principal">
+    <header class="header">
+        <img class="img-logo" src="/img/logo-deitada.png" alt="">
+        
+    </header>
+
+    <main class="heroPrincipal">
+        <h1>Cadastrar</h1>
+        <form class="formulario-cadastro" id="formulario">
+            <label for="nome-completo">Nome Completo:</label>
+            <input class="caixasDeInformacoes" id="nome-completo" type="text" required>
+
+            <label for="nome-de-exibicao">Nome de Exibição:</label>
+            <input class="caixasDeInformacoes" id="nome-de-exibicao" type="text" required>
+
+            <label for="email">Email:</label>
+            <input class="caixasDeInformacoes" id="email" type="text">
+
+            <label for="data-de-nascimento">Data de Nascimento:</label>
+            <input class="caixasDeInformacoes" id="data-de-nascimento" type="date" required>
+
+            <label for="data-de-nascimento">Telefone:</label>
+            <input class="caixasDeInformacoes" id="telefone" type="number" required>
+
+            <label for="senha">Senha:</label>
+            <input class="caixasDeInformacoes" id="senha" type="password" required>
+
+            <label for="confirmar-senha">Confirmar Senha:</label>
+            <input class="caixasDeInformacoes" id="confirmar-senha" type="password" required>
+
+            <div class="toggle-container">
+                <input type="checkbox" id="toggle-btn" onclick="toggleValue()">
+                <label for="toggle-btn">
+                
+                <span class="esquerda"><img class="img-toggle" src="/img/cliente.png" alt="">Cliente</span>
+                
+                <span class="direita"><img class="img-toggle" src="/img/freelancer.png" alt="">Freelancer</span>
+                </label>
+            </div>
+            
+            <button type="submit" class="botao-cadastrar">Cadastrar</button>
+            
+            
+        </form>
+        <p><a id="link-logar" href="/login">Já possui uma conta? Clique aqui para logar</a></p>
+        <div class="alternativasLogin">
+            <button id="google"><img id="logo-google" src="/img/pesquisa.png" alt=""><p>Fazer login com Google</p></button>
+        </div>
+    </main>
+    <script src="/js.auth/register/register.js" defer></script>
+</body>
+</html>

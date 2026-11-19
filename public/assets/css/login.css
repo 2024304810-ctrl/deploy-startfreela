@@ -1,0 +1,248 @@
+@import url(https://kit.fontawesome.com/4b71b43226.js);
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+*{
+    box-sizing: border-box;
+    padding: 0%;
+    margin: 0%;
+    font-family: "Open Sans", sans-serif;
+}
+
+body{
+    transition: all 0.6s;
+    display: flex;
+    background-color: whitesmoke;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+}
+
+.header{
+    transition: all 0.6s;
+    background-color: #1D3159 ;
+    width: 100%;
+    height: 80px;
+}
+
+.img-logo{
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 5px;
+    height: 60px;
+}
+
+.heroPrincipal{
+    transition: all 0.6s;
+    background-color: white;
+    border: none;
+    margin-top: 15vh;
+    width: 500px;
+    height: 550px;   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 70px;
+    border-radius: 30px;
+}
+
+.heroPrincipal form{
+    display: contents;
+}
+
+.botao_logar{
+    background-color: #F2CB57;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    align-items: center;
+    padding: 25px;
+    width: 45%;
+    border: transparent;
+    text-transform: uppercase;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    height: 20px;
+
+}
+
+.botao_logar:hover{
+    background-color: #ffdf7e;
+}
+
+.caixasDeInformacoes{
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    margin:  8px 0;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 10px;
+    width: 100%;
+    transition: all 0.5s;
+}
+
+.caixasDeInformacoes:hover{
+    padding: 12px 20px;
+    transition: all 0.5s;
+}
+
+
+.label-input{
+    width: 100%; 
+    display: block;
+    margin-top: 10px;
+    text-align: left;
+}
+
+
+#email{
+    margin-top: 2px;
+}
+
+#senha{
+    margin-bottom: 1rem;
+}
+
+
+
+.div-pass{
+    width: 100%;
+    gap: 10px;
+    display: flex;
+}
+
+.button-eye{
+    margin-top: 10px;
+    padding: 0px 0px;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: #18324d;
+    width: 40px;
+    height: 35px;
+    border: none;
+    display: flex;
+    
+}
+
+#image-eye{
+    margin: auto;
+}
+
+.button-eye:hover{
+    background-color: #2a5786;
+    transition: all 0.3s;   
+}
+
+.erro{
+    transition: 0.3s all;
+    border: 1px solid red;
+}
+
+.esquecer-cadastrar{
+    display: inline-block;
+    text-align: center;
+    
+}
+.esquecer-cadastrar a{
+    font-size: 15px;
+    text-decoration: none;
+    color: #18324d;
+    
+}
+
+
+.esquecer-cadastrar p{
+    margin-bottom: 6px;
+}
+
+#google{
+    background-color: #eee;
+    border: none;
+    margin:  15px 0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 12px; 
+}
+
+#google p{
+ font-weight: 400;
+ font-size: 15px;
+}
+
+
+#google:hover{
+    background-color: rgb(223, 223, 223);
+
+}
+
+
+
+#logo-google{
+    height: 20px;
+    
+}
+
+
+#change-theme{
+    margin-top: 20px;
+    margin-bottom: 50px;
+    border: none;
+    background-color: inherit;
+    display: flex; 
+    justify-content: flex-end; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#lua-sol{
+    cursor: pointer;
+    font-size: 40px;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+/* DARK */
+body.dark{
+    transition: all 0.6s;
+    background-color: #171718;
+    color: #eee;
+}
+
+.header.dark{
+    transition: all 0.6s;
+    background-color: #1f2124;
+}
+
+.heroPrincipal.dark{
+    transition: all 0.6s;
+    background-color: #1f2022;
+}
+
+#change-theme.dark{
+    transition: all 0.6s;
+    background-color: #171718;
+    cursor: pointer;
+
+}
+
+#link-esquecer.dark{
+    transition: all 0.6s;
+    color: white;
+    
+}
+
+#link-cadastrar.dark{
+    transition: all 0.6s;
+    color: white;
+    
+}
