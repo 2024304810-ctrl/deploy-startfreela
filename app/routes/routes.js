@@ -209,6 +209,18 @@ router.post(
                 message: 'Erro interno ao adicionar projeto.'
             });
         }
+        console.log('LINK DO PROJETO:', req.body.linkProjeto);
+console.log('LINK DO GITHUB:', req.body.linkGithub);
+
+console.log(
+    'IMAGENS ADICIONAIS:',
+    req.files?.imagensAdicionais?.length || 0
+);
+
+console.log(
+    'IMAGEM DE CAPA:',
+    req.files?.imagemCapa?.length || 0
+);
     }
 );
 

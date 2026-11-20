@@ -232,6 +232,10 @@ async function buscarProjetos() {
         const projetos = await resposta.json();
 
         console.log('Projetos do portfólio:', projetos);
+        console.log(
+    'DETALHES DOS PROJETOS:',
+    JSON.stringify(projetos, null, 2)
+);
 
         projetos.forEach(projeto => {
             divProjetos.appendChild(criarCardProjeto(projeto));
