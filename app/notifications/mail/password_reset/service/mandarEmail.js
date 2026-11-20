@@ -1,25 +1,12 @@
 
-const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
 const handlebars = require('handlebars');
 
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-
-    auth: {
-        user: process.env.USER_MAIL,
-        pass: process.env.MAIL_APP_PASS
-    }
-});
-
 async function enviarEmail(usuario, code) {
-    console.log('Enviando email');
+    console.log('Preparando email de recuperação');
 
     try {
-        // Localizar o template de recuperação de senha
         const caminho = path.join(
             process.cwd(),
             'views',
@@ -27,7 +14,7 @@ async function enviarEmail(usuario, code) {
         );
 
         if (!fs.existsSync(caminho)) {
-            throw new Error(`Template de email não encontrado: ${caminho}`);
+            throw new Error(`Template não encontrado: ${caminho}`);
         }
 
         const arquivo = fs.readFileSync(caminho, 'utf8');
@@ -39,45 +26,64 @@ async function enviarEmail(usuario, code) {
             code: code
         });
 
-        console.log('Contatando o transporter');
-
         const emailDestino = usuario.contato.email;
 
-        // Localizar a imagem da logo
-        const caminhoLogo = path.join(
-            process.cwd(),
-            'public',
-            'assets',
-            'img',
-            'logo-startfreela.png'
+        const resposta = await fetch(
+            'https://api.brevo.com/v3/smtp/email',
+            {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/json',
+                    'api-key': process.env.BREVO_API_KEY,
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sender: {
+                        name: 'Equipe Start Freela',
+                        email: process.env.BREVO_SENDER_EMAIL
+                    },
+                    to: [
+                        {
+                            email: emailDestino,
+                            name: usuario.username
+                        }
+                    ],
+                    subject: 'Recuperar Senha',
+                    htmlContent: html
+                })
+            }
         );
 
-        const opcoesEmail = {
-            from: process.env.USER_MAIL,
-            to: emailDestino,
-            subject: 'Recuperar Senha',
-            html: html
-        };
+        const resultadoTexto = await resposta.text();
 
-        // Anexar a logo somente se o arquivo existir
-        if (fs.existsSync(caminhoLogo)) {
-            opcoesEmail.attachments = [{
-                filename: 'logo-startfreela.png',
-                path: caminhoLogo,
-                cid: 'logo'
-            }];
-        } else {
-            console.log('Logo não encontrada:', caminhoLogo);
+        let resultado;
+
+        try {
+            resultado = JSON.parse(resultadoTexto);
+        } catch {
+            resultado = resultadoTexto;
         }
 
-        await transporter.sendMail(opcoesEmail);
+        if (!resposta.ok) {
+            console.error(
+                'Erro do Brevo:',
+                resposta.status,
+                resultado
+            );
+
+            throw new Error(
+                typeof resultado === 'object'
+                    ? resultado.message || 'Falha ao enviar email'
+                    : 'Falha ao enviar email'
+            );
+        }
 
         console.log('Email enviado com sucesso!');
 
         return true;
 
     } catch (erro) {
-        console.log('Erro ao enviar email:', erro);
+        console.error('Erro ao enviar email:', erro.message);
         throw erro;
     }
 }
