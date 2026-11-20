@@ -268,3 +268,33 @@ main{padding:20px 40px;}
 .avatar-dropdown a:hover{background:var(--gray-bg);}
 .avatar-dropdown a.dropdown-sair{color:var(--red);border-top:1px solid var(--gray-border);margin-top:6px;padding-top:12px;border-radius:0 0 8px 8px;}
 .avatar-dropdown a.dropdown-sair i{color:var(--red);}
+
+
+.acoes-mensagem {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.acoes-mensagem button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 5px;
+}
+
+.botao-editar {
+    color: #2563eb;
+}
+
+.botao-excluir {
+    color: #dc2626;
+}
+
+.acoes-mensagem button:hover {
+    text-decoration: underline;
+}
+
