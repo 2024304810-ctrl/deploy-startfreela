@@ -1,3 +1,4 @@
+
 const daoAddInfo = require('../db/daoAddInfo');
 
 async function controllerAdditionalInformation(informacoesAdicionais) {
@@ -5,15 +6,19 @@ async function controllerAdditionalInformation(informacoesAdicionais) {
         console.log('Preparando informações adicionais...');
 
         const dados = {
-    idUser: informacoesAdicionais.idUser,
-    localidade: informacoesAdicionais.localidade,
-    profissao: informacoesAdicionais.profissao,
-    redesSociais: informacoesAdicionais.redesSociais || [],
-    sobreMim: informacoesAdicionais.sobreMim || ''
-};
+            idUser: informacoesAdicionais.idUser,
 
-        // Informações específicas do freelancer
-       
+            localizacao:
+                informacoesAdicionais.localizacao ||
+                informacoesAdicionais.localidade,
+
+            redesSociais: informacoesAdicionais.redesSociais || [],
+            sobreMim: informacoesAdicionais.sobreMim || ''
+        };
+
+        if (informacoesAdicionais.profissao !== undefined) {
+            dados.profissao = informacoesAdicionais.profissao;
+        }
 
         if (informacoesAdicionais.habilidades !== undefined) {
             dados.habilidades = informacoesAdicionais.habilidades;
@@ -24,7 +29,6 @@ async function controllerAdditionalInformation(informacoesAdicionais) {
         }
 
         console.log('Dados preparados:', dados);
-        console.log('Enviando para o DAO...');
 
         await daoAddInfo(dados);
 
@@ -35,7 +39,6 @@ async function controllerAdditionalInformation(informacoesAdicionais) {
 
     } catch (erro) {
         console.error('Erro no controller:', erro);
-
         throw erro;
     }
 }

@@ -36,6 +36,20 @@ function moeda(valor) {
     });
 }
 
+function linkPerfilCliente(projeto) {
+    if (!projeto.idCliente) {
+        return escapar(projeto.clienteUsername || 'Cliente');
+    }
+
+    const url = `/technical.profile?i=${encodeURIComponent(projeto.idCliente)}`;
+
+    return `
+        <a href="${url}" title="Ver perfil do cliente">
+            ${escapar(projeto.clienteUsername || 'Cliente')}
+        </a>
+    `;
+}
+
 function notificar(mensagem) {
     const toast = $('#toast');
 
@@ -57,7 +71,11 @@ function abrirDetalhes(projeto, tipo) {
     const entrega = projeto.entrega;
 
     modalContent.innerHTML = `
-        <p><strong>Cliente:</strong> ${escapar(projeto.clienteUsername)}</p>
+        <p>
+            <strong>Cliente:</strong>
+            ${linkPerfilCliente(projeto)}
+        </p>
+
         <p><strong>Categoria:</strong> ${escapar(projeto.categoria)}</p>
         <p><strong>Status:</strong> ${escapar(projeto.status || 'Aberto')}</p>
 
@@ -76,8 +94,8 @@ function abrirDetalhes(projeto, tipo) {
         <p><strong>Habilidades:</strong></p>
         <div class="tag-row">
             ${(projeto.habilidades || []).map(h =>
-        `<span>${escapar(h)}</span>`
-    ).join('')}
+                `<span>${escapar(h)}</span>`
+            ).join('')}
         </div>
 
         ${proposta ? `
@@ -89,24 +107,24 @@ function abrirDetalhes(projeto, tipo) {
         ` : ''}
 
         ${tipo === 'andamento' ? `
-    <hr>
-    <h3>Histórico de atividades</h3>
+            <hr>
+            <h3>Histórico de atividades</h3>
 
-    ${(projeto.atualizacoesProgresso || []).length
+            ${(projeto.atualizacoesProgresso || []).length
                 ? projeto.atualizacoesProgresso.map(item => `
-            <div class="activity-item">
-                <strong>${Number(item.percentual)}%</strong>
-                <p>${escapar(item.descricao)}</p>
-                <small>
-                    ${item.data
-                        ? new Date(item.data).toLocaleString('pt-BR')
-                        : ''}
-                </small>
-            </div>
-        `).join('')
+                    <div class="activity-item">
+                        <strong>${Number(item.percentual)}%</strong>
+                        <p>${escapar(item.descricao)}</p>
+                        <small>
+                            ${item.data
+                                ? new Date(item.data).toLocaleString('pt-BR')
+                                : ''}
+                        </small>
+                    </div>
+                `).join('')
                 : '<p>Nenhuma atualização registrada.</p>'
             }
-` : ''}
+        ` : ''}
 
         ${entrega?.descricao ? `
             <hr>
@@ -121,8 +139,8 @@ function abrirDetalhes(projeto, tipo) {
             </p>
             <p><strong>Enviada em:</strong>
                 ${entrega.dataEnvio
-                ? new Date(entrega.dataEnvio).toLocaleString('pt-BR')
-                : 'Não informado'}
+                    ? new Date(entrega.dataEnvio).toLocaleString('pt-BR')
+                    : 'Não informado'}
             </p>
         ` : ''}
     `;
@@ -131,6 +149,7 @@ function abrirDetalhes(projeto, tipo) {
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
 }
+
 function mostrarFormularioAvaliacao(projeto) {
     modalTitle.textContent = 'Avaliar cliente';
 
@@ -169,10 +188,10 @@ function mostrarFormularioAvaliacao(projeto) {
                     </label>
 
                     <textarea
-    id="evaluation-comment"
-    maxlength="500"
-    placeholder="Conte brevemente como foi a experiência...">
-</textarea>
+                        id="evaluation-comment"
+                        maxlength="500"
+                        placeholder="Conte brevemente como foi a experiência...">
+                    </textarea>
                 </div>
 
                 <div class="modal-actions">
@@ -198,6 +217,7 @@ function mostrarFormularioAvaliacao(projeto) {
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
 }
+
 modalContent.addEventListener('click', event => {
     const estrela = event.target.closest('[data-rating]');
 
@@ -208,7 +228,6 @@ modalContent.addEventListener('click', event => {
 
         $$('.star', modalContent).forEach(botao => {
             const valor = Number(botao.dataset.rating);
-
             botao.style.color = valor <= nota ? '#f5b301' : '#ccc';
         });
 
@@ -219,6 +238,7 @@ modalContent.addEventListener('click', event => {
         fecharModal();
     }
 });
+
 modalContent.addEventListener('submit', async event => {
     if (event.target.id !== 'evaluation-form') return;
 
@@ -298,10 +318,12 @@ function criarCard(projeto, tipo) {
             : 'status-open';
 
         fatos = `
-            <span><small>Minha proposta</small>
+            <span>
+                <small>Minha proposta</small>
                 <strong>${moeda(proposta.valor)}</strong>
             </span>
-            <span><small>Prazo proposto</small>
+            <span>
+                <small>Prazo proposto</small>
                 <strong>${proposta.prazoDias} dias</strong>
             </span>
         `;
@@ -312,10 +334,12 @@ function criarCard(projeto, tipo) {
             : 'status-progress';
 
         fatos = `
-            <span><small>Progresso</small>
+            <span>
+                <small>Progresso</small>
                 <strong>${Number(projeto.progresso || 0)}%</strong>
             </span>
-            <span><small>Prazo desejado</small>
+            <span>
+                <small>Prazo desejado</small>
                 <strong>${escapar(projeto.prazoDesejado)}</strong>
             </span>
         `;
@@ -324,26 +348,33 @@ function criarCard(projeto, tipo) {
         classeStatus = 'status-done';
 
         fatos = `
-            <span><small>Projeto</small>
+            <span>
+                <small>Projeto</small>
                 <strong>Finalizado</strong>
             </span>
         `;
-        if (tipo === 'concluidos' && !projeto.avaliado) {
+
+        if (!projeto.avaliado) {
             acao = `
-        <button class="btn btn-outline btn-sm"
-            data-action="evaluate"
-            data-id="${escapar(projeto.idProjeto)}">
-            <i class="fa-solid fa-star"></i>
-            Avaliar cliente
-        </button>
-    `;
+                <button class="btn btn-outline btn-sm"
+                    data-action="evaluate"
+                    data-id="${escapar(projeto.idProjeto)}">
+                    <i class="fa-solid fa-star"></i>
+                    Avaliar cliente
+                </button>
+            `;
         }
     } else {
         fatos = `
-            <span><small>Orçamento</small>
-                <strong>${moeda(projeto.orcamentoMinimo)} - ${moeda(projeto.orcamentoMaximo)}</strong>
+            <span>
+                <small>Orçamento</small>
+                <strong>
+                    ${moeda(projeto.orcamentoMinimo)} -
+                    ${moeda(projeto.orcamentoMaximo)}
+                </strong>
             </span>
-            <span><small>Prazo desejado</small>
+            <span>
+                <small>Prazo desejado</small>
                 <strong>${escapar(projeto.prazoDesejado)}</strong>
             </span>
         `;
@@ -351,11 +382,11 @@ function criarCard(projeto, tipo) {
 
     if (tipo === 'disponiveis') {
         acao = `
-        <a class="btn btn-primary btn-sm"
-           href="/projects/proposta?p=${encodeURIComponent(projeto.idProjeto)}">
-            Enviar proposta <i class="fa-solid fa-arrow-right"></i>
-        </a>
-    `;
+            <a class="btn btn-primary btn-sm"
+               href="/projects/proposta?p=${encodeURIComponent(projeto.idProjeto)}">
+                Enviar proposta <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        `;
     }
 
     if (
@@ -363,18 +394,18 @@ function criarCard(projeto, tipo) {
         projeto.status === 'Em andamento'
     ) {
         acao = `
-        <button class="btn btn-outline btn-sm"
-            data-action="update-progress"
-            data-id="${escapar(projeto.idProjeto)}">
-            Atualizar progresso
-        </button>
+            <button class="btn btn-outline btn-sm"
+                data-action="update-progress"
+                data-id="${escapar(projeto.idProjeto)}">
+                Atualizar progresso
+            </button>
 
-        <button class="btn btn-primary btn-sm"
-            data-action="submit-delivery"
-            data-id="${escapar(projeto.idProjeto)}">
-            Enviar entrega
-        </button>
-    `;
+            <button class="btn btn-primary btn-sm"
+                data-action="submit-delivery"
+                data-id="${escapar(projeto.idProjeto)}">
+                Enviar entrega
+            </button>
+        `;
     }
 
     if (
@@ -382,10 +413,10 @@ function criarCard(projeto, tipo) {
         projeto.status === 'Aguardando aprovação'
     ) {
         acao = `
-        <span class="status status-review">
-            Entrega enviada. Aguardando cliente.
-        </span>
-    `;
+            <span class="status status-review">
+                Entrega enviada. Aguardando cliente.
+            </span>
+        `;
     }
 
     const progresso = Math.min(
@@ -407,9 +438,10 @@ function criarCard(projeto, tipo) {
 
                 <div class="opp-title">
                     <h2>${escapar(projeto.titulo)}</h2>
-                    <p>
+
+                    <p class="client-profile">
                         <i class="fa-regular fa-building"></i>
-                        ${escapar(projeto.clienteUsername || 'Cliente')}
+                        ${linkPerfilCliente(projeto)}
                     </p>
                 </div>
 
@@ -424,8 +456,8 @@ function criarCard(projeto, tipo) {
 
             <div class="tag-row">
                 ${(projeto.habilidades || []).map(h =>
-        `<span>${escapar(h)}</span>`
-    ).join('')}
+                    `<span>${escapar(h)}</span>`
+                ).join('')}
             </div>
 
             ${tipo === 'andamento' ? `
@@ -522,7 +554,6 @@ function renderizarProjetos() {
 async function carregarProjetos() {
     try {
         const resposta = await fetch('/api/freelancer/projetos');
-
         const dados = await resposta.json();
 
         if (!resposta.ok) {
@@ -532,7 +563,6 @@ async function carregarProjetos() {
         const andamento = dados.andamento || [];
         const concluidos = dados.concluidos || [];
 
-        // IDs de projetos que já foram contratados ou finalizados
         const idsContratados = new Set([
             ...andamento,
             ...concluidos
@@ -619,7 +649,7 @@ $('#freelancer-sort')?.addEventListener('change', () => {
     renderizarProjetos();
 });
 
-// Detalhes
+// Detalhes e ações
 lista?.addEventListener('click', async event => {
     const botao = event.target.closest('[data-action]');
 
@@ -638,13 +668,11 @@ lista?.addEventListener('click', async event => {
         return;
     }
 
-    // Abrir detalhes
     if (botao.dataset.action === 'details') {
         abrirDetalhes(projeto, abaAtual);
         return;
     }
 
-    // Atualizar progresso
     if (botao.dataset.action === 'update-progress') {
         const percentual = prompt(
             'Qual é o novo percentual de progresso? (0 a 100)',
@@ -693,7 +721,6 @@ lista?.addEventListener('click', async event => {
         return;
     }
 
-    // Enviar entrega final
     if (botao.dataset.action === 'submit-delivery') {
         if (!confirm('Deseja enviar a entrega final deste projeto?')) {
             return;

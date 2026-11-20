@@ -131,6 +131,14 @@ h1.page-title{font-size:28px;margin:0 0 22px;font-weight:800;}
 }
 
 .nome-usuario{color:var(--text-mid);font-size:14px;margin-top:2px;}
+.profissao{
+  color:var(--navy);
+  font-weight:800;
+  font-size:13px;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+  margin-top:8px;
+}
 
 .perfil-meta{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;}
 .meta-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-mid);}
@@ -155,6 +163,9 @@ h1.page-title{font-size:28px;margin:0 0 22px;font-weight:800;}
 }
 .btn-primary:hover{background:var(--yellow-dark);}
 .btn-editar{margin-left:auto;}
+#btn-addInfo{text-decoration: none;}
+
+
 
 .divisor{height:1px;background:var(--gray-border);margin:22px 0;}
 
@@ -162,6 +173,29 @@ h1.page-title{font-size:28px;margin:0 0 22px;font-weight:800;}
 .bloco:first-of-type{margin-top:0;}
 .titulo-bloco{font-size:16px;font-weight:800;margin:0 0 10px;}
 .texto-sobre{font-size:14px;color:var(--text-mid);line-height:1.6;text-align:justify;}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.chip{
+  background:var(--chip-bg);
+  border-radius:20px;
+  padding:7px 14px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--text-dark);
+}
+
+.perfil-links{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
+.link-externo{
+  display:flex;align-items:center;gap:6px;
+  color:var(--text-dark);text-decoration:none;
+  font-size:13px;font-weight:600;
+}
+.link-externo:hover{color:var(--navy);}
 
 /* ===== Seções com header padrão ===== */
 .header-secao{margin-bottom:20px;}

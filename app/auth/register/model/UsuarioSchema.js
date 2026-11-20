@@ -1,13 +1,13 @@
-const mongoose = require("mongoose");
+
+const mongoose = require('mongoose');
 
 const UsuarioSchema = new mongoose.Schema({
-
     idUser: {
         type: String,
         required: true
     },
 
-    completeName:{
+    completeName: {
         type: String,
         required: true
     },
@@ -17,16 +17,15 @@ const UsuarioSchema = new mongoose.Schema({
         required: true
     },
 
-    contato : {
+    contato: {
         email: {
             type: String,
             required: true,
             unique: true
         },
-
         phone: {
             type: String,
-            required: true,
+            required: true
         }
     },
 
@@ -60,27 +59,54 @@ const UsuarioSchema = new mongoose.Schema({
     },
 
     localizacao: {
-    pais: {
-        type: String
+        pais: String,
+        estado: String,
+        cidade: String,
+        cep: String
     },
-    estado: {
-        type: String
+
+    profissao: {
+        type: String,
+        default: ''
     },
-    cidade: {
-        type: String
+
+    habilidades: {
+        type: [String],
+        default: []
     },
-    cep: {
-        type: String
-    }
-},
+
+    quantia: {
+        valor: {
+            type: String,
+            default: ''
+        },
+        per: {
+            type: String,
+            default: ''
+        }
+    },
+
+    redesSociais: {
+        type: [{
+            site: String,
+            link: String
+        }],
+        default: []
+    },
+
+    sobreMim: {
+        type: String,
+        default: ''
+    },
 
     informacoesAdicionais: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     }
 
 }, {
     collection: process.env.COLLECTION_FOR_AUTH
 });
 
-module.exports = mongoose.model("UsuarioSchema", UsuarioSchema);
+module.exports = mongoose.model('UsuarioSchema', UsuarioSchema);

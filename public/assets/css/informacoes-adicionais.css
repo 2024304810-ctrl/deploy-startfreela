@@ -59,7 +59,7 @@ header.topbar{
 .top-actions{display:flex;align-items:center;gap:22px;}
 .icon-btn{position:relative;color:#fff;font-size:19px;cursor:pointer;}
 .badge{position:absolute;top:-8px;right:-9px;background:var(--red);color:#fff;font-size:10px;font-weight:700;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
-.role-pill{color:#fff;font-weight:700;font-size:13px;letter-spacing:.3px;}
+.role-pill{color:#fff;font-weight:700;font-size:13px;letter-spacing:.3px;text-transform: uppercase;}
 .avatar-wrap{display:flex;align-items:center;gap:6px;cursor:pointer;position:relative;}
 .avatar{width:34px;height:34px;border-radius:50%;background:#2f3d63;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;}
 .avatar img{width:100%;height:100%;object-fit:cover;}
@@ -179,6 +179,27 @@ main{padding:0;}
   font-family:inherit;
   outline:none;
   color:var(--text-dark);
+}
+
+/* Links das redes sociais */
+.input-redesocial {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text-dark);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+
+.input-redesocial::placeholder {
+  color: #8a8f9c;
 }
 select.field{
   background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8"><path d="M1 1l5 5 5-5" stroke="%23555" stroke-width="1.5" fill="none"/></svg>') no-repeat right 14px center;
@@ -382,3 +403,53 @@ textarea.field{resize:vertical;}
   transition:background .15s ease;
 }
 .btn-continuar:hover{background:var(--yellow-dark);}
+
+/* Dropdown do perfil - padrão StartFreela */
+.avatar-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 15px);
+    width: 240px;
+    background: white;
+    color: var(--text-dark);
+    border: 1px solid var(--gray-border);
+    border-radius: 13px;
+    padding: 9px;
+    box-shadow: 0 15px 35px #101a3026;
+    display: none;
+    z-index: 60;
+}
+
+.avatar-dropdown.open {
+    display: block;
+}
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px;
+    border-bottom: 1px solid var(--gray-border);
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.avatar-dropdown a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.avatar-dropdown a:hover {
+    background: var(--gray-bg);
+}
+
+.dropdown-sair {
+    color: var(--red) !important;
+}

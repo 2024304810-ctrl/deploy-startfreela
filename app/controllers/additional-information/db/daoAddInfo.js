@@ -2,21 +2,23 @@
 const UsuarioSchema = require('../../../auth/register/model/UsuarioSchema');
 
 async function daoAddInfo(informacoesAdicionais) {
-
     try {
-
         console.log('Salvando informações adicionais...');
 
         const campos = {
-            localizacao: informacoesAdicionais.localidade,
-            profissao: informacoesAdicionais.profissao,
+            localizacao:
+                informacoesAdicionais.localizacao ||
+                informacoesAdicionais.localidade ||
+                {},
+
             redesSociais: informacoesAdicionais.redesSociais || [],
             sobreMim: informacoesAdicionais.sobreMim || '',
-            informacoesAdicionais: true,
-            
+            informacoesAdicionais: true
         };
 
-       
+        if (informacoesAdicionais.profissao !== undefined) {
+            campos.profissao = informacoesAdicionais.profissao;
+        }
 
         if (informacoesAdicionais.habilidades !== undefined) {
             campos.habilidades = informacoesAdicionais.habilidades;
@@ -27,15 +29,10 @@ async function daoAddInfo(informacoesAdicionais) {
         }
 
         const usuario = await UsuarioSchema.findOneAndUpdate(
-            {
-                idUser: informacoesAdicionais.idUser
-            },
-            {
-                $set: campos
-            },
+            { idUser: informacoesAdicionais.idUser },
+            { $set: campos },
             {
                 new: true,
-                strict: false,
                 runValidators: true
             }
         );
@@ -49,9 +46,7 @@ async function daoAddInfo(informacoesAdicionais) {
         return usuario;
 
     } catch (erro) {
-
         console.error('Erro no DAO de informações adicionais:', erro);
-
         throw erro;
     }
 }

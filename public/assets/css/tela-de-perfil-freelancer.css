@@ -176,6 +176,8 @@ h1.page-title{font-size:28px;margin:0 0 22px;font-weight:800;}
 .btn-primary:hover{background:var(--yellow-dark);}
 .btn-editar{margin-left:auto;}
 
+#btn-addInfo{text-decoration: none;}
+
 .divisor{height:1px;background:var(--gray-border);margin:22px 0;}
 
 .bloco{margin-top:20px;}

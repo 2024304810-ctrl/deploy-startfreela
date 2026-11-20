@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const roleAtual = body.dataset.role.trim().toLowerCase();
+    const roleAtual = (body.dataset.role || '').trim().toLowerCase();
 
     const etapas = Array.from(document.querySelectorAll('.etapa'));
     const barraPreenchida = document.querySelector('.progresso-preenchida');
@@ -30,10 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let etapasVisiveis = [];
     let habilidades = [];
 
-    // =========================
-    // ETAPAS DO PERFIL
-    // =========================
-
+    // ETAPAS VISÍVEIS CONFORME O PERFIL
     function calcularEtapasVisiveis() {
 
         etapasVisiveis = etapas.filter(etapa => {
@@ -49,28 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
         });
 
-        // Ajustar redes sociais conforme o tipo de usuário
-        document.querySelectorAll('.etapa-so-freelancer-inline')
-            .forEach(elemento => {
-                elemento.style.display =
-                    roleAtual === 'freelancer' ? '' : 'none';
-            });
-
-        // Personalizar descrição
         if (tituloSobre && descSobre) {
-
             tituloSobre.textContent = 'Fale um pouco sobre você';
 
-            if (roleAtual === 'cliente') {
-                descSobre.textContent =
-                    'Conte que tipo de projeto você costuma contratar — isso ajuda freelancers a entenderem seu perfil.';
-            } else {
-                descSobre.textContent =
-                    'Uma breve bio ajuda clientes a te conhecerem antes de contratar.';
-            }
+            descSobre.textContent = roleAtual === 'cliente'
+                ? 'Conte um pouco sobre sua profissão, suas habilidades e os projetos que costuma contratar.'
+                : 'Uma breve apresentação ajuda clientes a conhecerem seu perfil antes de contratar.';
         }
     }
 
+    // MOSTRAR ETAPA
     function mostrarEtapa(indice) {
 
         etapas.forEach(etapa => {
@@ -84,19 +69,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const total = etapasVisiveis.length;
         const passoAtual = indice + 1;
 
-        progressoTexto.textContent = `Passo ${passoAtual} de ${total}`;
+        if (progressoTexto) {
+            progressoTexto.textContent = `Passo ${passoAtual} de ${total}`;
+        }
 
-        barraPreenchida.style.width =
-            `${(passoAtual / total) * 100}%`;
+        if (barraPreenchida) {
+            barraPreenchida.style.width = `${(passoAtual / total) * 100}%`;
+        }
 
-        btnVoltar.disabled = indice === 0;
+        if (btnVoltar) {
+            btnVoltar.disabled = indice === 0;
+        }
 
-        if (indice === total - 1) {
-            btnContinuar.innerHTML =
-                'Concluir <i class="fa-solid fa-check"></i>';
-        } else {
-            btnContinuar.innerHTML =
-                'Continuar <i class="fa-solid fa-arrow-right"></i>';
+        if (btnContinuar) {
+            btnContinuar.innerHTML = indice === total - 1
+                ? 'Concluir <i class="fa-solid fa-check"></i>'
+                : 'Continuar <i class="fa-solid fa-arrow-right"></i>';
         }
     }
 
@@ -120,28 +108,28 @@ document.addEventListener('DOMContentLoaded', () => {
         irPara(indiceAtual + 1);
     }
 
-    btnContinuar.addEventListener('click', avancar);
-    btnPular.addEventListener('click', avancar);
+    btnContinuar?.addEventListener('click', avancar);
+    btnPular?.addEventListener('click', avancar);
 
-    btnVoltar.addEventListener('click', () => {
+    btnVoltar?.addEventListener('click', () => {
         irPara(indiceAtual - 1);
     });
 
-    btnFechar.addEventListener('click', () => {
+    btnFechar?.addEventListener('click', () => {
         window.location.href = '/home';
     });
 
     calcularEtapasVisiveis();
-    irPara(0);
 
-    // =========================
+    if (etapasVisiveis.length) {
+        irPara(0);
+    }
+
     // HABILIDADES
-    // =========================
-
     const inputChips = document.getElementById('inputChips');
     const divChips = document.getElementById('div-chips');
 
-    inputChips.addEventListener('keydown', event => {
+    inputChips?.addEventListener('keydown', event => {
 
         if (event.key !== 'Enter') return;
 
@@ -151,7 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!textoChip) return;
 
-        if (habilidades.includes(textoChip)) {
+        const existe = habilidades.some(
+            habilidade => habilidade.toLowerCase() === textoChip.toLowerCase()
+        );
+
+        if (existe) {
             inputChips.value = '';
             return;
         }
@@ -168,16 +160,19 @@ document.addEventListener('DOMContentLoaded', () => {
         botaoExcluir.className = 'fa-solid fa-xmark apagar';
 
         chip.appendChild(botaoExcluir);
-        divChips.appendChild(chip);
+        divChips?.appendChild(chip);
 
         inputChips.value = '';
     });
 
-    divChips.addEventListener('click', event => {
+    divChips?.addEventListener('click', event => {
 
         if (!event.target.classList.contains('apagar')) return;
 
         const chip = event.target.closest('.chip');
+
+        if (!chip) return;
+
         const habilidade = chip.dataset.habilidade;
 
         habilidades = habilidades.filter(
@@ -187,17 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
         chip.remove();
     });
 
-    // =========================
     // CEP
-    // =========================
-
     const inputCEP = document.getElementById('inputCEP');
 
-    inputCEP.addEventListener('input', event => {
+    inputCEP?.addEventListener('input', event => {
 
-        let value = event.target.value;
+        let value = event.target.value.replace(/\D/g, '');
 
-        value = value.replace(/\D/g, '');
         value = value.replace(/^(\d{5})(\d)/, '$1-$2');
 
         event.target.value = value.slice(0, 9);
@@ -215,6 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 `https://viacep.com.br/ws/${cep.replace('-', '')}/json/`
             );
 
+            if (!resposta.ok) {
+                throw new Error('Erro ao consultar o CEP.');
+            }
+
             const dados = await resposta.json();
 
             if (dados.erro) {
@@ -222,134 +217,134 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const selectPais = document.getElementById('pais');
-            const selectEstado = document.getElementById('estado');
-            const selectCidade = document.getElementById('cidade');
-
-            const dadosCep = [
-                'Brasil',
-                dados.estado || dados.uf,
-                dados.localidade
-            ];
-
             const selects = [
-                selectPais,
-                selectEstado,
-                selectCidade
+                {
+                    elemento: document.getElementById('pais'),
+                    valor: 'Brasil'
+                },
+                {
+                    elemento: document.getElementById('estado'),
+                    valor: dados.estado || dados.uf
+                },
+                {
+                    elemento: document.getElementById('cidade'),
+                    valor: dados.localidade
+                }
             ];
 
-            selects.forEach((select, indice) => {
+            selects.forEach(({ elemento, valor }) => {
 
-                select.innerHTML = '';
+                if (!elemento) return;
+
+                elemento.innerHTML = '';
 
                 const opcao = document.createElement('option');
 
-                opcao.value = dadosCep[indice];
-                opcao.textContent = dadosCep[indice] || 'Não identificado';
+                opcao.value = valor || '';
+                opcao.textContent = valor || 'Não identificado';
 
-                select.appendChild(opcao);
-                select.disabled = false;
+                elemento.appendChild(opcao);
+                elemento.disabled = false;
             });
 
         } catch (erro) {
+
             console.error('Erro ao consultar CEP:', erro);
             alert('Não foi possível consultar o CEP.');
         }
     }
 
-    // =========================
-    // FORMATAÇÃO DO PREÇO
-    // =========================
-
+    // FORMATAÇÃO DO PREÇO — SOMENTE FREELANCER
     const inputQuantia = document.querySelector('.inputQuantia');
 
-    if (inputQuantia) {
+    inputQuantia?.addEventListener('input', event => {
 
-        inputQuantia.addEventListener('input', event => {
+        const valor = event.target.value.replace(/\D/g, '');
+        const valorDecimal = (Number(valor) / 100).toFixed(2);
 
-            const e = event.target;
+        event.target.value = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(Number(valorDecimal));
+    });
 
-            let valor = e.value.replace(/\D/g, '');
-
-            const valorDecimal = (Number(valor) / 100).toFixed(2);
-
-            e.value = new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-            }).format(valorDecimal);
-        });
-    }
-
-    // =========================
-    // ADICIONAR INFORMAÇÕES
-    // =========================
-
+    // SALVAR INFORMAÇÕES
     async function adicionarInformacoes() {
 
         const localidade = {
-    pais: document.getElementById('pais').value,
-    estado: document.getElementById('estado').value,
-    cidade: document.getElementById('cidade').value,
-    cep: document.getElementById('inputCEP').value.trim()
-};
+            pais: document.getElementById('pais')?.value || '',
+            estado: document.getElementById('estado')?.value || '',
+            cidade: document.getElementById('cidade')?.value || '',
+            cep: inputCEP?.value.trim() || ''
+        };
 
         const redesSociais = [];
 
-        document.querySelectorAll('#input-redesocial')
-            .forEach(redeSocial => {
+        document.querySelectorAll('.input-redesocial').forEach(input => {
 
-                if (redeSocial.value.trim() !== '') {
+            const link = input.value.trim();
 
-                    redesSociais.push({
-                        site: redeSocial.name,
-                        link: redeSocial.value.trim()
-                    });
-                }
-            });
-
-        const sobreMim = document
-            .querySelector('#sobre-mim')
-            .value.trim();
+            if (link) {
+                redesSociais.push({
+                    site: input.name,
+                    link
+                });
+            }
+        });
 
         const dadosParaEnviar = {
+
             idUser: usuario.idUser ?? usuario.id,
+
+            // O controller atual espera "localidade".
             localidade,
-            profissao: document.querySelector('#profissao').value,
+
+            profissao:
+                document.querySelector('#profissao')?.value.trim() || '',
+
+            habilidades,
+
             redesSociais,
-            sobreMim
+
+            sobreMim:
+                document.querySelector('#sobre-mim')?.value.trim() || ''
         };
 
+        // Preço exclusivo do freelancer.
         if (roleAtual === 'freelancer') {
 
-
-
-            dadosParaEnviar.habilidades = habilidades;
-
             dadosParaEnviar.quantia = {
-                valor: inputQuantia.value,
-                per: document.querySelector('.selectQuantia').value
+                valor: inputQuantia?.value || '',
+                per: document.querySelector('.selectQuantia')?.value || ''
             };
         }
 
         console.log('Dados enviados:', dadosParaEnviar);
 
-        btnContinuar.disabled = true;
+        if (btnContinuar) {
+            btnContinuar.disabled = true;
+        }
 
         try {
 
             const resposta = await fetch('/api/informacoesAdicionais', {
+
                 method: 'POST',
+
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
+
                 body: JSON.stringify(dadosParaEnviar)
             });
 
             const dados = await resposta.json();
 
             if (!resposta.ok || !dados.success) {
-                throw new Error(dados.message || 'Erro ao salvar perfil.');
+                throw new Error(
+                    dados.message || 'Erro ao salvar perfil.'
+                );
             }
 
             alert('Informações salvas com sucesso!');
@@ -360,9 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.error('Erro ao salvar informações:', erro);
 
-            alert('Não foi possível salvar suas informações.');
+            alert(
+                erro.message || 'Não foi possível salvar suas informações.'
+            );
 
-            btnContinuar.disabled = false;
+            if (btnContinuar) {
+                btnContinuar.disabled = false;
+            }
         }
     }
 

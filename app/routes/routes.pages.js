@@ -31,25 +31,46 @@ router.get('/register', temToken, (req, res) => {
 });
 
 //Rota para perfil (após login)
-router.get('/profile', autenticar, async(req, res) => {
-    console.log('acessando tela de perfil');
 
-    const usuario = await controller.renderizar(req);
+router.get('/profile', autenticar, async (req, res) => {
+    try {
+        console.log('acessando tela de perfil');
 
-    console.log(res.statusCode);
+        const usuario = await controller.renderizar(req);
 
-    if(usuario.role ===  "Freelancer"){
-        res.render(path.join('profile_freelancers'), {
-        layout: false,
-        usuario: usuario
-    })
-    }else{
-        res.render(path.join('profile_clients'), {
-        layout: false,
-        usuario: usuario
-    });
+        if (!usuario) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+
+        if (usuario.role === 'Freelancer') {
+            const daoDadosFreelancer = require('../render/profile/db/daoDadosFreelancer');
+
+            const dadosFreelancer = await daoDadosFreelancer(usuario.idUser);
+
+            return res.render(path.join('profile_freelancers'), {
+                layout: false,
+                usuario,
+                ...dadosFreelancer
+            });
+        }
+
+        // É AQUI, MN! Substitua o return antigo do cliente por este bloco.
+        const daoDadosCliente = require('../render/profile/db/daoDadosCliente');
+
+        const dadosCliente = await daoDadosCliente(usuario.idUser);
+
+        return res.render(path.join('profile_clients'), {
+            layout: false,
+            usuario,
+            ...dadosCliente
+        });
+
+    } catch (erro) {
+        console.error('Erro ao carregar perfil:', erro);
+        return res.status(500).send('Não foi possível carregar o perfil.');
     }
-}); 
+});
+
 
 
 router.get('/edit.profile', autenticar, async(req, res) => {
@@ -185,6 +206,8 @@ router.get('/testerender', autenticar, async(req, res) => {
 
 
 
+
+
 router.get('/technical.profile', autenticar, async (req, res) => {
     try {
         const { i } = req.query;
@@ -195,6 +218,8 @@ router.get('/technical.profile', autenticar, async (req, res) => {
 
         const daoPerfilTecnico = require('../render/profile/db/daoProfile');
         const daoBuscarProjetos = require('../render/projects/profile-view/db/daoBuscarProjetos');
+        const daoDadosFreelancer = require('../render/profile/db/daoDadosFreelancer');
+        const daoDadosCliente = require('../render/profile/db/daoDadosCliente');
 
         const { perfil, usuario, mesmoUsuario } =
             await daoPerfilTecnico(i, req);
@@ -203,15 +228,36 @@ router.get('/technical.profile', autenticar, async (req, res) => {
             return res.status(404).send('Perfil não encontrado.');
         }
 
-        // Buscar os projetos do freelancer visitado
-        const projetos = await daoBuscarProjetos(perfil.idUser);
+        let dadosPerfil = {};
+        let projetos = [];
+
+        if (perfil.role === 'Freelancer') {
+
+            // Projetos do portfólio do freelancer
+            projetos = await daoBuscarProjetos(perfil.idUser);
+
+            // Histórico e avaliações do freelancer
+            dadosPerfil = await daoDadosFreelancer(perfil.idUser);
+
+        } else if (perfil.role === 'Cliente') {
+
+            // Projetos publicados, histórico e avaliações do cliente
+            dadosPerfil = await daoDadosCliente(perfil.idUser);
+
+        }
 
         return res.render('perfil-tecnico', {
             layout: false,
             perfil,
             usuario,
             mesmoUsuario,
-            projetos: projetos || []
+
+            projetos,
+
+            ehCliente: perfil.role === 'Cliente',
+            ehFreelancer: perfil.role === 'Freelancer',
+
+            ...dadosPerfil
         });
 
     } catch (erro) {
@@ -219,6 +265,7 @@ router.get('/technical.profile', autenticar, async (req, res) => {
         return res.status(500).send('Não foi possível carregar o perfil.');
     }
 });
+
 
 
 

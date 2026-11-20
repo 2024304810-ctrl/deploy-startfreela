@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -88,52 +89,52 @@
               <p class="nome-usuario">@{{perfil.username}}</p>
 
               {{#if perfil.profissao}}
-              <p class="profissao">{{perfil.profissao}}</p>
+                <p class="profissao">{{perfil.profissao}}</p>
               {{else}}
-              <p class="profissao">--------//--------</p>
+                <p class="profissao">--------//--------</p>
               {{/if}}
 
               <div class="perfil-meta">
 
                 {{#if perfil.localizacaoTexto}}
-                <span class="meta-item">
-                  <i class="fa-solid fa-location-dot"></i>
-                  {{perfil.localizacaoTexto}}
-                </span>
+                  <span class="meta-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    {{perfil.localizacaoTexto}}
+                  </span>
                 {{else}}
-                <span class="meta-item">
-                  <i class="fa-solid fa-location-dot"></i>
-                  Localização não informada
-                </span>
+                  <span class="meta-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    Localização não informada
+                  </span>
                 {{/if}}
 
                 {{#if perfil.ativo}}
-                <span class="meta-item status-disponivel">
-                  <i class="fa-solid fa-circle"></i>Ativo
-                </span>
+                  <span class="meta-item status-disponivel">
+                    <i class="fa-solid fa-circle"></i>Ativo
+                  </span>
                 {{else}}
-                <span class="meta-item status-indisponivel">
-                  <i class="fa-solid fa-circle"></i>Inativo
-                </span>
+                  <span class="meta-item status-indisponivel">
+                    <i class="fa-solid fa-circle"></i>Inativo
+                  </span>
                 {{/if}}
 
               </div>
 
               <div class="perfil-links">
                 {{#each perfil.redesSociais}}
-                <a href="{{this.link}}" class="link-externo" target="_blank" rel="noopener noreferrer">
-                  <i class="fa-solid fa-link"></i>
-                  {{this.site}}
-                </a>
+                  <a href="{{this.link}}" class="link-externo" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-link"></i>
+                    {{this.site}}
+                  </a>
                 {{/each}}
               </div>
 
             </div>
 
             {{#unless mesmoUsuario}}
-            <a class="btn-primary btn-editar" id="{{perfil.idUser}}">
-              <i class="fa-solid fa-comment-dots"></i> Conversar
-            </a>
+              <a class="btn-primary btn-editar" id="{{perfil.idUser}}">
+                <i class="fa-solid fa-comment-dots"></i> Conversar
+              </a>
             {{/unless}}
 
           </div>
@@ -145,9 +146,9 @@
             <h3 class="titulo-bloco">Sobre Mim</h3>
 
             {{#if perfil.sobreMim}}
-            <p class="texto-sobre">{{perfil.sobreMim}}</p>
+              <p class="texto-sobre">{{perfil.sobreMim}}</p>
             {{else}}
-            <p class="texto-sobre">Este usuário ainda não adicionou uma descrição.</p>
+              <p class="texto-sobre">Este usuário ainda não adicionou uma descrição.</p>
             {{/if}}
           </div>
 
@@ -157,219 +158,351 @@
 
             <div class="chips">
               {{#if perfil.possuiHabilidades}}
-              {{#each perfil.habilidades}}
-              <span class="chip">{{this}}</span>
-              {{/each}}
+                {{#each perfil.habilidades}}
+                  <span class="chip">{{this}}</span>
+                {{/each}}
               {{else}}
-              <p>Nenhuma habilidade cadastrada.</p>
+                <p>Nenhuma habilidade cadastrada.</p>
               {{/if}}
             </div>
           </div>
 
         </section>
 
-        <!-- PORTFÓLIO EXTERNO -->
-        <section class="panel">
-          <div class="header-secao">
-            <div class="header-secao-titulo">
-              <h2>Portfólio</h2>
-              <span class="selo-info">Externo · não verificado</span>
+        <!-- PORTFÓLIO: SOMENTE FREELANCER -->
+        {{#if ehFreelancer}}
+
+          <section class="panel">
+            <div class="header-secao">
+              <div class="header-secao-titulo">
+                <h2>Portfólio</h2>
+                <span class="selo-info">Externo · não verificado</span>
+              </div>
             </div>
-          </div>
 
+            <div class="grid-portfolio">
 
-          <div class="grid-portfolio">
+              {{#if projetos.length}}
 
-            {{#if projetos.length}}
+                {{#each projetos}}
+                  <article class="card-projeto" data-projeto="{{this.idProjeto}}">
 
-            {{#each projetos}}
-            <article class="card-projeto" data-projeto="{{this.idProjeto}}">
+                    <img src="{{this.imagemCapa}}" alt="{{this.titulo}}">
 
-              <img src="{{this.imagemCapa}}" alt="{{this.titulo}}">
+                    <div class="info-projeto">
+                      <h4>{{this.titulo}}</h4>
 
-              <div class="info-projeto">
-                <h4>{{this.titulo}}</h4>
+                      <div class="tags">
+                        {{#each this.habilidades}}
+                          <span class="tag">{{this}}</span>
+                        {{/each}}
+                      </div>
 
-                <div class="tags">
-                  {{#each this.habilidades}}
-                  <span class="tag">{{this}}</span>
-                  {{/each}}
-                </div>
+                      <a href="/portfolio/projeto?p={{this.idProjeto}}" class="link-projeto">
+                        <i class="fa-solid fa-eye"></i>
+                        Ver projeto
+                      </a>
+                    </div>
 
-                <a href="/portfolio/projeto?p={{this.idProjeto}}" class="link-projeto">
-                  <i class="fa-solid fa-eye"></i>
-                  Ver projeto
-                </a>
+                  </article>
+                {{/each}}
+
+              {{else}}
+                <p>Este freelancer ainda não adicionou projetos ao portfólio.</p>
+              {{/if}}
+
+            </div>
+          </section>
+
+        {{/if}}
+
+        <!-- TRABALHOS REALIZADOS: SOMENTE FREELANCER -->
+        {{#if ehFreelancer}}
+
+          <section class="panel">
+            <div class="header-secao">
+              <div class="header-secao-titulo">
+                <h2>Trabalhos Realizados no StartFreela</h2>
+                <span class="selo-info selo-info-verde">
+                  <i class="fa-solid fa-check"></i> Auditado pelo sistema
+                </span>
               </div>
 
-            </article>
-            {{/each}}
+              <p>
+                Estes são os projetos que este usuário concluiu na plataforma.
+                O histórico é gerado automaticamente e não pode ser editado,
+                garantindo a credibilidade das avaliações.
+              </p>
+            </div>
 
+            <div class="grid-historico">
+
+              {{#each projetosConcluidos}}
+
+                <article class="card-historico">
+                  <div class="info-historico">
+                    <h4>{{this.titulo}}</h4>
+
+                    <div class="tags">
+                      {{#each this.habilidades}}
+                        <span class="tag">{{this}}</span>
+                      {{/each}}
+                    </div>
+
+                    <p class="linha-meta">
+                      Realizado para: <b>{{this.clienteUsername}}</b>
+                    </p>
+
+                    {{#if this.entrega.dataAprovacao}}
+                      <p class="linha-meta">
+                        Concluído em: {{this.entrega.dataAprovacao}}
+                      </p>
+                    {{/if}}
+                  </div>
+
+                  <div class="avaliacao-historico">
+                    {{#if this.avaliacao}}
+                      <p class="nota-historico">
+                        <i class="fa-solid fa-star"></i>
+                        {{this.avaliacao.nota}}/5
+                      </p>
+
+                      {{#if this.avaliacao.comentario}}
+                        <p class="comentario-historico">
+                          "{{this.avaliacao.comentario}}"
+                        </p>
+                      {{/if}}
+
+                      <p class="selo-verificado">
+                        <i class="fa-solid fa-check"></i>
+                        Contrato Verificado
+                      </p>
+                    {{else}}
+                      <p class="linha-meta">Ainda não avaliado</p>
+                    {{/if}}
+                  </div>
+                </article>
+
+              {{else}}
+                <p class="linha-meta">Este freelancer ainda não concluiu trabalhos no StartFreela.</p>
+              {{/each}}
+
+            </div>
+          </section>
+
+        {{/if}}
+
+        <!-- PROJETOS PUBLICADOS: SOMENTE CLIENTE -->
+        {{#if ehCliente}}
+
+          <section class="panel">
+            <div class="header-secao">
+              <div class="header-secao-titulo">
+                <h2>Projetos Publicados</h2>
+              </div>
+
+              <p>Projetos publicados por este cliente na plataforma.</p>
+            </div>
+
+            <div class="grid-historico">
+
+              {{#each projetosPublicados}}
+
+                <article class="card-historico">
+                  <div class="info-historico">
+
+                    <div class="cpp-topo">
+                      <h4>{{this.titulo}}</h4>
+
+                      <span class="cpp-preco">
+                        R$ {{this.orcamentoMinimo}} - R$ {{this.orcamentoMaximo}}
+                      </span>
+                    </div>
+
+                    {{#if this.descricao}}
+                      <p class="linha-meta">{{this.descricao}}</p>
+                    {{/if}}
+
+                    <div class="tags">
+                      {{#each this.habilidades}}
+                        <span class="tag">{{this}}</span>
+                      {{/each}}
+                    </div>
+
+                    {{#if this.prazoDesejado}}
+                      <p class="linha-meta">
+                        <i class="fa-regular fa-calendar"></i>
+                        Prazo: {{this.prazoDesejado}}
+                      </p>
+                    {{/if}}
+
+                    {{#if this.categoria}}
+                      <p class="linha-meta">
+                        <i class="fa-solid fa-folder"></i>
+                        Categoria: {{this.categoria}}
+                      </p>
+                    {{/if}}
+
+                    {{#if this.dataPostagem}}
+                      <p class="linha-meta">
+                        <i class="fa-regular fa-clock"></i>
+                        Publicado em: {{this.dataPostagem}}
+                      </p>
+                    {{/if}}
+
+                    <p class="linha-meta">
+                      <span class="selo-info">Projeto aberto</span>
+                    </p>
+
+                  </div>
+                </article>
+
+              {{else}}
+                <p class="linha-meta">Este cliente ainda não possui projetos em aberto.</p>
+              {{/each}}
+
+            </div>
+          </section>
+
+        {{/if}}
+
+        <!-- AVALIAÇÕES RECEBIDAS: AMBOS OS PERFIS -->
+        <section class="panel">
+
+          <div class="header-secao">
+
+            {{#if ehCliente}}
+              <h2>Avaliações dos Freelancers</h2>
+              <p>
+                Avaliações realizadas por freelancers que concluíram projetos com este cliente.
+              </p>
             {{else}}
-            <p>Este freelancer ainda não adicionou projetos ao portfólio.</p>
+              <h2>Avaliações dos Clientes</h2>
+              <p>
+                Todas as avaliações abaixo vêm de contratos concluídos e verificados na plataforma.
+              </p>
             {{/if}}
 
           </div>
 
-        </section>
-
-        <!-- TRABALHOS NO STARTFREELA -->
-        <section class="panel">
-          <div class="header-secao">
-            <div class="header-secao-titulo">
-              <h2>Trabalhos Realizados no StartFreela</h2>
-              <span class="selo-info selo-info-verde">
-                <i class="fa-solid fa-check"></i> Auditado pelo sistema
-              </span>
-            </div>
-
-            <p>
-              Estes são os projetos que este usuário concluiu na plataforma.
-              O histórico é gerado automaticamente e não pode ser editado,
-              garantindo a credibilidade das avaliações.
-            </p>
-          </div>
-
-          <div class="grid-historico">
-
-            <!-- <article class="card-historico">
-              <img class="img-historico" src="../assets/img/code.jpg" alt="">
-              <div class="info-historico">
-                <h4>Site Institucional Petshop</h4>
-                <div class="tags">
-                  <span class="tag">PHP</span>
-                  <span class="tag">HTML5</span>
-                </div>
-                <p class="linha-meta">Realizado para: <b>Clínicas Diversas</b></p>
-                <p class="linha-meta">Entregue em: Junho/2026</p>
-              </div>
-              <div class="avaliacao-historico">
-                <p class="nota-historico"><i class="fa-solid fa-star"></i> 5.0</p>
-                <p class="comentario-historico">"Excelente profissional! Código limpo e super rápido."</p>
-                <p class="selo-verificado"><i class="fa-solid fa-check"></i> Contrato Verificado</p>
-              </div>
-            </article> -->
-
-            <!-- <article class="card-historico">
-              <img class="img-historico" src="../assets/img/code.jpg" alt="">
-              <div class="info-historico">
-                <h4>Landing Page para Evento</h4>
-                <div class="tags">
-                  <span class="tag">JavaScript</span>
-                  <span class="tag">React</span>
-                </div>
-                <p class="linha-meta">Realizado para: <b>InnovateHub</b></p>
-                <p class="linha-meta">Entregue em: Maio/2026</p>
-              </div>
-              <div class="avaliacao-historico">
-                <p class="nota-historico"><i class="fa-solid fa-star"></i> 4.8</p>
-                <p class="comentario-historico">"Layout impecável, atendeu todas as expectativas."</p>
-                <p class="selo-verificado"><i class="fa-solid fa-check"></i> Contrato Verificado</p>
-              </div>
-            </article> -->
-
-          </div>
-        </section>
-
-        <!-- AVALIAÇÕES DOS CLIENTES -->
-        <section class="panel">
-          <div class="header-secao">
-            <h2>Avaliações dos Clientes</h2>
-            <p>Todas as avaliações abaixo vêm de contratos concluídos e verificados na plataforma.</p>
-          </div>
-
+          <!-- RESUMO DAS AVALIAÇÕES -->
           <div class="resumo-avaliacoes">
 
             <div class="nota-geral">
-              <span class="nota-numero">0</span>
+              <span class="nota-numero">{{mediaAvaliacoes}}</span>
 
-              <span class="nota-estrelas">
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
+              <div class="nota-estrelas">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+
+              <span class="nota-total">
+                {{totalAvaliacoes}} avaliações
               </span>
-
-              <span class="nota-total">0 avaliações</span>
             </div>
 
             <div class="barras-avaliacao">
 
-              <div class="linha-barra">
-                <span>5★</span>
-                <div class="barra">
-                  <div class="barra-preenchida" style="width:0%;"></div>
-                </div>
-                <span class="barra-qtd">0</span>
-              </div>
+              {{#if ehCliente}}
 
-              <div class="linha-barra">
-                <span>4★</span>
-                <div class="barra">
-                  <div class="barra-preenchida" style="width:0%;"></div>
-                </div>
-                <span class="barra-qtd">0</span>
-              </div>
+                {{#each distribuicaoAvaliacoes}}
+                  <div class="linha-barra">
+                    <span>{{this.nota}}★</span>
 
-              <div class="linha-barra">
-                <span>3★</span>
-                <div class="barra">
-                  <div class="barra-preenchida" style="width:0%;"></div>
-                </div>
-                <span class="barra-qtd">0</span>
-              </div>
+                    <div class="barra">
+                      <div class="barra-preenchida"
+                        style="width: {{this.percentual}}%;">
+                      </div>
+                    </div>
 
-              <div class="linha-barra">
-                <span>2★</span>
-                <div class="barra">
-                  <div class="barra-preenchida" style="width:0%;"></div>
-                </div>
-                <span class="barra-qtd">0</span>
-              </div>
+                    <span class="barra-qtd">{{this.quantidade}}</span>
+                  </div>
+                {{/each}}
 
-              <div class="linha-barra">
-                <span>1★</span>
-                <div class="barra">
-                  <div class="barra-preenchida" style="width:0%;"></div>
-                </div>
-                <span class="barra-qtd">0</span>
-              </div>
+              {{else}}
+
+                {{#each distribuicaoNotas}}
+                  <div class="linha-barra">
+                    <span>{{this.nota}}★</span>
+
+                    <div class="barra">
+                      <div class="barra-preenchida"
+                        style="width: {{this.percentual}}%;">
+                      </div>
+                    </div>
+
+                    <span class="barra-qtd">{{this.quantidade}}</span>
+                  </div>
+                {{/each}}
+
+              {{/if}}
 
             </div>
           </div>
 
+          <!-- LISTA DE AVALIAÇÕES -->
           <div class="lista-avaliacoes">
 
-            <!-- <div class="avaliacao-item">
-              <div class="avaliacao-item-topo">
-                <div class="avaliador">
-                  <div class="avatar-round">C</div>
-                  <div>
-                    <p class="avaliador-nome">Clínicas Diversas</p>
-                    <p class="avaliador-projeto">Site Institucional Petshop</p>
-                  </div>
-                </div>
-                <span class="nota-item"><i class="fa-solid fa-star"></i> 5.0</span>
-              </div>
-              <p class="avaliacao-texto">"Excelente profissional! Código limpo e super rápido, entregou antes do prazo combinado."</p>
-            </div> -->
+            {{#each avaliacoes}}
 
-            <!-- <div class="avaliacao-item">
-              <div class="avaliacao-item-topo">
-                <div class="avaliador">
-                  <div class="avatar-round">I</div>
-                  <div>
-                    <p class="avaliador-nome">InnovateHub</p>
-                    <p class="avaliador-projeto">Landing Page para Evento</p>
+              <div class="avaliacao-item">
+
+                <div class="avaliacao-item-topo">
+
+                  <div class="avaliador">
+
+                    <div class="avatar-round"></div>
+
+                    <div>
+                      <p class="avaliador-nome">
+                        {{this.avaliadorUsername}}
+                      </p>
+
+                      <p class="avaliador-projeto">
+                        {{this.tituloProjeto}}
+                      </p>
+
+                      <p class="avaliador-projeto">
+                        {{this.dataFormatada}}
+                      </p>
+                    </div>
+
                   </div>
+
+                  <span class="nota-item">
+                    <i class="fa-solid fa-star"></i>
+                    {{this.nota}}/5
+                  </span>
+
                 </div>
-                <span class="nota-item"><i class="fa-solid fa-star"></i> 4.8</span>
+
+                <p class="avaliacao-texto">
+
+                  {{#if this.comentario}}
+                    "{{this.comentario}}"
+                  {{else}}
+
+                    {{#if ../ehCliente}}
+                      Freelancer não deixou comentário.
+                    {{else}}
+                      Cliente não deixou comentário.
+                    {{/if}}
+
+                  {{/if}}
+
+                </p>
+
               </div>
-              <p class="avaliacao-texto">"Layout impecável, atendeu todas as expectativas do briefing."</p>
-            </div> -->
+
+            {{else}}
+              <p class="linha-meta">Ainda não existem avaliações.</p>
+            {{/each}}
 
           </div>
+
         </section>
 
       </div>
@@ -381,66 +514,84 @@
         <section class="panel">
           <h2>Estatísticas</h2>
 
-          <p class="linha-stat">
-            Projetos Concluídos
-            <span class="stat-valor stat-verde">
-              0 <i class="fa-solid fa-check"></i>
-            </span>
-          </p>
+          {{#if ehCliente}}
 
-          <p class="linha-stat">
-            Avaliação Média
-            <span class="stat-valor stat-dourado">
-              0 <i class="fa-solid fa-star"></i>
-            </span>
-          </p>
+            <p class="linha-stat">
+              Projetos Publicados
+              <span class="stat-valor">
+                {{totalProjetos}}
+                <i class="fa-solid fa-folder-open"></i>
+              </span>
+            </p>
 
-          <p class="linha-stat">
-            Taxa de Resposta
-            <span class="stat-valor">0%</span>
-          </p>
+            <p class="linha-stat">
+              Projetos em Aberto
+              <span class="stat-valor">
+                {{totalProjetosAbertos}}
+                <i class="fa-solid fa-clock"></i>
+              </span>
+            </p>
+
+            <p class="linha-stat">
+              Projetos Concluídos
+              <span class="stat-valor stat-verde">
+                {{totalConcluidos}}
+                <i class="fa-solid fa-check"></i>
+              </span>
+            </p>
+
+            <p class="linha-stat">
+              Avaliação Média
+              <span class="stat-valor stat-dourado">
+                {{mediaAvaliacoes}}
+                <i class="fa-solid fa-star"></i>
+              </span>
+            </p>
+
+            <p class="linha-stat">
+              Avaliações Recebidas
+              <span class="stat-valor">
+                {{totalAvaliacoes}}
+              </span>
+            </p>
+
+          {{else}}
+
+            <p class="linha-stat">
+              Projetos Concluídos
+              <span class="stat-valor stat-verde">
+                {{totalProjetos}}
+                <i class="fa-solid fa-check"></i>
+              </span>
+            </p>
+
+            <p class="linha-stat">
+              Avaliação Média
+              <span class="stat-valor stat-dourado">
+                {{mediaAvaliacoes}}
+                <i class="fa-solid fa-star"></i>
+              </span>
+            </p>
+
+            <p class="linha-stat">
+              Avaliações Recebidas
+              <span class="stat-valor">
+                {{totalAvaliacoes}}
+              </span>
+            </p>
+
+          {{/if}}
 
           <p class="linha-stat sem-borda">
             Membro desde <b>{{perfil.createdIn}}</b>
           </p>
-        </section>
 
-        <!-- SELOS CONQUISTADOS -->
-        <section class="panel">
-          <h2>Selos Conquistados</h2>
-
-          <div class="lista-selos">
-
-            <!-- <div class="selo-item">
-              <i class="fa-solid fa-shield-halved"></i>
-              <div>
-                <p class="selo-titulo">Identidade Verificada</p>
-                <p class="selo-desc">Documento validado pela equipe StartFreela</p>
-              </div>
-            </div> -->
-
-            <!-- <div class="selo-item">
-              <i class="fa-solid fa-bolt"></i>
-              <div>
-                <p class="selo-titulo">Resposta Rápida</p>
-                <p class="selo-desc">Responde propostas em menos de 2h</p>
-              </div>
-            </div> -->
-
-            <!-- <div class="selo-item">
-              <i class="fa-solid fa-star"></i>
-              <div>
-                <p class="selo-titulo">Top Avaliado</p>
-                <p class="selo-desc">Nota acima de 4.5 em 10+ contratos</p>
-              </div>
-            </div> -->
-
-          </div>
         </section>
 
       </aside>
 
     </div>
+
   </main>
 
   <script src="/js.components/header-dropdown.js"></script>
