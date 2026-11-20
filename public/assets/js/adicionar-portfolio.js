@@ -165,13 +165,13 @@ inputHabTec.addEventListener('keydown', (event)=>{
 })
 
 divChips.addEventListener('click', (event) => {
- 
-  if (event.target.classList.contains('apagar')) {
-   
-    const chip = event.target.closest('.chip');
-    chip.remove();
-    habilidades.pop();
-  }
+    if (event.target.classList.contains('apagar')) {
+        const chip = event.target.closest('.chip');
+        const indice = Array.from(divChips.children).indexOf(chip);
+
+        habilidades.splice(indice, 1);
+        chip.remove();
+    }
 });
 
 document.querySelector('#salvar-projeto').addEventListener('click', async(e) => {
@@ -196,7 +196,7 @@ document.querySelector('#salvar-projeto').addEventListener('click', async(e) => 
   formData.append('categoria', categoria);
   formData.append('dataConclusao', dataConclusao);
   formData.append('descricao', descricao);
-  formData.append('habilidades', habilidades)
+  formData.append('habilidades', JSON.stringify(habilidades));
   //formData.append('links', links);
 
   const obj = Object.fromEntries(formData);
