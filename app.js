@@ -21,6 +21,7 @@ const wss = new WebSocket.Server({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use(cookieParser());
 
 app.engine('handlebars', engine());
