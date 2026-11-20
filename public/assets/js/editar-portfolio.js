@@ -226,10 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const botaoSalvar = document.getElementById('salvarEdicao');
 
-        if (habilidades.length === 0) {
-            alert('Adicione pelo menos uma habilidade técnica.');
-            return;
-        }
+        
 
         botaoSalvar.disabled = true;
         botaoSalvar.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
