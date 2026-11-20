@@ -49,9 +49,11 @@ function formatarHorario(data) {
 }
 
 // CRIAR ELEMENTO DA MENSAGEM
+
 function renderizarMensagem(mensagem) {
 
-    const minhaMensagem = mensagem.remetente === usuario.id;
+    const minhaMensagem =
+        String(mensagem.remetente) === String(usuario.id);
 
     const bolha = document.createElement('div');
 
@@ -62,10 +64,12 @@ function renderizarMensagem(mensagem) {
 
     bolha.dataset.id = mensagem._id;
 
+    // Texto
     const texto = document.createElement('p');
     texto.classList.add('texto-mensagem');
     texto.textContent = mensagem.texto;
 
+    // Horário
     const horario = document.createElement('span');
     horario.classList.add('bolha-hora');
     horario.textContent = formatarHorario(mensagem.data);
@@ -73,32 +77,70 @@ function renderizarMensagem(mensagem) {
     bolha.appendChild(texto);
     bolha.appendChild(horario);
 
-    // BOTÕES APENAS NAS MENSAGENS DO PRÓPRIO USUÁRIO
+    // AÇÕES SOMENTE NAS MENSAGENS ENVIADAS
     if (minhaMensagem) {
 
         const acoes = document.createElement('div');
         acoes.classList.add('acoes-mensagem');
 
+        // Botão dos três pontinhos
+        const botaoMenu = document.createElement('button');
+        botaoMenu.type = 'button';
+        botaoMenu.classList.add('botao-menu-mensagem');
+        botaoMenu.title = 'Opções da mensagem';
+        botaoMenu.innerHTML = '<i class="fa-solid fa-ellipsis-vertical"></i>';
+
+        // Menu
+        const menu = document.createElement('div');
+        menu.classList.add('menu-acoes-mensagem');
+
+        // Opção editar
         const botaoEditar = document.createElement('button');
         botaoEditar.type = 'button';
-        botaoEditar.textContent = 'Editar';
         botaoEditar.classList.add('botao-editar');
+        botaoEditar.innerHTML = '<i class="fa-solid fa-pen"></i> Editar';
 
-        botaoEditar.addEventListener('click', () => {
+        botaoEditar.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            menu.classList.remove('aberto');
+
             editarMensagem(mensagem._id, texto.textContent);
         });
 
+        // Opção excluir
         const botaoExcluir = document.createElement('button');
         botaoExcluir.type = 'button';
-        botaoExcluir.textContent = 'Excluir';
         botaoExcluir.classList.add('botao-excluir');
+        botaoExcluir.innerHTML = '<i class="fa-solid fa-trash"></i> Excluir';
 
-        botaoExcluir.addEventListener('click', () => {
+        botaoExcluir.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            menu.classList.remove('aberto');
+
             excluirMensagem(mensagem._id);
         });
 
-        acoes.appendChild(botaoEditar);
-        acoes.appendChild(botaoExcluir);
+        // Abrir e fechar menu
+        botaoMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            document.querySelectorAll('.menu-acoes-mensagem.aberto')
+                .forEach(outroMenu => {
+                    if (outroMenu !== menu) {
+                        outroMenu.classList.remove('aberto');
+                    }
+                });
+
+            menu.classList.toggle('aberto');
+        });
+
+        menu.appendChild(botaoEditar);
+        menu.appendChild(botaoExcluir);
+
+        acoes.appendChild(botaoMenu);
+        acoes.appendChild(menu);
 
         bolha.appendChild(acoes);
     }
@@ -107,6 +149,7 @@ function renderizarMensagem(mensagem) {
 
     elementoPai.scrollTop = elementoPai.scrollHeight;
 }
+
 
 // WEBSOCKET
 const socket = new WebSocket(
@@ -288,5 +331,18 @@ async function iniciarChat() {
 
     await buscarMensagens();
 }
+
+document.addEventListener('click', (e) => {
+
+    if (!e.target.closest('.acoes-mensagem')) {
+
+        document.querySelectorAll('.menu-acoes-mensagem.aberto')
+            .forEach(menu => {
+                menu.classList.remove('aberto');
+            });
+
+    }
+
+});
 
 iniciarChat();

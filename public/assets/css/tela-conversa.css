@@ -298,3 +298,98 @@ main{padding:20px 40px;}
     text-decoration: underline;
 }
 
+
+/* =========================================
+   MENU DE AÇÕES DAS MENSAGENS
+========================================= */
+
+.bolha {
+    position: relative;
+}
+
+.acoes-mensagem {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
+/* Três pontinhos */
+
+.botao-menu-mensagem {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #526078;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: background 0.2s, opacity 0.2s;
+}
+
+.bolha.enviada:hover .botao-menu-mensagem {
+    opacity: 1;
+}
+
+.botao-menu-mensagem:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* Menu suspenso */
+
+.menu-acoes-mensagem {
+    display: none;
+    position: absolute;
+    top: 32px;
+    right: 0;
+    min-width: 135px;
+    padding: 5px;
+    background: #ffffff;
+    border: 1px solid #e2e5eb;
+    border-radius: 9px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.13);
+    z-index: 20;
+}
+
+.menu-acoes-mensagem.aberto {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Opções */
+
+.menu-acoes-mensagem button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-align: left;
+    font-size: 13px;
+    color: #26334d;
+    cursor: pointer;
+}
+
+.menu-acoes-mensagem button:hover {
+    background: #f1f3f6;
+}
+
+.menu-acoes-mensagem .botao-excluir {
+    color: #d93636;
+}
+
+/* Celulares: deixar os três pontinhos acessíveis */
+
+@media (hover: none) {
+    .botao-menu-mensagem {
+        opacity: 1;
+    }
+}
