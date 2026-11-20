@@ -14,29 +14,27 @@ const upload = multer({
 router.use(express.json());
 
 //API para processamento de login do usuário
+
 router.post('/api/login', async (req, res) => {
-    //Dados recebidos
     const { email, senha } = req.body;
 
     try {
-        console.log("Email:", email);
-
-        //Controller que inicia a função
         const controller = require('../auth/login/controller/controller');
+
         const resposta = await controller(email, senha, res);
 
-        console.log("resposta:", resposta);
-
-        //Retorno ao Front
-        res.json(resposta);
+        return res.status(resposta.status || 200).json(resposta);
 
     } catch (error) {
-        console.log("ERRO:", error);
-        res.status(500).json({
-            error: "Algum erro ocorreu no servidor!"
+        console.error('Erro na rota de login:', error);
+
+        return res.status(500).json({
+            success: false,
+            message: 'Algum erro ocorreu no servidor!'
         });
     }
 });
+
 
 //API para processamento de cadastro do usuário
 router.post("/api/register", async (req, res) => {

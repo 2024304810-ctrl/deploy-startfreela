@@ -18,6 +18,11 @@ let projetos = {
 };
 
 let abaAtual = 'disponiveis';
+let habilidadesSelecionadas = [];
+
+// =====================================================
+// FUNÇÕES AUXILIARES
+// =====================================================
 
 function escapar(valor) {
     return String(valor ?? '').replace(/[&<>"']/g, caractere => ({
@@ -29,8 +34,19 @@ function escapar(valor) {
     })[caractere]);
 }
 
+function numero(valor) {
+    if (typeof valor === 'number') return valor;
+
+    const limpo = String(valor ?? '')
+        .replace(/[^\d,.-]/g, '')
+        .replace(/\.(?=\d{3}(?:,|$))/g, '')
+        .replace(',', '.');
+
+    return Number(limpo) || 0;
+}
+
 function moeda(valor) {
-    return Number(valor || 0).toLocaleString('pt-BR', {
+    return numero(valor).toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     });
@@ -64,11 +80,234 @@ function notificar(mensagem) {
     setTimeout(() => toast.classList.add('hidden'), 3000);
 }
 
+// =====================================================
+// CONFIGURAÇÃO DOS FILTROS
+// =====================================================
+
+function configurarEstilosFiltros() {
+    if ($('#project-filters-dynamic-style')) return;
+
+    const estilo = document.createElement('style');
+    estilo.id = 'project-filters-dynamic-style';
+
+    estilo.textContent = `
+        .project-skill-filter {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px;
+            min-height: 44px;
+            padding: 8px;
+            border: 1px solid #dfe2e8;
+            border-radius: 9px;
+            background: #fff;
+            cursor: text;
+        }
+
+        .project-skill-filter:focus-within {
+            border-color: #1c2a4e;
+            box-shadow: 0 0 0 2px rgba(28,42,78,.08);
+        }
+
+        .project-skill-filter input {
+            flex: 1;
+            min-width: 100px;
+            width: 100%;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 5px !important;
+            background: transparent;
+        }
+
+        .project-skill-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 9px;
+            border-radius: 20px;
+            background: #eef0f3;
+            color: #1c2a4e;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .project-skill-chip button {
+            border: none;
+            background: none;
+            color: #565b6b;
+            cursor: pointer;
+            font-size: 15px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .project-filter-hint {
+            display: block;
+            margin-top: 5px;
+            color: #777;
+            font-size: 11px;
+        }
+    `;
+
+    document.head.appendChild(estilo);
+}
+
+
+function configurarFiltroCategoria() {
+    const campoOriginal = $('#category-filter');
+
+    if (!campoOriginal) return;
+
+    let input = campoOriginal;
+
+    if (campoOriginal.tagName !== 'INPUT') {
+        input = document.createElement('input');
+
+        input.type = 'text';
+        input.id = 'category-filter';
+        input.className = campoOriginal.className;
+
+        campoOriginal.replaceWith(input);
+    }
+
+    input.placeholder = 'Digite ou selecione uma categoria';
+    input.setAttribute('list', 'project-category-options');
+    input.autocomplete = 'off';
+
+    let datalist = $('#project-category-options');
+
+    if (!datalist) {
+        datalist = document.createElement('datalist');
+        datalist.id = 'project-category-options';
+        input.insertAdjacentElement('afterend', datalist);
+    }
+
+    input.addEventListener('input', aplicarFiltros);
+}
+
+
+function configurarFiltroHabilidades() {
+    const campoOriginal = $('#skills-filter');
+
+    if (
+        !campoOriginal ||
+        campoOriginal.parentElement.classList.contains('project-skill-filter')
+    ) {
+        return;
+    }
+
+    const container = document.createElement('div');
+    container.className = 'project-skill-filter';
+
+    const etiquetas = document.createElement('div');
+    etiquetas.className = 'project-skill-tags';
+    etiquetas.style.display = 'contents';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'skills-filter';
+    input.placeholder = 'Digite uma habilidade e pressione Enter';
+    input.autocomplete = 'off';
+
+    campoOriginal.replaceWith(container);
+    container.append(etiquetas, input);
+
+    const dica = document.createElement('small');
+    dica.className = 'project-filter-hint';
+    dica.textContent = 'Pressione Enter para adicionar uma habilidade.';
+
+    container.insertAdjacentElement('afterend', dica);
+
+    input.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ',') {
+            event.preventDefault();
+
+            const habilidade = input.value.trim().replace(/,$/, '');
+
+            if (!habilidade) return;
+
+            const jaExiste = habilidadesSelecionadas.some(
+                item => item.toLowerCase() === habilidade.toLowerCase()
+            );
+
+            if (!jaExiste) {
+                habilidadesSelecionadas.push(habilidade);
+                renderizarEtiquetasHabilidades();
+                aplicarFiltros();
+            }
+
+            input.value = '';
+        }
+
+        if (
+            event.key === 'Backspace' &&
+            !input.value &&
+            habilidadesSelecionadas.length
+        ) {
+            habilidadesSelecionadas.pop();
+            renderizarEtiquetasHabilidades();
+            aplicarFiltros();
+        }
+    });
+
+    container.addEventListener('click', () => input.focus());
+
+    renderizarEtiquetasHabilidades();
+}
+
+function renderizarEtiquetasHabilidades() {
+    const container = $('.project-skill-tags');
+
+    if (!container) return;
+
+    container.innerHTML = habilidadesSelecionadas.map((habilidade, indice) => `
+        <span class="project-skill-chip">
+            ${escapar(habilidade)}
+            <button
+                type="button"
+                data-remove-skill="${indice}"
+                aria-label="Remover ${escapar(habilidade)}">
+                &times;
+            </button>
+        </span>
+    `).join('');
+
+    container.querySelectorAll('[data-remove-skill]').forEach(botao => {
+        botao.addEventListener('click', event => {
+            event.stopPropagation();
+
+            const indice = Number(botao.dataset.removeSkill);
+
+            habilidadesSelecionadas.splice(indice, 1);
+
+            renderizarEtiquetasHabilidades();
+            aplicarFiltros();
+        });
+    });
+}
+
+function configurarFiltros() {
+    configurarEstilosFiltros();
+    configurarFiltroCategoria();
+    configurarFiltroHabilidades();
+}
+
+// =====================================================
+// MODAL DE DETALHES
+// =====================================================
+
 function abrirDetalhes(projeto, tipo) {
+    if (!modal || !modalTitle || !modalContent) return;
+
     modalTitle.textContent = projeto.titulo;
 
     const proposta = projeto.proposta;
     const entrega = projeto.entrega;
+
+    const habilidades = Array.isArray(projeto.habilidades)
+        ? projeto.habilidades
+        : [];
 
     modalContent.innerHTML = `
         <p>
@@ -92,16 +331,17 @@ function abrirDetalhes(projeto, tipo) {
         <p>${escapar(projeto.descricao)}</p>
 
         <p><strong>Habilidades:</strong></p>
+
         <div class="tag-row">
-            ${(projeto.habilidades || []).map(h =>
-                `<span>${escapar(h)}</span>`
-            ).join('')}
+            ${habilidades.map(h =>
+        `<span>${escapar(h)}</span>`
+    ).join('')}
         </div>
 
         ${proposta ? `
             <hr>
             <p><strong>Minha proposta:</strong> ${moeda(proposta.valor)}</p>
-            <p><strong>Prazo proposto:</strong> ${proposta.prazoDias} dias</p>
+            <p><strong>Prazo proposto:</strong> ${escapar(proposta.prazoDias)} dias</p>
             <p><strong>Status da proposta:</strong> ${escapar(proposta.status)}</p>
             <p>${escapar(proposta.mensagem)}</p>
         ` : ''}
@@ -117,8 +357,8 @@ function abrirDetalhes(projeto, tipo) {
                         <p>${escapar(item.descricao)}</p>
                         <small>
                             ${item.data
-                                ? new Date(item.data).toLocaleString('pt-BR')
-                                : ''}
+                        ? new Date(item.data).toLocaleString('pt-BR')
+                        : ''}
                         </small>
                     </div>
                 `).join('')
@@ -139,8 +379,8 @@ function abrirDetalhes(projeto, tipo) {
             </p>
             <p><strong>Enviada em:</strong>
                 ${entrega.dataEnvio
-                    ? new Date(entrega.dataEnvio).toLocaleString('pt-BR')
-                    : 'Não informado'}
+                ? new Date(entrega.dataEnvio).toLocaleString('pt-BR')
+                : 'Não informado'}
             </p>
         ` : ''}
     `;
@@ -150,7 +390,13 @@ function abrirDetalhes(projeto, tipo) {
     document.body.style.overflow = 'hidden';
 }
 
+// =====================================================
+// AVALIAÇÃO
+// =====================================================
+
 function mostrarFormularioAvaliacao(projeto) {
+    if (!modal || !modalTitle || !modalContent) return;
+
     modalTitle.textContent = 'Avaliar cliente';
 
     modalContent.innerHTML = `
@@ -218,7 +464,7 @@ function mostrarFormularioAvaliacao(projeto) {
     document.body.style.overflow = 'hidden';
 }
 
-modalContent.addEventListener('click', event => {
+modalContent?.addEventListener('click', event => {
     const estrela = event.target.closest('[data-rating]');
 
     if (estrela) {
@@ -239,7 +485,7 @@ modalContent.addEventListener('click', event => {
     }
 });
 
-modalContent.addEventListener('submit', async event => {
+modalContent?.addEventListener('submit', async event => {
     if (event.target.id !== 'evaluation-form') return;
 
     event.preventDefault();
@@ -261,10 +507,7 @@ modalContent.addEventListener('submit', async event => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    nota,
-                    comentario
-                })
+                body: JSON.stringify({ nota, comentario })
             }
         );
 
@@ -292,16 +535,24 @@ function fecharModal() {
 
 $('#close-modal')?.addEventListener('click', fecharModal);
 
-modal?.addEventListener('click', e => {
-    if (e.target === modal) fecharModal();
+modal?.addEventListener('click', event => {
+    if (event.target === modal) fecharModal();
 });
 
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') fecharModal();
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') fecharModal();
 });
+
+// =====================================================
+// CARDS DOS PROJETOS
+// =====================================================
 
 function criarCard(projeto, tipo) {
     const proposta = projeto.proposta;
+
+    const habilidades = Array.isArray(projeto.habilidades)
+        ? projeto.habilidades
+        : [];
 
     let status = 'Recebendo propostas';
     let classeStatus = 'status-open';
@@ -309,22 +560,22 @@ function criarCard(projeto, tipo) {
     let acao = '';
 
     if (tipo === 'candidaturas') {
-        status = proposta.status === 'Pendente'
+        status = proposta?.status === 'Pendente'
             ? 'Em análise'
-            : proposta.status;
+            : (proposta?.status || 'Em análise');
 
-        classeStatus = proposta.status === 'Recusada'
+        classeStatus = proposta?.status === 'Recusada'
             ? 'status-review'
             : 'status-open';
 
         fatos = `
             <span>
                 <small>Minha proposta</small>
-                <strong>${moeda(proposta.valor)}</strong>
+                <strong>${moeda(proposta?.valor)}</strong>
             </span>
             <span>
                 <small>Prazo proposto</small>
-                <strong>${proposta.prazoDias} dias</strong>
+                <strong>${escapar(proposta?.prazoDias)} dias</strong>
             </span>
         `;
     } else if (tipo === 'andamento') {
@@ -389,10 +640,7 @@ function criarCard(projeto, tipo) {
         `;
     }
 
-    if (
-        tipo === 'andamento' &&
-        projeto.status === 'Em andamento'
-    ) {
+    if (tipo === 'andamento' && projeto.status === 'Em andamento') {
         acao = `
             <button class="btn btn-outline btn-sm"
                 data-action="update-progress"
@@ -408,10 +656,7 @@ function criarCard(projeto, tipo) {
         `;
     }
 
-    if (
-        tipo === 'andamento' &&
-        projeto.status === 'Aguardando aprovação'
-    ) {
+    if (tipo === 'andamento' && projeto.status === 'Aguardando aprovação') {
         acao = `
             <span class="status status-review">
                 Entrega enviada. Aguardando cliente.
@@ -428,7 +673,7 @@ function criarCard(projeto, tipo) {
         <article class="opportunity-card"
             data-status="${tipo}"
             data-category="${escapar(projeto.categoria)}"
-            data-budget="${Number(projeto.orcamentoMaximo || 0)}"
+            data-budget="${numero(projeto.orcamentoMaximo)}"
             data-title="${escapar(projeto.titulo).toLowerCase()}">
 
             <div class="opp-top">
@@ -437,13 +682,18 @@ function criarCard(projeto, tipo) {
                 </div>
 
                 <div class="opp-title">
-                    <h2>${escapar(projeto.titulo)}</h2>
+    <h2>${escapar(projeto.titulo)}</h2>
 
-                    <p class="client-profile">
-                        <i class="fa-regular fa-building"></i>
-                        ${linkPerfilCliente(projeto)}
-                    </p>
-                </div>
+    <p class="client-profile">
+        <i class="fa-regular fa-building"></i>
+        ${linkPerfilCliente(projeto)}
+    </p>
+
+    <p class="project-category">
+        <i class="fa-solid fa-layer-group"></i>
+        ${escapar(projeto.categoria || 'Sem categoria')}
+    </p>
+</div>
 
                 <span class="status ${classeStatus}">
                     ${escapar(status)}
@@ -455,9 +705,9 @@ function criarCard(projeto, tipo) {
             </p>
 
             <div class="tag-row">
-                ${(projeto.habilidades || []).map(h =>
-                    `<span>${escapar(h)}</span>`
-                ).join('')}
+                ${habilidades.map(h =>
+        `<span>${escapar(h)}</span>`
+    ).join('')}
             </div>
 
             ${tipo === 'andamento' ? `
@@ -487,6 +737,67 @@ function criarCard(projeto, tipo) {
     `;
 }
 
+// =====================================================
+// ORDENAÇÃO
+// =====================================================
+
+function dataProjeto(projeto) {
+    const valor = projeto.dataPostagem;
+
+    if (!valor) return 0;
+
+    const dataNormal = new Date(valor);
+
+    if (!Number.isNaN(dataNormal.getTime())) {
+        return dataNormal.getTime();
+    }
+
+    const partes = String(valor).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+
+    if (partes) {
+        return new Date(
+            Number(partes[3]),
+            Number(partes[2]) - 1,
+            Number(partes[1])
+        ).getTime();
+    }
+
+    return 0;
+}
+
+function prazoEmDias(projeto) {
+    const texto = String(projeto.prazoDesejado || '');
+    const encontrado = texto.match(/\d+/);
+
+    return encontrado ? Number(encontrado[0]) : Infinity;
+}
+
+function ordenarProjetos(listaProjetos) {
+    const modo = $('#freelancer-sort')?.value || 'recentes';
+
+    const copia = [...listaProjetos];
+
+    if (modo === 'orcamento') {
+        copia.sort((a, b) =>
+            numero(b.orcamentoMaximo) - numero(a.orcamentoMaximo)
+        );
+    } else if (modo === 'prazo') {
+        copia.sort((a, b) =>
+            prazoEmDias(a) - prazoEmDias(b)
+        );
+    } else {
+        copia.sort((a, b) =>
+            dataProjeto(b) - dataProjeto(a)
+        );
+    }
+
+    return copia;
+}
+
+// =====================================================
+// INDICADORES E FILTROS
+// =====================================================
+
 function atualizarIndicadores() {
     const contagens = [
         projetos.disponiveis.length,
@@ -504,38 +815,95 @@ function atualizarIndicadores() {
         const tipo = botao.dataset.freelancerFilter;
         const contador = botao.querySelector('span');
 
-        if (contador) {
+        if (contador && projetos[tipo]) {
             contador.textContent = projetos[tipo].length;
         }
     });
 }
 
-function aplicarFiltros() {
-    const termo = (busca?.value || '').toLowerCase().trim();
-    const categoria = $('#category-filter')?.value || '';
-    const orcamento = Number($('#budget-filter')?.value || 0);
-    const habilidade = ($('#skills-filter')?.value || '').toLowerCase().trim();
 
-    $$('.opportunity-card', lista).forEach(card => {
-        const texto = card.textContent.toLowerCase();
+function normalizarTexto(valor) {
+    return String(valor ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toLowerCase();
+}
+
+function aplicarFiltros() {
+    if (!lista) return;
+
+    const termo = normalizarTexto(busca?.value);
+
+    const categoria = normalizarTexto(
+        $('#category-filter')?.value
+    );
+
+    const orcamento = numero(
+        $('#budget-filter')?.value || 0
+    );
+
+    const habilidades = habilidadesSelecionadas.map(
+        normalizarTexto
+    );
+
+    const cards = $$('.opportunity-card', lista);
+
+    cards.forEach(card => {
+        const texto = normalizarTexto(card.textContent);
+
+        const categoriaCard = normalizarTexto(
+            card.dataset.category
+        );
+
+        const orcamentoCard = numero(
+            card.dataset.budget || 0
+        );
+
+        const correspondePesquisa =
+            !termo || texto.includes(termo);
+
+        const correspondeCategoria =
+            !categoria || categoriaCard === categoria;
+
+        const correspondeOrcamento =
+            orcamentoCard >= orcamento;
+
+        const correspondeHabilidades =
+            habilidades.every(habilidade =>
+                texto.includes(habilidade)
+            );
 
         const corresponde =
-            card.dataset.title.includes(termo) &&
-            texto.includes(habilidade) &&
-            (!categoria || card.dataset.category === categoria) &&
-            Number(card.dataset.budget) >= orcamento;
+            correspondePesquisa &&
+            correspondeCategoria &&
+            correspondeOrcamento &&
+            correspondeHabilidades;
 
         card.classList.toggle('hidden', !corresponde);
     });
 
-    const possuiVisiveis = $$('.opportunity-card', lista)
-        .some(card => !card.classList.contains('hidden'));
+    const possuiVisiveis = cards.some(card =>
+        !card.classList.contains('hidden')
+    );
 
-    $('#freelancer-empty')?.classList.toggle('hidden', possuiVisiveis);
+    $('#freelancer-empty')?.classList.toggle(
+        'hidden',
+        possuiVisiveis
+    );
 }
 
+
+// =====================================================
+// RENDERIZAÇÃO
+// =====================================================
+
 function renderizarProjetos() {
-    const listaAtual = projetos[abaAtual] || [];
+    if (!lista) return;
+
+    const listaAtual = ordenarProjetos(
+        projetos[abaAtual] || []
+    );
 
     lista.innerHTML = listaAtual.map(projeto =>
         criarCard(projeto, abaAtual)
@@ -544,17 +912,26 @@ function renderizarProjetos() {
              id="freelancer-empty">
             <i class="fa-regular fa-folder-open"></i>
             <h3>Nenhum projeto encontrado</h3>
-            <p>Não há projetos nesta categoria no momento.</p>
+            <p>Não há projetos que correspondam aos filtros selecionados.</p>
         </div>
     `;
 
     aplicarFiltros();
 }
 
+// =====================================================
+// BUSCAR PROJETOS NA API
+// =====================================================
+
 async function carregarProjetos() {
     try {
         const resposta = await fetch('/api/freelancer/projetos');
         const dados = await resposta.json();
+
+       console.log(
+    'DADOS COMPLETOS DO PROJETO:',
+    JSON.stringify(dados.disponiveis[0], null, 2)
+);
 
         if (!resposta.ok) {
             throw new Error(dados.message || 'Erro ao carregar projetos.');
@@ -571,6 +948,7 @@ async function carregarProjetos() {
         projetos = {
             disponiveis: (dados.disponiveis || []).filter(p => {
                 const id = String(p.idProjeto);
+
                 const status = String(p.status || 'Aberto')
                     .trim()
                     .toLowerCase();
@@ -592,16 +970,41 @@ async function carregarProjetos() {
             concluidos
         };
 
+        // Atualiza as sugestões de categoria usando os projetos recebidos.
+        const datalist = $('#project-category-options');
+
+        if (datalist) {
+            datalist.innerHTML = '';
+
+            const categorias = [
+                ...new Set(
+                    Object.values(projetos)
+                        .flat()
+                        .map(p => String(p.categoria || '').trim())
+                        .filter(Boolean)
+                )
+            ];
+
+            categorias.forEach(categoria => {
+                const option = document.createElement('option');
+                option.value = categoria;
+                datalist.appendChild(option);
+            });
+        }
+
         atualizarIndicadores();
         renderizarProjetos();
 
     } catch (erro) {
-        console.error(erro);
+        console.error('Erro ao carregar projetos:', erro);
         notificar(erro.message);
     }
 }
 
-// Alternar abas
+// =====================================================
+// ABAS
+// =====================================================
+
 $$('[data-freelancer-filter]').forEach(botao => {
     botao.addEventListener('click', () => {
         $$('[data-freelancer-filter]').forEach(item =>
@@ -609,47 +1012,50 @@ $$('[data-freelancer-filter]').forEach(botao => {
         );
 
         botao.classList.add('active');
+
         abaAtual = botao.dataset.freelancerFilter;
 
         renderizarProjetos();
     });
 });
 
-// Pesquisa e filtros
+// =====================================================
+// EVENTOS DOS FILTROS
+// =====================================================
+
 busca?.addEventListener('input', aplicarFiltros);
 
-['category-filter', 'budget-filter', 'skills-filter'].forEach(id => {
-    $('#' + id)?.addEventListener('input', aplicarFiltros);
-});
+$('#budget-filter')?.addEventListener('input', aplicarFiltros);
+
+$('#freelancer-sort')?.addEventListener('change', renderizarProjetos);
 
 $('#clear-filters')?.addEventListener('click', () => {
-    ['category-filter', 'budget-filter', 'skills-filter'].forEach(id => {
-        $('#' + id).value = '';
-    });
+    const categoria = $('#category-filter');
+    const orcamento = $('#budget-filter');
+    const habilidade = $('#skills-filter');
+
+    if (categoria) categoria.value = '';
+    if (orcamento) orcamento.value = '';
+    if (habilidade) habilidade.value = '';
 
     if (busca) busca.value = '';
 
+    const pesquisaCabecalho = $('#search');
+
+    if (pesquisaCabecalho) {
+        pesquisaCabecalho.value = '';
+    }
+
+    habilidadesSelecionadas = [];
+
+    renderizarEtiquetasHabilidades();
     aplicarFiltros();
 });
 
-// Ordenação
-$('#freelancer-sort')?.addEventListener('change', () => {
-    const modo = $('#freelancer-sort').value;
-    const atual = projetos[abaAtual];
+// =====================================================
+// DETALHES E AÇÕES DOS PROJETOS
+// =====================================================
 
-    if (modo === 'orcamento') {
-        atual.sort((a, b) =>
-            Number(b.orcamentoMaximo || 0) -
-            Number(a.orcamentoMaximo || 0)
-        );
-    } else if (modo === 'recentes') {
-        atual.reverse();
-    }
-
-    renderizarProjetos();
-});
-
-// Detalhes e ações
 lista?.addEventListener('click', async event => {
     const botao = event.target.closest('[data-action]');
 
@@ -657,7 +1063,7 @@ lista?.addEventListener('click', async event => {
 
     const idProjeto = botao.dataset.id;
 
-    const projeto = projetos[abaAtual].find(p =>
+    const projeto = (projetos[abaAtual] || []).find(p =>
         String(p.idProjeto) === String(idProjeto)
     );
 
@@ -687,9 +1093,13 @@ lista?.addEventListener('click', async event => {
 
         if (descricao === null || !descricao.trim()) return;
 
-        const numero = Number(percentual);
+        const numeroPercentual = Number(percentual);
 
-        if (!Number.isInteger(numero) || numero < 0 || numero > 100) {
+        if (
+            !Number.isInteger(numeroPercentual) ||
+            numeroPercentual < 0 ||
+            numeroPercentual > 100
+        ) {
             notificar('Informe um percentual inteiro entre 0 e 100.');
             return;
         }
@@ -701,7 +1111,7 @@ lista?.addEventListener('click', async event => {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        percentual: numero,
+                        percentual: numeroPercentual,
                         descricao
                     })
                 }
@@ -709,7 +1119,9 @@ lista?.addEventListener('click', async event => {
 
             const dados = await resposta.json();
 
-            if (!resposta.ok) throw new Error(dados.message);
+            if (!resposta.ok) {
+                throw new Error(dados.message || 'Erro ao atualizar progresso.');
+            }
 
             notificar('Progresso atualizado!');
             await carregarProjetos();
@@ -750,7 +1162,9 @@ lista?.addEventListener('click', async event => {
 
             const dados = await resposta.json();
 
-            if (!resposta.ok) throw new Error(dados.message);
+            if (!resposta.ok) {
+                throw new Error(dados.message || 'Erro ao enviar entrega.');
+            }
 
             notificar('Entrega enviada para aprovação!');
             await carregarProjetos();
@@ -761,7 +1175,10 @@ lista?.addEventListener('click', async event => {
     }
 });
 
-// Pesquisa superior
+// =====================================================
+// PESQUISA DO CABEÇALHO
+// =====================================================
+
 $('#search')?.addEventListener('input', event => {
     if (busca) {
         busca.value = event.target.value;
@@ -769,11 +1186,18 @@ $('#search')?.addEventListener('input', event => {
     }
 });
 
-// Logout
+// =====================================================
+// LOGOUT
+// =====================================================
+
 $('#sair')?.addEventListener('click', event => {
     event.preventDefault();
     logout();
 });
 
-// Inicialização
+// =====================================================
+// INICIALIZAÇÃO
+// =====================================================
+
+configurarFiltros();
 carregarProjetos();

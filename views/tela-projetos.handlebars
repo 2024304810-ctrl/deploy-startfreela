@@ -136,25 +136,71 @@
         </select></div>
     </section>
     <div class="freelancer-layout">
-      <aside class="filter-panel">
-        <div class="filter-title">
-          <h2><i class="fa-solid fa-sliders"></i> Filtrar projetos</h2><button id="clear-filters"
-            class="text-button">Limpar</button>
-        </div><label class="filter-label" for="category-filter">Categoria</label><select id="category-filter"
-          class="input-control">
-          <option value="">Todas as categorias</option>
-          <option>Desenvolvimento Web</option>
-          <option>Design</option>
-          <option>Dados</option>
-          <option>Aplicativos</option>
-          <option>Redação</option>
-        </select><label class="filter-label" for="budget-filter">Orçamento mínimo</label>
-        <div class="budget-field"><span>R$</span><input id="budget-filter" type="number" min="0" placeholder="Ex.: 500">
-        </div><label class="filter-label" for="skills-filter">Habilidade</label><input id="skills-filter"
-          class="input-control" placeholder="Ex.: JavaScript">
-        <div class="filter-note"><i class="fa-solid fa-circle-info"></i><span>Os filtros ajudam a encontrar
-            oportunidades compatíveis com seu perfil.</span></div>
-      </aside>
+      
+<aside class="filter-panel">
+  <div class="filter-title">
+    <h2><i class="fa-solid fa-sliders"></i> Filtrar projetos</h2>
+    <button id="clear-filters" class="text-button">Limpar filtros</button>
+  </div>
+
+  <label class="filter-label" for="category-filter">
+    Categoria
+  </label>
+  <input
+    id="category-filter"
+    class="input-control"
+    type="text"
+    list="categorias-projetos"
+    placeholder="Ex.: Desenvolvimento Web"
+    autocomplete="off"
+  >
+
+  <datalist id="categorias-projetos">
+    <option value="Desenvolvimento Web">
+    <option value="Design">
+    <option value="Dados">
+    <option value="Aplicativos">
+    <option value="Redação">
+    <option value="Marketing">
+  </datalist>
+
+  <label class="filter-label" for="skills-filter">
+    Habilidades
+  </label>
+
+  <div class="skills-filter-box">
+    <div id="skills-filter-tags" class="filter-chips"></div>
+    <input
+      id="skills-filter"
+      class="input-control"
+      type="text"
+      placeholder="Digite uma habilidade e pressione Enter"
+      autocomplete="off"
+    >
+  </div>
+
+  <label class="filter-label" for="budget-filter">
+    Orçamento mínimo
+  </label>
+  <div class="budget-field">
+    <span>R$</span>
+    <input
+      id="budget-filter"
+      type="number"
+      min="0"
+      placeholder="Ex.: 500"
+    >
+  </div>
+
+  <div class="filter-note">
+    <i class="fa-solid fa-circle-info"></i>
+    <span>
+      Combine categoria, habilidades e orçamento para encontrar
+      projetos compatíveis com seu perfil.
+    </span>
+  </div>
+</aside>
+
       <section class="opportunity-list" id="freelancer-project-list">
         
       </section>

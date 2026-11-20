@@ -54,57 +54,77 @@
     <div class="layout">
 
       <!-- Filtros -->
-      <section class="panel">
-        <h2>Filtros Dinâmicos</h2>
+      
 
-        <div class="field-label">Categoria</div>
-        <select class="field">
-          <option>-</option>
-          <option>Front-End</option>
-          <option>Back-End</option>
-          <option>Design</option>
-          <option>Mobile</option> 
-        </select>
+<section class="panel">
+    <h2>Filtros</h2>
 
-        <div class="field-label">Habilidades</div>
-        <div class="chips">
-          <!-- <span class="chip">NodeJs</span>
-          <span class="chip">Python</span>
-          <span class="chip">Java</span>
-          <span class="chip">Git</span>
-          <span class="chip">MongoDB</span> -->
-          <span class="chip add">+</span>
-        </div>
+    <div class="field-label">Categoria / Profissão</div>
+    <input
+        class="field"
+        type="text"
+        id="filtro-profissao"
+        placeholder="Ex.: Desenvolvedor Web"
+    >
 
-        <div class="field-label">Faixa de Preço (por hora)</div>
-        <div class="slider-row">
-          <div class="range-inputs">
-            <input type="text" id="inputs-faixapreco" value="R$ 0,00">
-            <span>-</span>
-            <input type="text" id="inputs-faixapreco" value="R$ 0,00">
-          </div>
-        </div>
+    <div class="field-label">Habilidades</div>
 
-        <div class="field-label">Avaliação Mínima</div>
-        <div class="stars-select">
-          <!-- <span class="txt">3+ <i class="fa-solid fa-star"></i>, 4+ <i class="fa-solid fa-star"></i></span>
-          <i class="fa-solid fa-chevron-down"></i> -->
-        </div>
+    <div class="skills-filter-box">
+        <div id="habilidades-selecionadas" class="skills-selected"></div>
 
-        <div class="field-label">Nível</div>
-        <select class="field">
-           <option>Todos os níveis</option>
-          <option>Nível 1+</option>
-          <option>Nível 3+</option>
-          <option>Nível 5+</option>
-        </select>
+        <input
+            type="text"
+            id="filtro-habilidade-input"
+            placeholder="Digite uma habilidade e aperte Enter"
+            autocomplete="off"
+        >
+    </div>
 
-        <div class="field-label">Disponibilidade</div>
-        <div class="stars-select">
-          <!-- <span class="txt">Disponível agora</span>
-          <i class="fa-solid fa-chevron-down"></i> -->
-        </div>
-      </section>
+    <small class="filter-hint">
+        Pressione Enter para adicionar uma habilidade.
+    </small>
+
+    <div class="field-label">Preço mínimo por hora</div>
+    <input
+        class="field"
+        type="number"
+        id="filtro-preco-min"
+        min="0"
+        step="0.01"
+        placeholder="Ex.: 30"
+    >
+
+    <div class="field-label">Preço máximo por hora</div>
+    <input
+        class="field"
+        type="number"
+        id="filtro-preco-max"
+        min="0"
+        step="0.01"
+        placeholder="Ex.: 100"
+    >
+
+    <div class="field-label">Avaliação mínima</div>
+    <select class="field" id="filtro-avaliacao">
+        <option value="">Qualquer avaliação</option>
+        <option value="1">1 estrela ou mais</option>
+        <option value="2">2 estrelas ou mais</option>
+        <option value="3">3 estrelas ou mais</option>
+        <option value="4">4 estrelas ou mais</option>
+        <option value="4.5">4,5 estrelas ou mais</option>
+        <option value="5">5 estrelas</option>
+    </select>
+
+    <button
+        type="button"
+        class="btn-primary"
+        id="limpar-filtros-freelancer"
+    >
+        Limpar filtros
+    </button>
+</section>
+
+
 
       <!-- Grade de freelancers -->
       <section class="panel">

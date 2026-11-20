@@ -505,3 +505,183 @@
     border-radius:0 0 8px 8px;
   }
   .avatar-dropdown a.dropdown-sair i{color:var(--red);}
+
+
+
+.fc-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.fc-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #d6a400;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.fc-rating small {
+    color: var(--text-mid);
+    font-weight: 400;
+}
+
+.fc-sem-avaliacao {
+    color: var(--text-mid);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.fc-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 25px;
+    color: var(--text-mid);
+}
+
+.panel .field {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+
+
+/* ===== FILTROS PADRONIZADOS ===== */
+
+.panel .field {
+    display: block;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 13px;
+    margin-bottom: 18px;
+
+    box-sizing: border-box;
+    border: 1px solid var(--gray-border);
+    border-radius: 10px;
+
+    background: #fff;
+    color: var(--text-dark);
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.panel .field:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(28, 42, 78, .08);
+}
+
+.panel .field-label {
+    display: block;
+    margin: 17px 0 9px;
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Caixa de habilidades */
+
+.skills-filter-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    min-height: 43px;
+    padding: 8px 10px;
+
+    border: 1px solid var(--gray-border);
+    border-radius: 10px;
+    background: #fff;
+
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.skills-filter-box:focus-within {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(28, 42, 78, .08);
+}
+
+.skills-filter-box input {
+    width: 100%;
+    min-width: 0;
+    padding: 5px 2px;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    color: var(--text-dark);
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.skills-filter-box input::placeholder {
+    color: #9297a3;
+}
+
+.skills-selected {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.skill-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 6px 9px;
+    border-radius: 20px;
+
+    background: #eef0f3;
+    color: var(--navy);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.skill-filter-chip button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 17px;
+    height: 17px;
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+    background: #d9dde5;
+
+    color: var(--navy);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.skill-filter-chip button:hover {
+    background: #c5cad4;
+}
+
+.filter-hint {
+    display: block;
+    margin-top: 6px;
+    color: var(--text-mid);
+    font-size: 11px;
+}
+
+/* Botão */
+
+#limpar-filtros-freelancer {
+    margin-top: 17px;
+    width: 100%;
+    cursor: pointer;
+}
+
