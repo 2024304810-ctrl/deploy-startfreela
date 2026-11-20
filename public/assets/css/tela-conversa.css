@@ -393,3 +393,35 @@ main{padding:20px 40px;}
         opacity: 1;
     }
 }
+.acoes-mensagem {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    z-index: 10;
+}
+
+.botao-menu-mensagem {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 1;
+    transition: background 0.2s;
+}
+
+.botao-menu-mensagem:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.bolha.enviada .texto-mensagem {
+    padding-right: 25px;
+}
