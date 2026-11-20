@@ -60,6 +60,10 @@ async function controllerLogin(email, senha, res) {
         const informacoesAdicionaisConcluidas =
             usuarioRetornado.informacoesAdicionais === true;
 
+            console.log('STATUS DAS INFORMAÇÕES ADICIONAIS:',
+    usuarioRetornado.informacoesAdicionais
+);
+
         return {
             status: 200,
             success: true,

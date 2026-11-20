@@ -1,22 +1,18 @@
-const Usuario = require('../models/UsuarioSchema');
+
 const UsuarioSchema = require('../../register/model/UsuarioSchema');
 
-async function dao(email){
-    console.log('dentro do dao');
+async function dao(email) {
+    console.log('Dentro do DAO de login');
 
-    const usuario = await Usuario.findOne({
-       "contato.email" : email
-    })
+    const usuario = await UsuarioSchema.findOneAndUpdate(
+        { "contato.email": email },
+        { $set: { ativo: true } },
+        { new: true }
+    );
 
-    await UsuarioSchema.findOneAndUpdate(
-        {"contato.email": email},
-        {ativo: true},
-        {new: true}
-    )
-
-    console.log("Usuário -->", usuario);
+    console.log('Usuário encontrado:', usuario);
 
     return usuario;
 }
 
-module.exports=dao;
+module.exports = dao;
