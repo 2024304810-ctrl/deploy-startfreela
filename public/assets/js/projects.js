@@ -117,13 +117,7 @@ $('#sair')?.addEventListener('click', event => {
 ========================================================= */
 
 const publishForm = `
-    <div class="modal-notice">
-        <i class="fa-solid fa-circle-info"></i>
-
-        Esta tela é a proposta visual da funcionalidade.
-        A publicação real precisa ser conectada ao backend
-        e ao banco de dados.
-    </div>
+    
 
     <form id="publish-project-form">
 
